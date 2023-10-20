@@ -33,6 +33,8 @@
       const notice = GmAlert.notice
       const alert = GmAlert.alert
       const infomation = GmAlert.infomation
+
+      notice.config({ timeout: 5000, maxCount: 8 })
       document.querySelector('#errbtn').addEventListener('click', () => {
         message('错误：你是不是干坏事了？？！！', 'error')
       })
@@ -40,16 +42,17 @@
         message(
           '信息：我不知道你是谁，你也不知道我是谁，但我们自己都知道自己是谁，真是奇怪。也有可能是我想多了，' +
             '可能你知道我是谁，但是你不会承认同样的我也不会承认，这样以上就合情合理了，你看我说了这么多废话，就是想让你看看该组件在长文本下的效果',
+          'info',
         )
       })
       document.querySelector('#successbtn').addEventListener('click', () => {
-        message('成功：哈哈哈你太牛了', 'success')
+        message('成功：哈哈哈你太牛了')
       })
       document.querySelector('#loadingbtn').addEventListener('click', () => {
         const tmp = message('加载中：我知道你很急，但你先别急', 'loading')
         setTimeout(() => {
           tmp.close().then(() => {
-            message('加载完成：你终于等到我了', 'success')
+            message('加载完成：你终于等到我了')
           })
         }, 2500)
       })
@@ -61,16 +64,19 @@
         notice('error', 'error')
       })
       document.querySelector('#infonotice').addEventListener('click', () => {
-        notice('我觉得这是一条info的notice, 代表着你可以说一些信息类的信息?')
+        notice(
+          '我觉得这是一条info的notice, 代表着你可以说一些信息类的信息?',
+          'info',
+        )
       })
       document.querySelector('#successnotice').addEventListener('click', () => {
-        notice('success', 'success')
+        notice('success')
       })
       document.querySelector('#loadingnotice').addEventListener('click', () => {
         const tmp = notice('很显然我在加载中', 'loading')
         setTimeout(() => {
           tmp.close().then(() => {
-            message('加载完成：你终于等到我了', 'success')
+            message('加载完成：你终于等到我了')
           })
         }, 2500)
       })
@@ -92,7 +98,12 @@
       document
         .querySelector('#successinfomation')
         .addEventListener('click', () => {
-          const inst = infomation('success', '你成功了', 'success', {})
+          const inst = infomation(
+            '这是一个用于测试的页面, 这意味着这里的结果并不代表它在您手里表现的效果',
+            '公告',
+            'success',
+            {},
+          )
         })
     </script>
   </body>

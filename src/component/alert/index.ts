@@ -6,7 +6,7 @@ import styles from './alert.module.scss'
 interface PropsAlert {
   type?: 'success' | 'error' | 'warning' | 'info' | 'loading'
   title: string
-  text?: string
+  content?: string
   showClose?: boolean
   onConfirm?: () => void
   onCancel?: () => void
@@ -35,9 +35,9 @@ export default function GmAlert(props: PropsAlert): AlertMethod {
 
   $wrapper.innerHTML = `${icon}<div class="${styles['alert-title']}">${props.title}</div>`
 
-  if (props.text) {
+  if (props.content) {
     const $text = newDiv(styles['alert-content'])
-    $text.textContent = props.text
+    $text.textContent = props.content
     $wrapper.append($text)
   }
 

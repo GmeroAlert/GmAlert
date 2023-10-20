@@ -24,7 +24,7 @@ export class Msg {
 
   private activeInsts: Map<string, OneMsg> = new Map()
 
-  form: 'msg' | 'notice'
+  form: 'msg' | 'notice' | 'alert' | 'information'
 
   constructor(form: 'msg' | 'notice') {
     this.form = form
@@ -40,7 +40,7 @@ export class Msg {
     type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
     timeout?: number,
   ) {
-    const inst = this.judgeReMsg(content, type || 'info')
+    const inst = this.judgeReMsg(content, type || 'success')
     if (type !== 'loading') {
       this.setTimeOut(inst, timeout || this.timeout)
     }

@@ -203,9 +203,9 @@ var GmAlert = (function (exports) {
     const $wrapper = newDiv(styles$3.alert);
     const icon = AnimatedIcon(type, false, styles$3['alert-icon']);
     $wrapper.innerHTML = `${icon}<div class="${styles$3['alert-title']}">${props.title}</div>`;
-    if (props.text) {
+    if (props.content) {
       const $text = newDiv(styles$3['alert-content']);
-      $text.textContent = props.text;
+      $text.textContent = props.content;
       $wrapper.append($text);
     }
     const $root = getRoot('alert');
@@ -343,8 +343,8 @@ var GmAlert = (function (exports) {
     createInst(title, text, type, config) {
       const inst = this.form === 'alert' ? GmAlert({
         title,
-        text,
-        type,
+        content: text,
+        type: type || 'success',
         showClose: config?.showClose,
         onConfirm: config?.onConfirm,
         onCancel: config?.onCancel,
@@ -355,7 +355,8 @@ var GmAlert = (function (exports) {
         }
       }) : GmInfomation({
         content: title,
-        type,
+        title: text,
+        type: type || 'success',
         hideIn: config?.hideIn,
         onClosed: () => {
           if (config?.onClosed) {
@@ -490,7 +491,7 @@ var GmAlert = (function (exports) {
       this.maxCount = config.maxCount || this.maxCount;
     }
     fire(content, type, timeout) {
-      const inst = this.judgeReMsg(content, type || 'info');
+      const inst = this.judgeReMsg(content, type || 'success');
       if (type !== 'loading') {
         this.setTimeOut(inst, timeout || this.timeout);
       }
@@ -561,10 +562,12 @@ var GmAlert = (function (exports) {
   const message = (content, type, timeout) => {
     return $message.fire(content, type, timeout);
   };
+  message.config = $message.config.bind($message);
   const $notice = new Msg('notice');
   const notice = (content, type, timeout) => {
     return $notice.fire(content, type, timeout);
   };
+  notice.config = $notice.config.bind($notice);
 
   exports.alert = alert;
   exports.infomation = infomation;

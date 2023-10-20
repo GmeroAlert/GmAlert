@@ -36,6 +36,8 @@ const message = (
 ) => {
   return $message.fire(content, type, timeout)
 }
+message.config = $message.config.bind($message)
+
 const $notice = new Msg('notice')
 const notice = (
   content: string,
@@ -44,5 +46,6 @@ const notice = (
 ) => {
   return $notice.fire(content, type, timeout)
 }
+notice.config = $notice.config.bind($notice)
 
 export { alert, message, notice, infomation }

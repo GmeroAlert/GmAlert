@@ -59,8 +59,8 @@ export class Alert {
       this.form === 'alert'
         ? GmAlert({
             title,
-            text,
-            type,
+            content: text,
+            type: type || 'success',
             showClose: config?.showClose,
             onConfirm: config?.onConfirm,
             onCancel: config?.onCancel,
@@ -72,7 +72,8 @@ export class Alert {
           })
         : GmInfomation({
             content: title,
-            type,
+            title: text,
+            type: type || 'success',
             hideIn: config?.hideIn,
             onClosed: () => {
               if (config?.onClosed) {
