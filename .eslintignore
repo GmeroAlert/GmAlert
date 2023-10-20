@@ -1,0 +1,8 @@
+/node_modules
+/dist
+/test
+/lib
+.eslintrc.cjs
+/*.ts
+*.js
+*.html

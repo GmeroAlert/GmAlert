@@ -1,0 +1,55 @@
+{
+  "name": "gmalert",
+  "version": "0.0.1",
+  "description": "",
+  "packageManager": "pnpm@8.9.2",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/gmalert.umd.js",
+  "module": "dist/es/index.es.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rollup --config rollup.config.build.js",
+    "dev": "rollup --config rollup.config.js -w"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "歌梦罗",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "@babel/preset-typescript": "^7.23.2",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.4",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/node": "^20.8.7",
+    "@xbmlz/eslint-config-prettier": "^0.1.17",
+    "@xbmlz/eslint-config-ts": "^0.1.17",
+    "eslint": "^8.51.0",
+    "postcss": "^8.4.31",
+    "postcss-preset-env": "^9.2.0",
+    "rollup": "^3.29.4",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-serve": "^2.0.2",
+    "sass": "^1.69.4",
+    "stylelint": "^15.11.0",
+    "stylelint-config-recess-order": "^4.3.0",
+    "stylelint-config-standard-scss": "^11.0.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2",
+    "typescript-plugin-css-modules": "^5.0.2"
+  },
+  "dependencies": {
+    "core-js": "^3.33.0"
+  }
+}

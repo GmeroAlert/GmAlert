@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TEST</title>
+    <link rel="stylesheet" href="" />
+  </head>
+
+  <body>
+    <button type="button" id="errbtn">err gmsg</button>
+    <button type="button" id="infobtn">info gmsg</button>
+    <button type="button" id="warningbtn">warn gmsg</button>
+    <button type="button" id="successbtn">success gmsg</button>
+    <button type="button" id="loadingbtn">loading gmsg</button>
+
+    <button type="button" id="errnotice">err notice</button>
+    <button type="button" id="infonotice">info notice</button>
+    <button type="button" id="warningnotice">warn notice</button>
+    <button type="button" id="successnotice">success notice</button>
+    <button type="button" id="loadingnotice">loading notice</button>
+
+    <button type="button" id="successalert">success alert</button>
+
+    <button type="button" id="successinfomation">success infomation</button>
+
+    <script src="./index.js"></script>
+
+    <script>
+      'use strict;'
+      const message = GmAlert.message
+      const notice = GmAlert.notice
+      const alert = GmAlert.alert
+      const infomation = GmAlert.infomation
+      document.querySelector('#errbtn').addEventListener('click', () => {
+        message.error('错误：你是不是干坏事了？？！！')
+      })
+      document.querySelector('#infobtn').addEventListener('click', () => {
+        message.info(
+          '信息：我不知道你是谁，你也不知道我是谁，但我们自己都知道自己是谁，真是奇怪。也有可能是我想多了，' +
+            '可能你知道我是谁，但是你不会承认同样的我也不会承认，这样以上就合情合理了，你看我说了这么多废话，就是想让你看看该组件在长文本下的效果',
+        )
+      })
+      document.querySelector('#successbtn').addEventListener('click', () => {
+        message.success('成功：哈哈哈你太牛了')
+      })
+      document.querySelector('#loadingbtn').addEventListener('click', () => {
+        const tmp = message.loading('加载中：我知道你很急，但你先别急')
+        setTimeout(() => {
+          tmp.close().then(() => {
+            message.success('加载完成：你终于等到我了')
+          })
+        }, 2500)
+      })
+      document.querySelector('#warningbtn').addEventListener('click', () => {
+        message.warning('警告：你最好真的牛逼')
+      })
+
+      document.querySelector('#errnotice').addEventListener('click', () => {
+        notice.error('error')
+      })
+      document.querySelector('#infonotice').addEventListener('click', () => {
+        notice.info(
+          '我觉得这是一条info的notice, 代表着你可以说一些信息类的信息?',
+        )
+      })
+      document.querySelector('#successnotice').addEventListener('click', () => {
+        notice.success('success')
+      })
+      document.querySelector('#loadingnotice').addEventListener('click', () => {
+        const tmp = notice.loading('很显然我在加载中')
+        setTimeout(() => {
+          tmp.close().then(() => {
+            message.success('加载完成：你终于等到我了')
+          })
+        }, 2500)
+      })
+      document.querySelector('#warningnotice').addEventListener('click', () => {
+        notice.warning('warning')
+      })
+
+      document.querySelector('#successalert').addEventListener('click', () => {
+        const inst = alert('success', '你成功了', 'success', {
+          showClose: true,
+          onConfirm: () => {
+            inst.close().then(() => {
+              notice.info('你点击了确认')
+            })
+          },
+        })
+      })
+
+      document
+        .querySelector('#successinfomation')
+        .addEventListener('click', () => {
+          const inst = infomation('success', '你成功了', 'success', {})
+        })
+    </script>
+  </body>
+</html>

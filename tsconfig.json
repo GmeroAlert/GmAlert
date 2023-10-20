@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "useDefineForClassFields": true,
+    "module": "ES6",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    // 插件
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
+  },
+  // 入口文件
+  "include": ["src/**/*.ts", "lib/**/*", "main.d.ts"],
+  "exclude": ["node_modules", "lib", "test", "dist"]
+}

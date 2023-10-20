@@ -1,0 +1,127 @@
+.gmsg-container {
+  overflow: visible;
+  font-size: 13px;
+  font-feature-settings: 'tnum';
+  font-variant: tabular-nums;
+  line-height: 1.2;
+  color: rgb(0 0 0 / 55%);
+  list-style: none;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .scroll-wrapper {
+    position: absolute;
+    height: fit-content;
+    max-height: 100vh;
+    padding: 1rem 1rem 33px 50px;
+    overflow: hidden scroll;
+    scroll-behavior: smooth;
+
+    .scroll-content {
+      padding-bottom: 3rem;
+    }
+
+    /* 隐藏scrollbar */
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+  }
+
+
+  .gmsg-wrapper-top-right {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 9997;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .gmsg-wrapper-center {
+    position: fixed;
+    top: calc(50% - 2rem);
+    right: 0;
+    left: 0;
+    z-index: 9998;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+
+  .gmsg-wrapper-center-alert {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+}
+
+
+.gmsg-count {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  display: inline-block;
+  min-width: 16px;
+  height: 16px;
+  font-size: 12px;
+  line-height: 16px;
+  color: #fff;
+  text-align: center;
+  background-color: red;
+  border-radius: 2px;
+  animation-duration: 0.3s;
+}
+
+.gmsg-progress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+
+  .gmsg-progress-bar {
+    display: flex;
+    width: 100%;
+    height: 0.25em;
+    background-color: rgb(0 0 0 / 20%);
+    transition: width 0.1s ease-in-out;
+  }
+}
+
+
+
+/* svg抖动 */
+@keyframes message-shake {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  25%,
+  75% {
+    opacity: 0.75;
+    transform: translateX(-4px);
+  }
+
+  50% {
+    opacity: 0.25;
+    transform: translateX(4px);
+  }
+}
+
+
+
