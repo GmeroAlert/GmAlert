@@ -1,177 +1,108 @@
+import type { MsgType } from '../../component/message'
 import GmMessage from '../../component/message'
 import GmNotice from '../../component/notice'
-import styles from '../../main.module.scss'
-import { newDiv } from '../../utils/html'
-import type { Gmsg as GmsgType } from '../Gmsg'
-import type { Setting, UserSetting } from '../utils'
-import { assignConfig, getDefaultConf } from '../utils'
+import { getProgress, setMsgCount, setProgress } from '../../utils/html'
 
-const DEFAULTS = getDefaultConf()
+interface OneMsg extends MsgType {
+  readonly identifer: string
+  timer?: NodeJS.Timeout
+  count: number
+}
+
+interface Config {
+  timeout: number
+  maxCount: number
+}
 
 /**
- * 单个msg实例类
+ * 消息容器
  */
 export class Msg {
-  // 当前msg的配置
-  settings: Setting
+  timeout = 2500
 
-  // 存储在map中的key
-  id: number
+  maxCount = 8
 
-  timeout: number
+  private activeInsts: Map<string, OneMsg> = new Map()
 
-  private $elem: HTMLElement
+  form: 'msg' | 'notice'
 
-  count: number
+  constructor(form: 'msg' | 'notice') {
+    this.form = form
+  }
 
-  private progress: number
+  config(config: Partial<Config>) {
+    this.timeout = config.timeout || this.timeout
+    this.maxCount = config.maxCount || this.maxCount
+  }
 
-  private Gmsg: GmsgType
-
-  private inst: AlertType
-
-  private timer?: NodeJS.Timeout
-
-  constructor(Gmsg: GmsgType, opts: UserSetting) {
-    this.Gmsg = Gmsg
-    this.settings = assignConfig(DEFAULTS, opts)
-    this.id = Gmsg.instCount
-    this.count = 1
-    const { timeout } = this.settings
-    this.timeout = timeout
-    this.progress = 1
-    this.settings.timeout = timeout
-
-    if (Gmsg.form === 'msg') {
-      this.inst = GmMessage({
-        text: this.settings.content,
-        type: this.settings.type,
-      })
-    } else {
-      this.inst = GmNotice({
-        text: this.settings.content,
-        type: this.settings.type,
-      })
+  fire(
+    content: string,
+    type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
+    timeout?: number,
+  ) {
+    const inst = this.judgeReMsg(content, type || 'info')
+    if (type !== 'loading') {
+      this.setTimeOut(inst, timeout || this.timeout)
     }
 
-    this.inst.open()
-    this.$elem = this.inst.$el
-
-    this.setTimeOut()
+    return inst
   }
 
   // 设置定时
-  private setTimeOut() {
-    if (!this.timeout) return
+  private setTimeOut(oMsg: OneMsg, timeout?: number) {
+    if (!timeout) return
+    const $el = oMsg.$el
 
-    this.setProgress(false, true)
+    setProgress($el, 1, timeout)
 
-    this.timer = setInterval(() => {
-      if (this.getProgress() === 0) {
-        this.close()
-        clearInterval(this.timer)
+    oMsg.timer && clearInterval(oMsg.timer)
+    oMsg.timer = setInterval(() => {
+      if (getProgress($el) === 0) {
+        oMsg.close()
+        clearInterval(oMsg.timer)
       }
     }, 150)
 
-    this.$elem.addEventListener('mouseenter', () => {
-      this.setProgress(true)
+    $el.addEventListener('mouseenter', () => {
+      setProgress($el, getProgress($el), timeout, true)
     })
 
-    this.$elem.addEventListener('mouseleave', () => {
-      this.setProgress()
-    })
-  }
-
-  // 设置进度
-  private setProgress(pause = false, reset = false) {
-    if (!this.timeout) return
-    let $progress = this.$elem.querySelector(
-      `.${styles['gmsg-progress']}`,
-    ) as HTMLElement
-    let $progressBar = this.$elem.querySelector(
-      `.${styles['gmsg-progress-bar']}`,
-    ) as HTMLElement
-    if (!$progress || !$progressBar) {
-      $progress = newDiv(styles['gmsg-progress'])
-      $progressBar = newDiv(styles['gmsg-progress-bar'])
-      $progress.append($progressBar)
-      this.$elem.append($progress)
-    }
-    this.progress = reset ? 1 : this.getProgress()
-
-    if (reset) {
-      $progressBar.style.width = `${this.progress * 100}%`
-      $progressBar.style.transition = 'none'
-    }
-
-    if (pause) {
-      setTimeout(() => {
-        $progressBar.style.width = `${this.progress * 100}%`
-        $progressBar.style.transition = 'none'
-      }, 10)
-    } else {
-      setTimeout(() => {
-        $progressBar.style.width = '0%'
-        $progressBar.style.transition = `width ${
-          this.timeout * this.progress
-        }ms linear`
-      }, 10)
-    }
-  }
-
-  // 获取进度
-  private getProgress() {
-    if (!this.timeout) return 0
-    const $progress = this.$elem.querySelector(
-      `.${styles['gmsg-progress']}`,
-    ) as HTMLElement
-    const $progressBar = this.$elem.querySelector(
-      `.${styles['gmsg-progress-bar']}`,
-    ) as HTMLElement
-
-    this.progress = $progressBar.clientWidth / $progress.clientWidth
-
-    return this.progress
-  }
-
-  /**
-   * 设置消息数量统计
-   *
-   */
-  setMsgCount() {
-    const countClassName = styles['gmsg-count']
-    let $count = this.$elem.querySelector(`.${countClassName}`) as HTMLElement
-    if (!$count) {
-      $count = document.createElement('span')
-      $count.classList.add(countClassName)
-
-      this.$elem.append($count)
-    }
-    $count.innerHTML = this.count.toString()
-    $count.style.animationName = ''
-    setTimeout(() => {
-      $count.style.animationName = styles['message-shake']
-    }, 50)
-
-    this.timer && clearInterval(this.timer)
-    this.setTimeOut()
-  }
-
-  /**
-   * 直接销毁元素，不会触发关闭回调函数
-   */
-  destroy() {
-    this.inst.close().then(() => {
-      this.Gmsg.remove(this.id)
+    $el.addEventListener('mouseleave', () => {
+      setProgress($el, getProgress($el), timeout)
     })
   }
 
-  async close() {
-    await this.inst.close().then(() => {
-      this.Gmsg.remove(this.id)
-      if (this.settings.onClose) {
-        this.settings.onClose()
+  // 判断消息是否存在, 设置msgCount以及关闭多余消息
+  private judgeReMsg(
+    content: string,
+    type: 'success' | 'error' | 'warning' | 'info' | 'loading',
+  ) {
+    const id = `${content}${type}`
+    for (const inst of this.activeInsts) {
+      if (inst[1].identifer === id) {
+        inst[1].count += 1
+        setMsgCount(inst[1].$el, inst[1].count)
+        return inst[1]
       }
-    })
+    }
+    const props = {
+      content,
+      type,
+      onClosed: () => {
+        this.activeInsts.delete(id)
+      },
+    }
+
+    const inst = this.form === 'msg' ? GmMessage(props) : GmNotice(props)
+
+    if (this.activeInsts.size >= this.maxCount) {
+      this.activeInsts.values().next().value.close()
+    }
+    const oMsg = { ...inst, identifer: id, count: 1 }
+
+    this.activeInsts.set(id, oMsg)
+    oMsg.open()
+
+    return oMsg
   }
 }

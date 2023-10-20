@@ -1,3 +1,4 @@
+import { animationendHandle } from '../../utils/eventHandle'
 import { getRoot, newDiv } from '../../utils/html'
 import { AnimatedIcon, SvgIcon } from '../icons'
 import styles from './alert.module.scss'
@@ -22,7 +23,7 @@ function Button(text: string, onClick: () => void) {
   const $btn = document.createElement('button')
   $btn.textContent = text
   $btn.onclick = onClick
-  $btn.classList.add(styles['alert-button'])
+  $btn.classList.add(styles['alert-btn'])
 
   return $btn
 }
@@ -46,14 +47,16 @@ export default function GmAlert(props: PropsAlert): AlertMethod {
     $wrapper.classList.add(styles['is-opening'])
     $root.append($wrapper)
     return new Promise<void>((resolve) => {
-      const handle = (e: AnimationEvent) => {
-        if (e.animationName === styles['alert-show']) {
+      const handle = (animationName: string) => {
+        if (animationName === styles['alert-show']) {
           $wrapper.classList.remove(styles['is-opening'])
-          $wrapper.removeEventListener('animationend', handle)
           resolve()
+          return true
         }
+        return false
       }
-      $wrapper.addEventListener('animationend', handle)
+
+      animationendHandle($wrapper, handle)
     })
   }
 
@@ -61,21 +64,21 @@ export default function GmAlert(props: PropsAlert): AlertMethod {
     $wrapper.classList.add(styles['is-closing'])
     $wrapper.style.animationName = styles['alert-hide']
     return new Promise<void>((resolve) => {
-      const handle = (e: AnimationEvent) => {
-        if (e.animationName === styles['alert-hide']) {
+      const handle = (e: string) => {
+        if (e === styles['alert-hide']) {
           $wrapper.remove()
-          if (props.onClosed) {
-            props.onClosed()
-          }
+          props.onClosed && props.onClosed()
           resolve()
+          return true
         }
+        return false
       }
-      $wrapper.addEventListener('animationend', handle)
+      animationendHandle($wrapper, handle)
     })
   }
 
   if (props.onCancel || props.onConfirm) {
-    const $buttons = newDiv(styles['alert-button-container'])
+    const $buttons = newDiv(styles['alert-btn-group'])
     if (props.onCancel) {
       const $cancel = Button('取消', props.onCancel)
       $buttons.append($cancel)

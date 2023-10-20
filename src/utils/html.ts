@@ -6,28 +6,89 @@ export function newDiv(...className: string[]) {
   return $div
 }
 
-export function warpByDiv(...el: HTMLElement[]) {
-  const $tmp = document.createElement('div')
-  $tmp.append(...el)
-
-  return $tmp
-}
-
 export function slideOpenEl(el: HTMLElement, duration: string) {
-  const { marginBottom } = el.style
-  el.style.marginBottom = '0'
-  el.style.opacity = '0'
   const height = el.offsetHeight
   const maxHeight = height + 10
-
-  el.style.transition = `all ${duration}`
-
-  el.style.maxHeight = '0'
+  changeStyle(el, [
+    'max-height: 0',
+    'margin-bottom: 0',
+    'opacity: 0',
+    `transition: all ${duration}`,
+  ])
 
   setTimeout(() => {
-    el.style.maxHeight = `${maxHeight}px`
-    el.style.marginBottom = marginBottom
+    changeStyle(el, [`max-height: ${maxHeight}px`])
+    el.style.marginBottom = ''
   }, 10)
+}
+
+export function setMsgCount($el: HTMLElement, count: number) {
+  const countClassName = styles['gmsg-count']
+  let $count = $el.querySelector(`.${countClassName}`) as HTMLElement
+  if (!$count) {
+    $count = document.createElement('span')
+    $count.classList.add(countClassName)
+
+    $el.append($count)
+  }
+  $count.innerHTML = `${count > 99 ? '99' : count}`
+  $count.style.animationName = ''
+  setTimeout(() => {
+    $count.style.animationName = styles['message-shake']
+  }, 50)
+}
+
+export function setProgress(
+  $el: HTMLElement,
+  progress: number,
+  timeout: number,
+  pause = false,
+) {
+  let $progress = $el.querySelector(
+    `.${styles['gmsg-progress']}`,
+  ) as HTMLElement
+  let $progressBar = $el.querySelector(
+    `.${styles['gmsg-progress-bar']}`,
+  ) as HTMLElement
+  if (!$progress || !$progressBar) {
+    $progress = newDiv(styles['gmsg-progress'])
+    $progressBar = newDiv(styles['gmsg-progress-bar'])
+    $progress.append($progressBar)
+    $el.append($progress)
+  }
+
+  if (progress === 1) {
+    changeStyle($progressBar, ['width: 100%', 'transition: none'])
+  }
+
+  if (pause) {
+    setTimeout(() => {
+      changeStyle($progressBar, [
+        'transition: none',
+        `width: ${progress * 100}%`,
+      ])
+    }, 10)
+  } else {
+    setTimeout(() => {
+      changeStyle($progressBar, [
+        'width: 0',
+        `transition: width ${timeout * progress}ms linear`,
+      ])
+    }, 10)
+  }
+}
+
+export function getProgress($el: HTMLElement) {
+  const $progress = $el.querySelector(
+    `.${styles['gmsg-progress']}`,
+  ) as HTMLElement
+  const $progressBar = $el.querySelector(
+    `.${styles['gmsg-progress-bar']}`,
+  ) as HTMLElement
+
+  const progress = $progressBar.clientWidth / $progress.clientWidth
+
+  return progress
 }
 
 const getContainer = () => {
@@ -43,22 +104,22 @@ const getContainer = () => {
   return $root
 }
 
-const getCenterRoot = () => {
+const getMessageContainer = () => {
   let $root = document.querySelector<HTMLElement>(
-    `.${styles['gmsg-wrapper-center']}`,
+    `.${styles['gmsg-message-container']}`,
   )
   if ($root) return $root
-  $root = newDiv(styles['gmsg-wrapper-center'])
+  $root = newDiv(styles['gmsg-message-container'])
   getContainer().append($root)
   return $root
 }
 
-const getTopRightRoot = () => {
+const getNoticeContainer = () => {
   let $scrollContainer = document.querySelector<HTMLElement>(
     `.${styles['scroll-content']}`,
   )
   if ($scrollContainer) return $scrollContainer
-  const $wrapper = newDiv(styles['gmsg-wrapper-top-right'])
+  const $wrapper = newDiv(styles['gmsg-notice-container'])
   const $scrollWrapper = newDiv(styles['scroll-wrapper'])
   $scrollContainer = newDiv(styles['scroll-content'])
   $scrollWrapper.append($scrollContainer)
@@ -68,26 +129,21 @@ const getTopRightRoot = () => {
   return $scrollContainer
 }
 
-const getAlertContariner = () => {
-  let $wrapper = document.querySelector<HTMLElement>(
-    `.${styles['gmsg-wrapper-center-alert']}`,
-  )
-  if ($wrapper) return $wrapper
-  $wrapper = newDiv(styles['gmsg-wrapper-center-alert'])
-  getContainer().append($wrapper)
-
-  return $wrapper
+export const getRoot = (position: 'message' | 'notice' | 'alert') => {
+  switch (position) {
+    case 'message':
+      return getMessageContainer()
+    case 'notice':
+      return getNoticeContainer()
+    case 'alert':
+      return getContainer()
+  }
 }
 
-export const getRoot = (
-  position: 'center' | 'top-right' | 'alert' = 'center',
-) => {
-  switch (position) {
-    case 'center':
-      return getCenterRoot()
-    case 'top-right':
-      return getTopRightRoot()
-    case 'alert':
-      return getAlertContariner()
-  }
+// 用于修改样式的工具类，并且可以减少回流重绘，后面代码中会频繁用到
+export function changeStyle(el: HTMLElement, arr: string[]): void {
+  const original = el.style.cssText.split(';')
+  original.pop()
+
+  el.style.cssText = `${original.concat(arr).join(';')};`
 }

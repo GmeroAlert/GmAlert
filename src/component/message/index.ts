@@ -1,3 +1,4 @@
+import { animationendHandle } from '../../utils/eventHandle'
 import { getRoot, newDiv } from '../../utils/html'
 import { SvgIcon } from '../icons'
 import styles from './message.module.scss'
@@ -8,30 +9,37 @@ export const MessageState = {
   closing: styles['message-moveout'],
 }
 
-interface PropsMessage {
-  type: 'success' | 'error' | 'warning' | 'info' | 'loading'
-  text: string
+export interface MsgType {
+  open: () => Promise<void>
+  close: () => Promise<void>
+  $el: HTMLElement
 }
 
-export default function GmMessage(props: PropsMessage): AlertType {
+interface PropsMessage {
+  type: 'success' | 'error' | 'warning' | 'info' | 'loading'
+  content: string
+  onClosed: () => void
+}
+
+export default function GmMessage(props: PropsMessage): MsgType {
   const icon = SvgIcon(props.type, styles.icon)
   const $wrapper = newDiv(styles['message-wrapper'])
   const $main = newDiv(styles['message-main'])
   $wrapper.append($main)
-  $main.innerHTML = `${icon}<div class=${styles['message-content']}>${props.text}</div>`
+  $main.innerHTML = `${icon}<div class=${styles['message-content']}>${props.content}</div>`
 
   const open = () => {
-    getRoot('center').append($wrapper)
+    getRoot('message').append($wrapper)
     $wrapper.style.animationName = MessageState.opening
     return new Promise<void>((resolve) => {
-      const handle = (e: AnimationEvent) => {
-        if (e.animationName === MessageState.opening) {
-          $wrapper.style.animationName = MessageState.done
-          $wrapper.removeEventListener('animationend', handle)
+      const handle = (e: string) => {
+        if (e === MessageState.opening) {
           resolve()
+          return true
         }
+        return false
       }
-      $wrapper.addEventListener('animationend', handle)
+      animationendHandle($wrapper, handle)
     })
   }
 
@@ -41,15 +49,23 @@ export default function GmMessage(props: PropsMessage): AlertType {
     $main.style.animationName = styles['message-out']
 
     return new Promise<void>((resolve) => {
-      const handle = (e: AnimationEvent) => {
-        if (e.animationName === MessageState.closing) {
+      const handle = (e: string) => {
+        if (e === MessageState.closing) {
           $wrapper.remove()
+          props.onClosed()
           resolve()
+          return true
         }
+
+        return false
       }
-      $wrapper.addEventListener('animationend', handle)
+      animationendHandle($wrapper, handle)
     })
   }
 
-  return { open, close, $el: $wrapper }
+  return {
+    open,
+    close,
+    $el: $wrapper,
+  }
 }

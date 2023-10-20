@@ -1,5 +1,5 @@
 import { Alert } from './modules/Alert'
-import { Gmsg } from './modules/Gmsg'
+import { Msg } from './modules/Msg/Msg'
 
 const $alert = new Alert()
 const alert = (
@@ -28,7 +28,21 @@ const infomation = (
 ) => {
   return $infomation.fire(content, title, type, config)
 }
-const message = new Gmsg('msg')
-const notice = new Gmsg('notice')
+const $message = new Msg('msg')
+const message = (
+  content: string,
+  type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
+  timeout?: number,
+) => {
+  return $message.fire(content, type, timeout)
+}
+const $notice = new Msg('notice')
+const notice = (
+  content: string,
+  type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
+  timeout?: number,
+) => {
+  return $notice.fire(content, type, timeout)
+}
 
 export { alert, message, notice, infomation }

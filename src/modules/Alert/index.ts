@@ -1,6 +1,6 @@
 import type { AlertMethod } from '../../component/alert'
 import GmAlert from '../../component/alert'
-import GmInfomation from '../../component/infomation/infomation'
+import GmInfomation from '../../component/infomation/Infomation'
 
 export class Alert {
   private activeInst?: AlertMethod
@@ -27,14 +27,34 @@ export class Alert {
     }
     this.locked = true
     if (this.activeInst) {
-      console.warn(`only one ${this.form} can be opened at the same time`)
-      this.locked = true
-      this.activeInst.close().then(() => {
-        this.activeInst = undefined
-        this.locked = false
-      })
-      return
+      if (this.form === 'alert') {
+        console.warn(
+          `you fire a alert when last one is not closed. That's maybe unsafe.`,
+        )
+      }
+      this.activeInst.close()
+      this.activeInst = undefined
     }
+    const inst = this.createInst(title, text, type, config)
+    this.activeInst = inst
+    inst.open().then(() => {
+      this.locked = false
+    })
+    return inst
+  }
+
+  private createInst(
+    title: string,
+    text?: string,
+    type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
+    config?: {
+      hideIn?: number
+      showClose?: boolean
+      onConfirm?: () => void
+      onCancel?: () => void
+      onClosed?: () => void
+    },
+  ) {
     const inst =
       this.form === 'alert'
         ? GmAlert({
@@ -45,8 +65,6 @@ export class Alert {
             onConfirm: config?.onConfirm,
             onCancel: config?.onCancel,
             onClosed: () => {
-              this.activeInst = undefined
-              this.locked = false
               if (config?.onClosed) {
                 config.onClosed()
               }
@@ -57,17 +75,11 @@ export class Alert {
             type,
             hideIn: config?.hideIn,
             onClosed: () => {
-              this.activeInst = undefined
               if (config?.onClosed) {
                 config.onClosed()
               }
             },
           })
-    this.activeInst = inst
-    inst.open().then(() => {
-      this.locked = false
-    })
-
     return inst
   }
 }

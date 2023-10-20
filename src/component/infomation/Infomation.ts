@@ -1,3 +1,4 @@
+import { animationendHandle } from '../../utils/eventHandle'
 import { getRoot, newDiv } from '../../utils/html'
 import type { AlertMethod } from '../alert'
 import styles from './infomation.module.scss'
@@ -35,28 +36,29 @@ export default function GmInfomation(props: PropsInfo): AlertMethod {
   const open = () => {
     $root.append($wrapper)
     return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        const handle = (e: AnimationEvent) => {
-          if (e.animationName === styles['infomation-move-in']) {
-            $wrapper.removeEventListener('animationend', handle)
-            resolve()
-          }
+      const handle = (e: string) => {
+        if (e === styles['infomation-move-in']) {
+          resolve()
+          return true
         }
-        $wrapper.addEventListener('animationend', handle)
-      }, 0)
+        return false
+      }
+      animationendHandle($wrapper, handle)
     })
   }
 
   const close = () => {
     return new Promise<void>((resolve) => {
       $wrapper.style.animationName = styles['infomation-move-out']
-      const handle = (e: AnimationEvent) => {
-        if (e.animationName === styles['infomation-move-out']) {
+      const handle = (e: string) => {
+        if (e === styles['infomation-move-out']) {
           $wrapper.remove()
           resolve()
+          return true
         }
+        return false
       }
-      $wrapper.addEventListener('animationend', handle)
+      animationendHandle($wrapper, handle)
     })
   }
 

@@ -1,11 +1,14 @@
-import { getRoot, newDiv, slideOpenEl } from '../../utils/html'
+import { animationendHandle } from '../../utils/eventHandle'
+import { changeStyle, getRoot, newDiv, slideOpenEl } from '../../utils/html'
 import { AnimatedIcon } from '../icons'
+import type { MsgType } from '../message'
 
 import styles from './notice.module.scss'
 
 export interface PropsNotice {
   type: 'success' | 'error' | 'warning' | 'info' | 'loading'
-  text: string
+  content: string
+  onClosed: () => void
 }
 
 const noticeState = {
@@ -14,28 +17,33 @@ const noticeState = {
   closing: styles['notice-moveout'],
 }
 
-export default function GmNotice(props: PropsNotice): AlertType {
+export default function GmNotice(props: PropsNotice): MsgType {
   const icon = AnimatedIcon(props.type, true, styles['notice-icon'])
-  const $wrapper = newDiv(styles['notice-wrapper'])
+  const $wrapper = newDiv(styles.notice)
 
   $wrapper.innerHTML = `<div class="${styles['notice-main']}">${icon}\
-  <div class="${styles['notice-content']}">${props.text}</div></div>`
+  <div class="${styles['notice-content']}">${props.content}</div></div>`
 
   const open = () => {
-    getRoot('top-right').prepend($wrapper)
+    getRoot('notice').prepend($wrapper)
     return new Promise<void>((resolve) => {
       slideOpenEl($wrapper, '.1s')
       setTimeout(() => {
-        $wrapper.style.opacity = '1'
-        $wrapper.style.animationName = noticeState.opening
+        $wrapper.style.transition = ''
+        changeStyle($wrapper, [
+          'opacity: 1',
+          `animation-name: ${noticeState.opening}`,
+        ])
       }, 100)
-      const handle = (e: AnimationEvent) => {
-        if (e.animationName === noticeState.opening) {
-          $wrapper.removeEventListener('animationend', handle)
+      const handle = (e: string) => {
+        if (e === noticeState.opening) {
           resolve()
+          return true
         }
+
+        return false
       }
-      $wrapper.addEventListener('animationend', handle)
+      animationendHandle($wrapper, handle)
     })
   }
 
@@ -43,15 +51,22 @@ export default function GmNotice(props: PropsNotice): AlertType {
     return new Promise<void>((resolve) => {
       $wrapper.style.maxHeight = `${$wrapper.offsetHeight + 10}px`
       $wrapper.style.animationName = noticeState.closing
-      const handle = (e: AnimationEvent) => {
-        if (e.animationName === noticeState.closing) {
+      const handle = (e: string) => {
+        if (e === noticeState.closing) {
           $wrapper.remove()
+          props.onClosed()
           resolve()
+          return true
         }
+        return false
       }
-      $wrapper.addEventListener('animationend', handle)
+      animationendHandle($wrapper, handle)
     })
   }
 
-  return { open, close, $el: $wrapper }
+  return {
+    open,
+    close,
+    $el: $wrapper,
+  }
 }

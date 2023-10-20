@@ -1,5 +1,5 @@
 .alert { 
-    position: relative;
+    position: absolute;
     display: flex;
     flex-direction: column;
     min-width: 350px;
@@ -20,12 +20,12 @@
     margin: 0 auto;
 }
 
-.alert-button-container {
+.alert-btn-group {
     display: flex;
     justify-content: center;
     margin-top: 1rem;
 
-    .alert-button {
+    .alert-btn {
         padding: .625em 1.1em;
         margin: .3125em;
         font-size: 1em;
