@@ -1,4 +1,4 @@
-import { animationendHandle } from '../../utils/eventHandle'
+import { animationendHandle, changeAnimation } from '../../utils/animateHandle'
 import { getRoot, newDiv } from '../../utils/html'
 import { SvgIcon } from '../icons'
 import styles from './message.module.scss'
@@ -15,7 +15,7 @@ export interface MsgType {
   $el: HTMLElement
 }
 
-interface PropsMessage {
+export interface PropsMessage {
   type: 'success' | 'error' | 'warning' | 'info' | 'loading'
   content: string
   onClosed: () => void
@@ -29,8 +29,8 @@ export default function GmMessage(props: PropsMessage): MsgType {
   $main.innerHTML = `${icon}<div class=${styles['message-content']}>${props.content}</div>`
 
   const open = () => {
-    getRoot('message').append($wrapper)
-    $wrapper.style.animationName = MessageState.opening
+    getRoot(0).append($wrapper)
+    changeAnimation($wrapper, MessageState.opening)
     return new Promise<void>((resolve) => {
       const handle = (e: string) => {
         if (e === MessageState.opening) {
@@ -45,8 +45,8 @@ export default function GmMessage(props: PropsMessage): MsgType {
 
   const close = () => {
     $main.style.maxHeight = `${$main.offsetHeight}px`
-    $wrapper.style.animationName = MessageState.closing
-    $main.style.animationName = styles['message-out']
+    changeAnimation($wrapper, MessageState.closing)
+    changeAnimation($main, styles['message-out'])
 
     return new Promise<void>((resolve) => {
       const handle = (e: string) => {

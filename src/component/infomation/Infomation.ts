@@ -1,14 +1,11 @@
-import { animationendHandle } from '../../utils/eventHandle'
+import { animationendHandle, changeAnimation } from '../../utils/animateHandle'
 import { getRoot, newDiv } from '../../utils/html'
-import type { AlertMethod } from '../alert'
+import type { MsgType, PropsMessage } from '../message'
 import styles from './infomation.module.scss'
 
-interface PropsInfo {
-  title?: string
-  type?: string | ('info' | 'success' | 'warning' | 'error')
-  content: string
-  hideIn?: number
-  onClosed?: () => void
+interface PropsInfo extends PropsMessage {
+  headerLeft?: string
+  headerRight?: string
 }
 
 const ColorMap: Record<string, string> = {
@@ -18,7 +15,7 @@ const ColorMap: Record<string, string> = {
   error: '#f56c6c',
 }
 
-export default function GmInfomation(props: PropsInfo): AlertMethod {
+export default function GmInformation(props: PropsInfo): MsgType {
   const color = ColorMap[props.type || 'info'] || ColorMap.info
   const $wrapper = newDiv(styles.infomation)
   $wrapper.innerHTML = `<div class="${
@@ -26,12 +23,12 @@ export default function GmInfomation(props: PropsInfo): AlertMethod {
   }"><div class="${
     styles['infomation-status']
   }" style="background: ${color};"></div><div style="margin-left: .5em;">${
-    props.title || '你有一条消息'
-  }</div></div><div class="${styles['infomation-content']}">${
-    props.content
-  }</div>`
+    props.headerLeft || '你有一条消息'
+  }</div><div>${props.headerRight || ''}</div></div><div class="${
+    styles['infomation-content']
+  }">${props.content}</div>`
 
-  const $root = getRoot('alert')
+  const $root = getRoot(2)
 
   const open = () => {
     $root.append($wrapper)
@@ -49,10 +46,11 @@ export default function GmInfomation(props: PropsInfo): AlertMethod {
 
   const close = () => {
     return new Promise<void>((resolve) => {
-      $wrapper.style.animationName = styles['infomation-move-out']
+      changeAnimation($wrapper, styles['infomation-move-out'])
       const handle = (e: string) => {
         if (e === styles['infomation-move-out']) {
           $wrapper.remove()
+          props.onClosed()
           resolve()
           return true
         }

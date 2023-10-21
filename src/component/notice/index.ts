@@ -1,15 +1,9 @@
-import { animationendHandle } from '../../utils/eventHandle'
+import { animationendHandle } from '../../utils/animateHandle'
 import { changeStyle, getRoot, newDiv, slideOpenEl } from '../../utils/html'
 import { AnimatedIcon } from '../icons'
-import type { MsgType } from '../message'
+import type { MsgType, PropsMessage } from '../message'
 
 import styles from './notice.module.scss'
-
-export interface PropsNotice {
-  type: 'success' | 'error' | 'warning' | 'info' | 'loading'
-  content: string
-  onClosed: () => void
-}
 
 const noticeState = {
   opening: styles['notice-movein'],
@@ -17,7 +11,7 @@ const noticeState = {
   closing: styles['notice-moveout'],
 }
 
-export default function GmNotice(props: PropsNotice): MsgType {
+export default function GmNotice(props: PropsMessage): MsgType {
   const icon = AnimatedIcon(props.type, true, styles['notice-icon'])
   const $wrapper = newDiv(styles.notice)
 
@@ -25,7 +19,7 @@ export default function GmNotice(props: PropsNotice): MsgType {
   <div class="${styles['notice-content']}">${props.content}</div></div>`
 
   const open = () => {
-    getRoot('notice').prepend($wrapper)
+    getRoot(1).prepend($wrapper)
     return new Promise<void>((resolve) => {
       slideOpenEl($wrapper, '.1s')
       setTimeout(() => {
@@ -49,8 +43,10 @@ export default function GmNotice(props: PropsNotice): MsgType {
 
   const close = () => {
     return new Promise<void>((resolve) => {
-      $wrapper.style.maxHeight = `${$wrapper.offsetHeight + 10}px`
-      $wrapper.style.animationName = noticeState.closing
+      changeStyle($wrapper, [
+        `max-height: ${$wrapper.offsetHeight + 10}px`,
+        `animation-name: ${noticeState.closing}`,
+      ])
       const handle = (e: string) => {
         if (e === noticeState.closing) {
           $wrapper.remove()

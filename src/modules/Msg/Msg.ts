@@ -1,17 +1,32 @@
+import GmAlert from '../../component/alert'
+import GmInformation from '../../component/infomation/Infomation'
 import type { MsgType } from '../../component/message'
 import GmMessage from '../../component/message'
 import GmNotice from '../../component/notice'
 import { getProgress, setMsgCount, setProgress } from '../../utils/html'
 
-interface OneMsg extends MsgType {
+export interface OneMsg extends Omit<MsgType, 'open'> {
+  // 用于标识消息是否重复, 这是内容+类型字符串的组合
+  // 一般只用于messsage和notice
   readonly identifer: string
   timer?: NodeJS.Timeout
   count: number
 }
 
-interface Config {
+export interface Config {
   timeout: number
   maxCount: number
+}
+
+export interface MsgPropsExt {
+  timeout?: number
+  text?: string
+  headerLeft?: string
+  headerRight?: string
+  showClose?: boolean
+  onClosed?: () => void
+  onConfirm?: () => void
+  onCancel?: () => void
 }
 
 /**
@@ -24,10 +39,15 @@ export class Msg {
 
   private activeInsts: Map<string, OneMsg> = new Map()
 
-  form: 'msg' | 'notice' | 'alert' | 'information'
+  // 0:'msg' | 1:'notice' | 2:'alert' | 3:'information'
+  form: number
 
-  constructor(form: 'msg' | 'notice') {
+  constructor(form: number) {
     this.form = form
+
+    if (form > 1) {
+      this.timeout = 0
+    }
   }
 
   config(config: Partial<Config>) {
@@ -36,16 +56,16 @@ export class Msg {
   }
 
   fire(
-    content: string,
+    text: string,
     type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
-    timeout?: number,
+    conf?: MsgPropsExt,
   ) {
-    const inst = this.judgeReMsg(content, type || 'success')
+    const oMsg = this.judgeReMsg(text, type || 'success', conf)
     if (type !== 'loading') {
-      this.setTimeOut(inst, timeout || this.timeout)
+      this.setTimeOut(oMsg, conf?.timeout || this.timeout)
     }
 
-    return inst
+    return oMsg
   }
 
   // 设置定时
@@ -55,8 +75,7 @@ export class Msg {
 
     setProgress($el, 1, timeout)
 
-    oMsg.timer && clearInterval(oMsg.timer)
-    oMsg.timer = setInterval(() => {
+    oMsg.timer ??= setInterval(() => {
       if (getProgress($el) === 0) {
         oMsg.close()
         clearInterval(oMsg.timer)
@@ -76,32 +95,60 @@ export class Msg {
   private judgeReMsg(
     content: string,
     type: 'success' | 'error' | 'warning' | 'info' | 'loading',
+    conf?: MsgPropsExt,
   ) {
     const id = `${content}${type}`
-    for (const inst of this.activeInsts) {
-      if (inst[1].identifer === id) {
-        inst[1].count += 1
-        setMsgCount(inst[1].$el, inst[1].count)
-        return inst[1]
+    if (this.form < 2) {
+      for (const inst of this.activeInsts) {
+        if (inst[1].identifer === id) {
+          inst[1].count += 1
+          setMsgCount(inst[1].$el, inst[1].count)
+          return inst[1]
+        }
       }
     }
+
     const props = {
+      ...conf,
       content,
       type,
       onClosed: () => {
-        this.activeInsts.delete(id)
+        this.form < 2 && this.activeInsts.delete(id)
+        conf?.onClosed && conf.onClosed()
       },
     }
+    let inst: MsgType
 
-    const inst = this.form === 'msg' ? GmMessage(props) : GmNotice(props)
-
-    if (this.activeInsts.size >= this.maxCount) {
-      this.activeInsts.values().next().value.close()
+    switch (this.form) {
+      case 0:
+        inst = GmMessage(props)
+        break
+      case 1:
+        inst = GmNotice(props)
+        break
+      case 2:
+        inst = GmAlert(props)
+        break
+      case 3:
+        inst = GmInformation(props)
+        break
+      default:
+        inst = GmMessage(props)
+        break
     }
-    const oMsg = { ...inst, identifer: id, count: 1 }
+
+    if (this.form < 2) {
+      this.activeInsts.size >= this.maxCount &&
+        this.activeInsts.values().next().value.close()
+    } else {
+      // 关闭所有消息
+      this.activeInsts.values().next().value?.close()
+      this.activeInsts.clear()
+    }
+    const oMsg: OneMsg = { ...inst, identifer: id, count: 1 }
 
     this.activeInsts.set(id, oMsg)
-    oMsg.open()
+    inst.open()
 
     return oMsg
   }

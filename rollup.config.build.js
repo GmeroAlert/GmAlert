@@ -15,7 +15,7 @@ const libName = pkg.name
 // iife umd 等格式需要name来作为浏览器windows下的函数名
 const funcName = 'GmAlert'
 // css的前缀
-const cssPre = libName
+const cssPre = 'GmA'
 
 export default [
   {
@@ -53,5 +53,15 @@ export default [
       }),
       terser(),
     ],
+  },
+  {
+    input: './src/index.ts',
+    output: [
+      {
+        file: `./dist/index.d.ts`,
+        format: 'es',
+      },
+    ],
+    plugins: [dts()],
   },
 ]

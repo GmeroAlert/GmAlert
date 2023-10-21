@@ -1,22 +1,14 @@
-import { animationendHandle } from '../../utils/eventHandle'
+import { animationendHandle, changeAnimation } from '../../utils/animateHandle'
 import { getRoot, newDiv } from '../../utils/html'
 import { AnimatedIcon, SvgIcon } from '../icons'
+import type { MsgType, PropsMessage } from '../message'
 import styles from './alert.module.scss'
 
-interface PropsAlert {
-  type?: 'success' | 'error' | 'warning' | 'info' | 'loading'
-  title: string
-  content?: string
+interface PropsAlert extends PropsMessage {
+  text?: string
   showClose?: boolean
   onConfirm?: () => void
   onCancel?: () => void
-  onClosed?: () => void
-}
-
-export interface AlertMethod {
-  open: () => Promise<void>
-  close: () => Promise<void>
-  $el: HTMLElement
 }
 
 function Button(text: string, onClick: () => void) {
@@ -28,28 +20,26 @@ function Button(text: string, onClick: () => void) {
   return $btn
 }
 
-export default function GmAlert(props: PropsAlert): AlertMethod {
+export default function GmAlert(props: PropsAlert): MsgType {
   const type = props.type || 'info'
   const $wrapper = newDiv(styles.alert)
   const icon = AnimatedIcon(type, false, styles['alert-icon'])
 
-  $wrapper.innerHTML = `${icon}<div class="${styles['alert-title']}">${props.title}</div>`
+  $wrapper.innerHTML = `${icon}<div class="${styles['alert-title']}">${props.content}</div>`
 
-  if (props.content) {
+  if (props.text) {
     const $text = newDiv(styles['alert-content'])
-    $text.textContent = props.content
+    $text.textContent = props.text
     $wrapper.append($text)
   }
 
-  const $root = getRoot('alert')
+  const $root = getRoot(2)
 
   const open = () => {
-    $wrapper.classList.add(styles['is-opening'])
     $root.append($wrapper)
     return new Promise<void>((resolve) => {
       const handle = (animationName: string) => {
         if (animationName === styles['alert-show']) {
-          $wrapper.classList.remove(styles['is-opening'])
           resolve()
           return true
         }
@@ -61,13 +51,12 @@ export default function GmAlert(props: PropsAlert): AlertMethod {
   }
 
   const close = () => {
-    $wrapper.classList.add(styles['is-closing'])
-    $wrapper.style.animationName = styles['alert-hide']
+    changeAnimation($wrapper, styles['alert-hide'])
     return new Promise<void>((resolve) => {
       const handle = (e: string) => {
         if (e === styles['alert-hide']) {
           $wrapper.remove()
-          props.onClosed && props.onClosed()
+          props.onClosed()
           resolve()
           return true
         }
@@ -79,14 +68,8 @@ export default function GmAlert(props: PropsAlert): AlertMethod {
 
   if (props.onCancel || props.onConfirm) {
     const $buttons = newDiv(styles['alert-btn-group'])
-    if (props.onCancel) {
-      const $cancel = Button('取消', props.onCancel)
-      $buttons.append($cancel)
-    }
-    if (props.onConfirm) {
-      const $confirm = Button('确定', props.onConfirm)
-      $buttons.append($confirm)
-    }
+    props.onCancel && $buttons.append(Button('取消', props.onCancel))
+    props.onConfirm && $buttons.append(Button('确定', props.onConfirm))
     $wrapper.append($buttons)
   }
 

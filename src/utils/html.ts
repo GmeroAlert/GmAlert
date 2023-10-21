@@ -1,4 +1,5 @@
 import styles from '../main.module.scss'
+import { changeAnimation } from './animateHandle'
 
 export function newDiv(...className: string[]) {
   const $div = document.createElement('div')
@@ -32,9 +33,9 @@ export function setMsgCount($el: HTMLElement, count: number) {
     $el.append($count)
   }
   $count.innerHTML = `${count > 99 ? '99' : count}`
-  $count.style.animationName = ''
+  changeAnimation($count, '')
   setTimeout(() => {
-    $count.style.animationName = styles['message-shake']
+    changeAnimation($count, styles.shake)
   }, 50)
 }
 
@@ -97,7 +98,7 @@ const getContainer = () => {
   )
 
   if (!$root) {
-    $root = newDiv(styles['gmsg-container'], 'gmsg-global-vars')
+    $root = newDiv(styles['gmsg-container'], 'gmalert-global-vars')
     document.body.append($root)
   }
 
@@ -129,13 +130,14 @@ const getNoticeContainer = () => {
   return $scrollContainer
 }
 
-export const getRoot = (position: 'message' | 'notice' | 'alert') => {
-  switch (position) {
-    case 'message':
+// 0: message | 1: notice | 2: alert
+export const getRoot = (type: 0 | 1 | 2) => {
+  switch (type) {
+    case 0:
       return getMessageContainer()
-    case 'notice':
+    case 1:
       return getNoticeContainer()
-    case 'alert':
+    case 2:
       return getContainer()
   }
 }

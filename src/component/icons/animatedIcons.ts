@@ -8,7 +8,7 @@ export function SuccessIcon(dense = false, className = '') {
     styles['line-tip']
   }"></div><div class="${styles['success-line']} ${
     styles['line-long']
-  }"></div><div class="${styles['success-ring-2']}"></div><div class="${
+  }"></div><div class="${styles['success-ring']}"></div><div class="${
     styles['success-fix']
   }"></div></div>`
 }
@@ -34,7 +34,7 @@ export function InfoIcon(dense = false, className = '') {
 }
 
 export function LoadingIcon(dense = false, className = '') {
-  const icon = svgIcon('loading')
+  const icon = svgIcon(4)
   return `<div class="${styles.icon} ${styles['loading-icon']} ${
     dense ? styles['dense-icon'] : ''
   } ${className}">${icon}</div>`

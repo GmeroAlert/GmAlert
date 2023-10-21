@@ -29,10 +29,7 @@
 
     <script>
       'use strict;'
-      const message = GmAlert.message
-      const notice = GmAlert.notice
-      const alert = GmAlert.alert
-      const infomation = GmAlert.infomation
+      const { message, notice, alert, information } = GmAlert
 
       notice.config({ timeout: 5000, maxCount: 8 })
       document.querySelector('#errbtn').addEventListener('click', () => {
@@ -85,8 +82,9 @@
       })
 
       document.querySelector('#successalert').addEventListener('click', () => {
-        const inst = alert('success', '你成功了', 'success', {
+        const inst = alert('success', 'success', {
           showClose: true,
+          text: '你成功了',
           onConfirm: () => {
             inst.close().then(() => {
               notice('你点击了确认')
@@ -98,11 +96,14 @@
       document
         .querySelector('#successinfomation')
         .addEventListener('click', () => {
-          const inst = infomation(
+          const inst = information(
             '这是一个用于测试的页面, 这意味着这里的结果并不代表它在您手里表现的效果',
-            '公告',
             'success',
-            {},
+            {
+              headerLeft: '公告',
+              headerRight: '2021-08-01',
+              timeout: 10000,
+            },
           )
         })
     </script>

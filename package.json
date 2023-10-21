@@ -10,9 +10,6 @@
   "files": [
     "dist"
   ],
-  "main": "dist/gmalert.umd.js",
-  "module": "dist/es/index.es.js",
-  "types": "dist/index.d.ts",
   "scripts": {
     "build": "rollup --config rollup.config.build.js",
     "dev": "rollup --config rollup.config.js -w"

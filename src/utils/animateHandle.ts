@@ -8,3 +8,7 @@ export function animationendHandle(
   }
   $el.addEventListener('animationend', animationend)
 }
+
+export function changeAnimation($el: HTMLElement, animationName: string) {
+  $el.style.animationName = animationName
+}

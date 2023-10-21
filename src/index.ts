@@ -1,51 +1,29 @@
-import { Alert } from './modules/Alert'
+import type { MsgPropsExt } from './modules/Msg/Msg'
 import { Msg } from './modules/Msg/Msg'
 
-const $alert = new Alert()
-const alert = (
-  title: string,
-  text?: string,
-  type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
-  config?: {
-    showClose?: boolean
-    onConfirm?: () => void
-    onCancel?: () => void
-    onClosed?: () => void
-  },
-) => {
-  return $alert.fire(title, text, type, config)
+function MakeMsg(form: number) {
+  const $msg = new Msg(form)
+  const res = (
+    content: string,
+    type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
+    conf?: MsgPropsExt,
+  ) => {
+    return $msg.fire(content, type, conf)
+  }
+
+  res.config = $msg.config.bind($msg)
+
+  return res
 }
 
-const $infomation = new Alert('infomation')
-const infomation = (
-  content: string,
-  title?: string,
-  type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
-  config?: {
-    hideIn?: number
-    onClosed?: () => void
-  },
-) => {
-  return $infomation.fire(content, title, type, config)
-}
-const $message = new Msg('msg')
-const message = (
-  content: string,
-  type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
-  timeout?: number,
-) => {
-  return $message.fire(content, type, timeout)
-}
-message.config = $message.config.bind($message)
+const alert = MakeMsg(2)
 
-const $notice = new Msg('notice')
-const notice = (
-  content: string,
-  type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
-  timeout?: number,
-) => {
-  return $notice.fire(content, type, timeout)
-}
-notice.config = $notice.config.bind($notice)
+const information = MakeMsg(3)
 
-export { alert, message, notice, infomation }
+const message = MakeMsg(0)
+
+const notice = MakeMsg(1)
+
+const GmAlert = { alert, message, notice, information }
+
+export default GmAlert
