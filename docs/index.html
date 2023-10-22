@@ -8,7 +8,24 @@
     <link rel="stylesheet" href="" />
   </head>
 
+  <style>
+    body.dark {
+      background-color: #1e1e1e;
+      color: #fff;
+    }
+
+    .dark .gmalert-global-vars {
+      --gma-bg: #303030;
+      --gma-text: #a8a8a8;
+      --gma-border: 1px solid #535353;
+      --gma-light: #535353;
+      --gma-shadow: rgba(255, 255, 255, 0.08);
+    }
+  </style>
+
   <body>
+    <button type="button" id="changetheme">changetheme</button>
+
     <button type="button" id="errbtn">err gmsg</button>
     <button type="button" id="infobtn">info gmsg</button>
     <button type="button" id="warningbtn">warn gmsg</button>
@@ -32,6 +49,9 @@
       const { message, notice, alert, information } = GmAlert
 
       notice.config({ timeout: 5000, maxCount: 8 })
+      document.querySelector('#changetheme').addEventListener('click', () => {
+        document.body.classList.toggle('dark')
+      })
       document.querySelector('#errbtn').addEventListener('click', () => {
         message('错误：你是不是干坏事了？？！！', 'error')
       })
@@ -85,10 +105,10 @@
         const inst = alert('success', 'success', {
           showClose: true,
           text: '你成功了',
-          onConfirm: () => {
-            inst.close().then(() => {
-              notice('你点击了确认')
-            })
+          showConfirm: true,
+          showCancel: true,
+          onClosed: (status) => {
+            console.log(status)
           },
         })
       })
@@ -103,6 +123,10 @@
               headerLeft: '公告',
               headerRight: '2021-08-01',
               timeout: 10000,
+              showClose: true,
+              onClosed: (status) => {
+                console.log(status)
+              },
             },
           )
         })

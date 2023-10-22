@@ -1,5 +1,5 @@
 import GmAlert from '../../component/alert'
-import GmInformation from '../../component/infomation/Infomation'
+import GmInformation from '../../component/information/Information'
 import type { MsgType } from '../../component/message'
 import GmMessage from '../../component/message'
 import GmNotice from '../../component/notice'
@@ -24,9 +24,9 @@ export interface MsgPropsExt {
   headerLeft?: string
   headerRight?: string
   showClose?: boolean
-  onClosed?: () => void
-  onConfirm?: () => void
-  onCancel?: () => void
+  onClosed?: (status: number) => void
+  showConfirm?: boolean
+  showCancel?: boolean
 }
 
 /**
@@ -77,7 +77,7 @@ export class Msg {
 
     oMsg.timer ??= setInterval(() => {
       if (getProgress($el) === 0) {
-        oMsg.close()
+        oMsg.close(-1)
         clearInterval(oMsg.timer)
       }
     }, 150)
@@ -112,9 +112,9 @@ export class Msg {
       ...conf,
       content,
       type,
-      onClosed: () => {
+      onClosed: (status: number) => {
         this.form < 2 && this.activeInsts.delete(id)
-        conf?.onClosed && conf.onClosed()
+        conf?.onClosed && conf.onClosed(status)
       },
     }
     let inst: MsgType
@@ -139,10 +139,10 @@ export class Msg {
 
     if (this.form < 2) {
       this.activeInsts.size >= this.maxCount &&
-        this.activeInsts.values().next().value.close()
+        this.activeInsts.values().next().value.close(-2)
     } else {
       // 关闭所有消息
-      this.activeInsts.values().next().value?.close()
+      this.activeInsts.values().next().value?.close(-2)
       this.activeInsts.clear()
     }
     const oMsg: OneMsg = { ...inst, identifer: id, count: 1 }

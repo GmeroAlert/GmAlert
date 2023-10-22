@@ -1,78 +1,80 @@
-.message-wrapper {
+@import '../../styles/functions';
+
+.msg {
+  position: relative;
+  overflow: visible;
+  transform-origin: center;
+  animation-duration: 0.3s;
+
+  > :nth-child(2) {
+    opacity: 0;
+  }
+
+  .icon {
+    position: absolute;
+    top: 9px;
+    left: 8px;
+    font-size: 16px;
+  }
+
+  .msg-main {
     position: relative;
-    overflow: visible;
+    box-sizing: border-box;
+    min-width: 3rem;
+    max-width: 20em;
+    padding: 8px;
+    padding-left: 30px;
+    margin-bottom: 0.4rem;
+    overflow: hidden;
+    text-align: center;
+    background: var-color('bg');
+    border-radius: 4px;
+    box-shadow: var-color('shadow-v');
+
+    /* 从中间开始放大 */
     transform-origin: center;
     animation-duration: 0.3s;
+  }
 
-    >:nth-child(2) {
-        opacity: 0;
-    }
+  .msg-content {
+    text-align: left;
+    pointer-events: all;
 
-    .icon {
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        font-size: 16px;
-    }
-
-    .message-main {
-        position: relative;
-        box-sizing: border-box;
-        min-width: 3rem;
-        max-width: 20em;
-        padding: 8px;
-        padding-left: 30px;
-        margin-bottom: .4rem;
-        overflow: hidden;
-        text-align: center;
-        background: #fff;
-        border-radius: 4px;
-        box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
-
-        /* 从中间开始放大 */
-        transform-origin: center;
-        animation-duration: 0.3s;
-    }
-
-    .message-content {
-        text-align: left;
-        pointer-events: all;
-    
-        /* 解决字体模糊抖动问题 */
-        transform: perspective(1px);
-    }
+    /* 解决字体模糊抖动问题 */
+    transform: perspective(1px);
+  }
 }
 
-@keyframes message-moveout {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-  
-    100% {
-        opacity: 0;
-        transform: scale(0.7);
-    }
+@keyframes msg-moveout {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
 }
-  
+
 // for main
-@keyframes message-out {
-    100% {
-        max-height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        margin-bottom: 0;
-    }
+@keyframes msg-out {
+  100% {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
 }
-  
-@keyframes message-movein {
-    0% {
-        opacity: 0;
-        transform: scale(0.5);
-    }
-  
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
+
+@keyframes msg-movein {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

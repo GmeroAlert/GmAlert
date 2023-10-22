@@ -1,65 +1,65 @@
+@import '../../styles/functions';
+
 .notice {
-    position: relative;
-    width: 20rem;
-    margin-bottom: 1em;
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 1px rgb(0 0 0 / 7.5%), 0 1px 2px rgb(0 0 0 / 7.5%),
-        1px 2px 4px rgb(0 0 0 / 7.5%), 1px 3px 8px rgb(0 0 0 / 7.5%),
-        2px 4px 16px rgb(0 0 0 / 7.5%);
-    opacity: 0;
-    transform-origin: top center;
-    animation-duration: 0.25s;
+  position: relative;
+  width: 20rem;
+  margin-bottom: 1em;
+  background: var-color('bg');
+  border-radius: 5px;
+  box-shadow: var-color('shadow-v');
+  opacity: 0;
+  transform-origin: top center;
+  animation-duration: 0.25s;
 
-    .notice-main {
-        display: flex;
-        flex-direction: column;
-        align-items: normal;
+  .notice-main {
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
 
-        .notice-content {
-            position: relative;
-            margin: 1rem 1rem 1.2rem 3.4rem;
-        }
+    .notice-content {
+      position: relative;
+      margin: 1rem 1rem 1.2rem 3.4rem;
     }
+  }
 
-    .notice-icon {
-        position: absolute;
-        top: .7rem;
-        left: 1rem;
-    }
+  .notice-icon {
+    position: absolute;
+    top: 0.7rem;
+    left: 1rem;
+  }
 }
 
 /* notice进入 */
 @keyframes notice-movein {
-    0% {
-        opacity: 0;
-        transform: translateX(100%);
-    }
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
 
-    50% {
-        opacity: 0.75;
-    }
-  
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  50% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
-  
+
 /* notice退出 */
 @keyframes notice-moveout {
-    0% {
-        opacity: 1;
-    }
-  
-    60% {
-        opacity: 0;
-        transform: translateX(100%);
-    }
-  
-    100% {
-        max-height: 0;
-        margin: 0;
-        opacity: 0;
-    }
+  0% {
+    opacity: 1;
+  }
+
+  60% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  100% {
+    max-height: 0;
+    margin: 0;
+    opacity: 0;
+  }
 }

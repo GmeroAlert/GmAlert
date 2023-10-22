@@ -4,29 +4,34 @@ import { SvgIcon } from '../icons'
 import styles from './message.module.scss'
 
 export const MessageState = {
-  opening: styles['message-movein'],
+  opening: styles['msg-movein'],
   done: '',
-  closing: styles['message-moveout'],
+  closing: styles['msg-moveout'],
 }
 
 export interface MsgType {
   open: () => Promise<void>
-  close: () => Promise<void>
+  close: (status: number) => Promise<void>
   $el: HTMLElement
 }
 
 export interface PropsMessage {
   type: 'success' | 'error' | 'warning' | 'info' | 'loading'
   content: string
-  onClosed: () => void
+  /**
+   *
+   * @param status 0: close by user cancel, 1: close by user confirm, -1: close by timeout, -2 or undefined : close unexpectedly
+   * @returns
+   */
+  onClosed: (status: number) => void
 }
 
 export default function GmMessage(props: PropsMessage): MsgType {
   const icon = SvgIcon(props.type, styles.icon)
-  const $wrapper = newDiv(styles['message-wrapper'])
-  const $main = newDiv(styles['message-main'])
+  const $wrapper = newDiv(styles.msg)
+  const $main = newDiv(styles['msg-main'])
   $wrapper.append($main)
-  $main.innerHTML = `${icon}<div class=${styles['message-content']}>${props.content}</div>`
+  $main.innerHTML = `${icon}<div class=${styles['msg-content']}>${props.content}</div>`
 
   const open = () => {
     getRoot(0).append($wrapper)
@@ -43,16 +48,16 @@ export default function GmMessage(props: PropsMessage): MsgType {
     })
   }
 
-  const close = () => {
+  const close = (status: number) => {
     $main.style.maxHeight = `${$main.offsetHeight}px`
     changeAnimation($wrapper, MessageState.closing)
-    changeAnimation($main, styles['message-out'])
+    changeAnimation($main, styles['msg-out'])
 
     return new Promise<void>((resolve) => {
       const handle = (e: string) => {
         if (e === MessageState.closing) {
           $wrapper.remove()
-          props.onClosed()
+          props.onClosed(status)
           resolve()
           return true
         }

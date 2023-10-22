@@ -1,6 +1,8 @@
 import type { MsgPropsExt } from './modules/Msg/Msg'
 import { Msg } from './modules/Msg/Msg'
 
+import './styles/global.scss'
+
 function MakeMsg(form: number) {
   const $msg = new Msg(form)
   const res = (

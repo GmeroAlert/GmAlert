@@ -62,6 +62,14 @@ export default [
         format: 'es',
       },
     ],
-    plugins: [dts()],
+    plugins: [
+      dts(),
+      postcss({
+        modules: {
+          generateScopedName: `${cssPre}_[hash:base64:4]`, // cssinjs
+          //generateScopedName: `[local]`, // 原始
+        },
+      }),
+    ],
   },
 ]

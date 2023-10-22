@@ -7,8 +7,8 @@ import styles from './alert.module.scss'
 interface PropsAlert extends PropsMessage {
   text?: string
   showClose?: boolean
-  onConfirm?: () => void
-  onCancel?: () => void
+  showConfirm?: boolean
+  showCancel?: boolean
 }
 
 function Button(text: string, onClick: () => void) {
@@ -50,13 +50,13 @@ export default function GmAlert(props: PropsAlert): MsgType {
     })
   }
 
-  const close = () => {
+  const close = (status: number) => {
     changeAnimation($wrapper, styles['alert-hide'])
     return new Promise<void>((resolve) => {
       const handle = (e: string) => {
         if (e === styles['alert-hide']) {
           $wrapper.remove()
-          props.onClosed()
+          props.onClosed(status)
           resolve()
           return true
         }
@@ -66,19 +66,29 @@ export default function GmAlert(props: PropsAlert): MsgType {
     })
   }
 
-  if (props.onCancel || props.onConfirm) {
+  if (props.showCancel || props.showConfirm) {
     const $buttons = newDiv(styles['alert-btn-group'])
-    props.onCancel && $buttons.append(Button('取消', props.onCancel))
-    props.onConfirm && $buttons.append(Button('确定', props.onConfirm))
+    props.showCancel &&
+      $buttons.append(
+        Button('取消', () => {
+          close(0)
+        }),
+      )
+    props.showConfirm &&
+      $buttons.append(
+        Button('确定', () => {
+          close(1)
+        }),
+      )
     $wrapper.append($buttons)
   }
 
   if (props.showClose) {
-    const $close = newDiv(styles['alert-close'])
-    $close.innerHTML = SvgIcon('close')
+    const $close = newDiv()
+    $close.innerHTML = SvgIcon('close', styles['alert-close'])
 
     $close.onclick = () => {
-      close()
+      close(0)
     }
 
     $wrapper.append($close)

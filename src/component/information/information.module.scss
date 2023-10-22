@@ -1,0 +1,57 @@
+@import '../../styles/functions';
+
+.info {
+  position: absolute;
+  right: 2em;
+  bottom: 1.5em;
+  display: flex;
+  flex-direction: column;
+  width: 21em;
+  pointer-events: all;
+  background: var-color('bg');
+  border-radius: 5px;
+  box-shadow: var-color('shadow-v');
+  animation: 0.3s info-move-in cubic-bezier(0.42, 0, 0.3, 1.11);
+}
+
+.info-header {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border-bottom: var-color('border');
+}
+
+.info-close {
+  margin-left: 0.5em;
+  font-size: 1em;
+}
+
+.info-status {
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 0.5em;
+  border-radius: 4px;
+}
+
+.info-content {
+  padding: 10px 1em;
+}
+
+@keyframes info-move-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes info-move-out {
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}

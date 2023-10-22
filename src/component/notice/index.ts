@@ -41,7 +41,7 @@ export default function GmNotice(props: PropsMessage): MsgType {
     })
   }
 
-  const close = () => {
+  const close = (status: number) => {
     return new Promise<void>((resolve) => {
       changeStyle($wrapper, [
         `max-height: ${$wrapper.offsetHeight + 10}px`,
@@ -50,7 +50,7 @@ export default function GmNotice(props: PropsMessage): MsgType {
       const handle = (e: string) => {
         if (e === noticeState.closing) {
           $wrapper.remove()
-          props.onClosed()
+          props.onClosed(status)
           resolve()
           return true
         }
