@@ -6,3 +6,110 @@
 - 轻量级，js + css 仅仅 20kb(没有使用 gzip 压缩)
 
 demo: <https://g-mero.github.io/GmAlert/>
+
+## 安装
+
+请到[Releases · g-mero/GmAlert (github.com)](https://github.com/g-mero/GmAlert/releases)页面下载最新的编译后文件(.css 与.js)
+
+在您的网站中引入这两个文件, 比如:
+
+```html
+<html lang="en">
+  <head>
+    ...
+    <link rel="stylesheet" href="/css/gmalert.min.css" />
+  </head>
+  <body>
+    ...
+    <script src="/js/gmalert.min.js"></script>
+  </body>
+</html>
+```
+
+## 使用
+
+我们将消息提示，分为四个模块：message, notice, alert, information，每个模块的效果与一些逻辑是不同的。比如，message 和 notice 每个页面可以同时存在多个实例，而 alert 跟 information 只能同时拥有一个实例，发起新的实例会强制关闭页面中已经存在的实例。
+
+它们的调用方式类似，都是通过 GmAlert.模块([message], [type?], [option?]) 进行调用，比如：GmAlert.message("这是一条消息")
+
+以下是它们的可选参数和配置项
+
+### message
+
+```typescript
+type?: 'success' | 'error' | 'warning' | 'info' | 'loading'
+
+option?: {
+ timeout?: number // 消失的时间
+ // 关闭后的回调
+ // @param status 0: 用户点击关闭或取消按钮, 1: 用户点确认, -1: 超时自动关闭,
+ // -2 | undefined : 被强制关闭，一般是因为超出了maxCount
+ onClosed?: (status: number) => void
+}
+
+GmAlert.message.config({
+ timeout: number // 设置全局的消失时间
+ maxCount: number // 设置message全局最大实例个数
+})
+```
+
+### notice
+
+```typescript
+type?: 'success' | 'error' | 'warning' | 'info' | 'loading'
+
+option?: {
+ timeout?: number // 消失的时间
+ // 关闭后的回调
+ // @param status -1: 超时自动关闭, -2 | undefined : 被强制关闭，一般是因为超出了maxCount
+ onClosed?: (status: number) => void
+}
+
+GmAlert.notice.config({
+ timeout: number // 设置全局的消失时间
+ maxCount: number // 设置message全局最大实例个数
+})
+```
+
+### alert
+
+```typescript
+type?: 'success' | 'error' | 'warning' | 'info' | 'loading'
+
+option?: {
+ timeout?: number // 消失的时间
+ text?: string // 附加消息
+ // 关闭后的回调
+ // @param status 0: 用户点击关闭或取消按钮, 1: 用户点确认, -1: 超时自动关闭,
+ // -2 | undefined : 被强制关闭，一般是因为超出了maxCount
+ onClosed?: (status: number) => void
+ // 显示关闭按钮
+ showClose?: boolean
+ // 显示确认按钮
+ showConfirm?: boolean
+ // 显示取消按钮
+ showCancel?: boolean
+}
+```
+
+### information
+
+```typescript
+type?: 'success' | 'error' | 'warning' | 'info'
+
+option?: {
+ timeout?: number // 消失的时间
+ headerLeft?: string // 头部左侧的文本，一般是消息的标题
+ headerRight?: string // 头部右侧的文本，一般是时间等信息
+ // 关闭后的回调
+ // @param status 0: 用户点击关闭或取消按钮, 1: 用户点确认, -1: 超时自动关闭,
+ // -2 | undefined : 被强制关闭，一般是因为超出了maxCount
+ onClosed?: (status: number) => void
+ // 显示关闭按钮
+ showClose?: boolean
+}
+
+GmAlert.notice.config({
+ timeout: number // 设置全局的消失时间
+})
+```

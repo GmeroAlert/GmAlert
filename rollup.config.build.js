@@ -69,6 +69,7 @@ export default [
           generateScopedName: `${cssPre}_[hash:base64:4]`, // cssinjs
           //generateScopedName: `[local]`, // 原始
         },
+        inject: false,
       }),
     ],
   },
