@@ -3,13 +3,20 @@ import GmInformation from '../../component/information/Information'
 import type { MsgType } from '../../component/message'
 import GmMessage from '../../component/message'
 import GmNotice from '../../component/notice'
-import { getProgress, setMsgCount, setProgress } from '../../utils/html'
+import { changeStyle, newDiv, setMsgCount } from '../../utils/html'
+import styles from '../../main.module.scss'
 
 export interface OneMsg extends Omit<MsgType, 'open'> {
   // 用于标识消息是否重复, 这是内容+类型字符串的组合
   // 一般只用于messsage和notice
   readonly identifer: string
   timer?: NodeJS.Timeout
+  progress?: {
+    pause: () => void
+    resume: () => void
+    reset: () => void
+    get: () => number
+  }
   count: number
 }
 
@@ -60,39 +67,76 @@ export class Msg {
     type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
     conf?: MsgPropsExt,
   ) {
-    const oMsg = this.judgeReMsg(text, type || 'success', conf)
+    const oMsg = this.mkMsg(text, type || 'success', conf)
     if (type !== 'loading') {
-      this.setTimeOut(oMsg, conf?.timeout || this.timeout)
+      this.sT(oMsg, conf?.timeout || this.timeout)
     }
 
     return oMsg
   }
 
   // 设置定时
-  private setTimeOut(oMsg: OneMsg, timeout?: number) {
+  private sT(oMsg: OneMsg, timeout?: number) {
     if (!timeout) return
-    const $el = oMsg.$el
-
-    setProgress($el, 1, timeout)
-
-    oMsg.timer ??= setInterval(() => {
-      if (getProgress($el) === 0) {
-        oMsg.close(-1)
-        clearInterval(oMsg.timer)
-      }
-    }, 150)
+    const { $el } = oMsg
+    oMsg.progress ?? this.mkP(oMsg, timeout)
+    oMsg.progress!.reset()
 
     $el.addEventListener('mouseenter', () => {
-      setProgress($el, getProgress($el), timeout, true)
+      oMsg.progress!.pause()
     })
 
     $el.addEventListener('mouseleave', () => {
-      setProgress($el, getProgress($el), timeout)
+      oMsg.progress!.resume()
     })
   }
 
+  // 设置进度
+  private mkP(oMsg: OneMsg, timeout: number) {
+    const { $el } = oMsg
+    const $progress = newDiv(styles['gmsg-progress'])
+    const $progressBar = newDiv(styles['gmsg-progress-bar'])
+    $progress.append($progressBar)
+    $el.append($progress)
+
+    const removeTimer = () => {
+      clearInterval(oMsg.timer)
+    }
+
+    const get = () => {
+      return $progressBar.clientWidth / $progress.clientWidth
+    }
+
+    const pause = () => {
+      removeTimer()
+      changeStyle($progressBar, ['transition:none', `width:${get() * 100}%`])
+    }
+
+    // eslint-disable-next-line require-await
+    const resume = async () => {
+      oMsg.timer = setInterval(() => {
+        if (oMsg.progress!.get() === 0) {
+          oMsg.close(-1)
+          removeTimer()
+        }
+      }, 150)
+      changeStyle($progressBar, [
+        'width:0',
+        `transition:width ${timeout * get()}ms linear`,
+      ])
+    }
+
+    const reset = () => {
+      removeTimer()
+      changeStyle($progressBar, ['width:100%', 'transition:none'])
+      resume()
+    }
+
+    oMsg.progress = { pause, resume, reset, get }
+  }
+
   // 判断消息是否存在, 设置msgCount以及关闭多余消息
-  private judgeReMsg(
+  private mkMsg(
     content: string,
     type: 'success' | 'error' | 'warning' | 'info' | 'loading',
     conf?: MsgPropsExt,

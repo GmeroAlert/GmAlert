@@ -48,11 +48,11 @@ var GmAlert = (function () {
   function slideOpenEl(el, duration) {
     const height = el.offsetHeight;
     const maxHeight = height + 10;
-    changeStyle(el, ['max-height: 0', 'margin-bottom: 0', 'opacity: 0', `transition: all ${duration}`]);
+    changeStyle(el, ['max-height:0', 'margin-bottom:0', 'opacity:0', `transition:all ${duration}`]);
     setTimeout(() => {
-      changeStyle(el, [`max-height: ${maxHeight}px`]);
+      changeStyle(el, [`max-height:${maxHeight}px`]);
       el.style.marginBottom = '';
-    }, 10);
+    });
   }
   function setMsgCount($el, count) {
     const countClassName = styles$6['gmsg-count'];
@@ -66,35 +66,7 @@ var GmAlert = (function () {
     changeAnimation($count, '');
     setTimeout(() => {
       changeAnimation($count, styles$6.shake);
-    }, 50);
-  }
-  function setProgress($el, progress, timeout, pause = false) {
-    let $progress = $el.querySelector(`.${styles$6['gmsg-progress']}`);
-    let $progressBar = $el.querySelector(`.${styles$6['gmsg-progress-bar']}`);
-    if (!$progress || !$progressBar) {
-      $progress = newDiv(styles$6['gmsg-progress']);
-      $progressBar = newDiv(styles$6['gmsg-progress-bar']);
-      $progress.append($progressBar);
-      $el.append($progress);
-    }
-    if (progress === 1) {
-      changeStyle($progressBar, ['width: 100%', 'transition: none']);
-    }
-    if (pause) {
-      setTimeout(() => {
-        changeStyle($progressBar, ['transition: none', `width: ${progress * 100}%`]);
-      }, 10);
-    } else {
-      setTimeout(() => {
-        changeStyle($progressBar, ['width: 0', `transition: width ${timeout * progress}ms linear`]);
-      }, 10);
-    }
-  }
-  function getProgress($el) {
-    const $progress = $el.querySelector(`.${styles$6['gmsg-progress']}`);
-    const $progressBar = $el.querySelector(`.${styles$6['gmsg-progress-bar']}`);
-    const progress = $progressBar.clientWidth / $progress.clientWidth;
-    return progress;
+    });
   }
   const getContainer = () => {
     let $root = document.querySelector(`.${styles$6['gmsg-container']}`);
@@ -328,7 +300,7 @@ var GmAlert = (function () {
     };
   }
 
-  var css_248z$2 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.msg___HocBn {\n  position: relative;\n  overflow: visible;\n  transform-origin: center;\n  animation-duration: 0.3s;\n}\n.msg___HocBn > :nth-child(2) {\n  opacity: 0;\n}\n.msg___HocBn .icon___kbi0p {\n  position: absolute;\n  top: 8px;\n  left: 8px;\n  font-size: 16px;\n}\n.msg___HocBn .msg-main___ap8Hy {\n  position: relative;\n  box-sizing: border-box;\n  min-width: 3rem;\n  max-width: 20em;\n  padding: 8px;\n  padding-left: 30px;\n  margin-bottom: 0.4rem;\n  overflow: hidden;\n  text-align: center;\n  background: var(--gma-bg);\n  border-radius: 4px;\n  box-shadow: var(--gma-shadow-v);\n  /* 从中间开始放大 */\n  transform-origin: center;\n  animation-duration: 0.3s;\n}\n.msg___HocBn .msg-content___9Svp7 {\n  text-align: left;\n  pointer-events: all;\n  /* 解决字体模糊抖动问题 */\n  transform: perspective(1px);\n}\n\n@keyframes msg-moveout___v-7Kq {\n  0% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  100% {\n    opacity: 0;\n    transform: scale(0.7);\n  }\n}\n@keyframes msg-out___ca1cd {\n  100% {\n    max-height: 0;\n    padding-top: 0;\n    padding-bottom: 0;\n    margin-bottom: 0;\n  }\n}\n@keyframes msg-movein___6htRb {\n  0% {\n    opacity: 0;\n    transform: scale(0.5);\n  }\n  100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n}";
+  var css_248z$2 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.msg___HocBn {\n  position: relative;\n  overflow: visible;\n  transform-origin: center;\n  animation-duration: 0.3s;\n}\n.msg___HocBn > :nth-child(2) {\n  opacity: 0;\n}\n.msg___HocBn .icon___kbi0p {\n  position: absolute;\n  top: 9px;\n  left: 8px;\n  font-size: 16px;\n}\n.msg___HocBn .msg-main___ap8Hy {\n  position: relative;\n  box-sizing: border-box;\n  min-width: 3rem;\n  max-width: 20em;\n  padding: 8px;\n  padding-left: 30px;\n  margin-bottom: 0.4rem;\n  overflow: hidden;\n  text-align: center;\n  background: var(--gma-bg);\n  border-radius: 4px;\n  box-shadow: var(--gma-shadow-v);\n  /* 从中间开始放大 */\n  transform-origin: center;\n  animation-duration: 0.3s;\n}\n.msg___HocBn .msg-content___9Svp7 {\n  text-align: left;\n  pointer-events: all;\n  /* 解决字体模糊抖动问题 */\n  transform: perspective(1px);\n}\n\n@keyframes msg-moveout___v-7Kq {\n  0% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  100% {\n    opacity: 0;\n    transform: scale(0.7);\n  }\n}\n@keyframes msg-out___ca1cd {\n  100% {\n    max-height: 0;\n    padding-top: 0;\n    padding-bottom: 0;\n    margin-bottom: 0;\n  }\n}\n@keyframes msg-movein___6htRb {\n  0% {\n    opacity: 0;\n    transform: scale(0.5);\n  }\n  100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n}";
   var styles$1 = {"msg":"msg___HocBn","icon":"icon___kbi0p","msg-main":"msg-main___ap8Hy","msg-content":"msg-content___9Svp7","msg-moveout":"msg-moveout___v-7Kq","msg-out":"msg-out___ca1cd","msg-movein":"msg-movein___6htRb"};
   styleInject(css_248z$2);
 
@@ -456,34 +428,74 @@ var GmAlert = (function () {
       this.maxCount = config.maxCount || this.maxCount;
     }
     fire(text, type, conf) {
-      const oMsg = this.judgeReMsg(text, type || 'success', conf);
+      const oMsg = this.mkMsg(text, type || 'success', conf);
       if (type !== 'loading') {
-        this.setTimeOut(oMsg, conf?.timeout || this.timeout);
+        this.sT(oMsg, conf?.timeout || this.timeout);
       }
       return oMsg;
     }
 
     // 设置定时
-    setTimeOut(oMsg, timeout) {
+    sT(oMsg, timeout) {
       if (!timeout) return;
-      const $el = oMsg.$el;
-      setProgress($el, 1, timeout);
-      oMsg.timer ??= setInterval(() => {
-        if (getProgress($el) === 0) {
-          oMsg.close(-1);
-          clearInterval(oMsg.timer);
-        }
-      }, 150);
+      const {
+        $el
+      } = oMsg;
+      oMsg.progress ?? this.mkP(oMsg, timeout);
+      oMsg.progress.reset();
       $el.addEventListener('mouseenter', () => {
-        setProgress($el, getProgress($el), timeout, true);
+        oMsg.progress.pause();
       });
       $el.addEventListener('mouseleave', () => {
-        setProgress($el, getProgress($el), timeout);
+        oMsg.progress.resume();
       });
     }
 
+    // 设置进度
+    mkP(oMsg, timeout) {
+      const {
+        $el
+      } = oMsg;
+      const $progress = newDiv(styles$6['gmsg-progress']);
+      const $progressBar = newDiv(styles$6['gmsg-progress-bar']);
+      $progress.append($progressBar);
+      $el.append($progress);
+      const removeTimer = () => {
+        clearInterval(oMsg.timer);
+      };
+      const get = () => {
+        return $progressBar.clientWidth / $progress.clientWidth;
+      };
+      const pause = () => {
+        removeTimer();
+        changeStyle($progressBar, ['transition:none', `width:${get() * 100}%`]);
+      };
+
+      // eslint-disable-next-line require-await
+      const resume = async () => {
+        oMsg.timer = setInterval(() => {
+          if (oMsg.progress.get() === 0) {
+            oMsg.close(-1);
+            removeTimer();
+          }
+        }, 150);
+        changeStyle($progressBar, ['width:0', `transition:width ${timeout * get()}ms linear`]);
+      };
+      const reset = () => {
+        removeTimer();
+        changeStyle($progressBar, ['width:100%', 'transition:none']);
+        resume();
+      };
+      oMsg.progress = {
+        pause,
+        resume,
+        reset,
+        get
+      };
+    }
+
     // 判断消息是否存在, 设置msgCount以及关闭多余消息
-    judgeReMsg(content, type, conf) {
+    mkMsg(content, type, conf) {
       const id = `${content}${type}`;
       if (this.form < 2) {
         for (const inst of this.activeInsts) {

@@ -11,16 +11,16 @@ export function slideOpenEl(el: HTMLElement, duration: string) {
   const height = el.offsetHeight
   const maxHeight = height + 10
   changeStyle(el, [
-    'max-height: 0',
-    'margin-bottom: 0',
-    'opacity: 0',
-    `transition: all ${duration}`,
+    'max-height:0',
+    'margin-bottom:0',
+    'opacity:0',
+    `transition:all ${duration}`,
   ])
 
   setTimeout(() => {
-    changeStyle(el, [`max-height: ${maxHeight}px`])
+    changeStyle(el, [`max-height:${maxHeight}px`])
     el.style.marginBottom = ''
-  }, 10)
+  })
 }
 
 export function setMsgCount($el: HTMLElement, count: number) {
@@ -36,60 +36,7 @@ export function setMsgCount($el: HTMLElement, count: number) {
   changeAnimation($count, '')
   setTimeout(() => {
     changeAnimation($count, styles.shake)
-  }, 50)
-}
-
-export function setProgress(
-  $el: HTMLElement,
-  progress: number,
-  timeout: number,
-  pause = false,
-) {
-  let $progress = $el.querySelector(
-    `.${styles['gmsg-progress']}`,
-  ) as HTMLElement
-  let $progressBar = $el.querySelector(
-    `.${styles['gmsg-progress-bar']}`,
-  ) as HTMLElement
-  if (!$progress || !$progressBar) {
-    $progress = newDiv(styles['gmsg-progress'])
-    $progressBar = newDiv(styles['gmsg-progress-bar'])
-    $progress.append($progressBar)
-    $el.append($progress)
-  }
-
-  if (progress === 1) {
-    changeStyle($progressBar, ['width: 100%', 'transition: none'])
-  }
-
-  if (pause) {
-    setTimeout(() => {
-      changeStyle($progressBar, [
-        'transition: none',
-        `width: ${progress * 100}%`,
-      ])
-    }, 10)
-  } else {
-    setTimeout(() => {
-      changeStyle($progressBar, [
-        'width: 0',
-        `transition: width ${timeout * progress}ms linear`,
-      ])
-    }, 10)
-  }
-}
-
-export function getProgress($el: HTMLElement) {
-  const $progress = $el.querySelector(
-    `.${styles['gmsg-progress']}`,
-  ) as HTMLElement
-  const $progressBar = $el.querySelector(
-    `.${styles['gmsg-progress-bar']}`,
-  ) as HTMLElement
-
-  const progress = $progressBar.clientWidth / $progress.clientWidth
-
-  return progress
+  })
 }
 
 const getContainer = () => {
