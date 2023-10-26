@@ -100,7 +100,7 @@ export class Msg {
     $el.append($progress)
 
     const removeTimer = () => {
-      clearInterval(oMsg.timer)
+      clearTimeout(oMsg.timer)
     }
 
     const get = () => {
@@ -114,16 +114,12 @@ export class Msg {
 
     // eslint-disable-next-line require-await
     const resume = async () => {
-      oMsg.timer = setInterval(() => {
-        if (oMsg.progress!.get() === 0) {
-          oMsg.close(-1)
-          removeTimer()
-        }
-      }, 150)
-      changeStyle($progressBar, [
-        'width:0',
-        `transition:width ${timeout * get()}ms linear`,
-      ])
+      const p = Math.floor(timeout * get())
+      oMsg.timer = setTimeout(() => {
+        oMsg.close(-1)
+      }, p)
+
+      changeStyle($progressBar, ['width:0', `transition:width ${p}ms linear`])
     }
 
     const reset = () => {
@@ -142,14 +138,11 @@ export class Msg {
     conf?: MsgPropsExt,
   ) {
     const id = `${content}${type}`
-    if (this.form < 2) {
-      for (const inst of this.activeInsts) {
-        if (inst[1].identifer === id) {
-          inst[1].count += 1
-          setMsgCount(inst[1].$el, inst[1].count)
-          return inst[1]
-        }
-      }
+    if (this.form < 2 && this.activeInsts.has(id)) {
+      const inst = this.activeInsts.get(id)!
+      inst.count += 1
+      setMsgCount(inst.$el, inst.count)
+      return inst
     }
 
     const props = {
