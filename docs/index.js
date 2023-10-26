@@ -387,7 +387,7 @@ var GmAlert = (function () {
     };
     const close = status => {
       return new Promise(resolve => {
-        changeStyle($wrapper, [`max-height: ${$wrapper.offsetHeight + 10}px`, `animation-name: ${noticeState.closing}`]);
+        changeStyle($wrapper, [`max-height:${$wrapper.offsetHeight + 10}px`, `animation-name:${noticeState.closing}`]);
         const handle = e => {
           if (e === noticeState.closing) {
             $wrapper.remove();
@@ -461,7 +461,7 @@ var GmAlert = (function () {
       $progress.append($progressBar);
       $el.append($progress);
       const removeTimer = () => {
-        clearInterval(oMsg.timer);
+        clearTimeout(oMsg.timer);
       };
       const get = () => {
         return $progressBar.clientWidth / $progress.clientWidth;
@@ -473,13 +473,11 @@ var GmAlert = (function () {
 
       // eslint-disable-next-line require-await
       const resume = async () => {
-        oMsg.timer = setInterval(() => {
-          if (oMsg.progress.get() === 0) {
-            oMsg.close(-1);
-            removeTimer();
-          }
-        }, 150);
-        changeStyle($progressBar, ['width:0', `transition:width ${timeout * get()}ms linear`]);
+        const p = Math.floor(timeout * get());
+        oMsg.timer = setTimeout(() => {
+          oMsg.close(-1);
+        }, p);
+        changeStyle($progressBar, ['width:0', `transition:width ${p}ms linear`]);
       };
       const reset = () => {
         removeTimer();
@@ -497,14 +495,11 @@ var GmAlert = (function () {
     // 判断消息是否存在, 设置msgCount以及关闭多余消息
     mkMsg(content, type, conf) {
       const id = `${content}${type}`;
-      if (this.form < 2) {
-        for (const inst of this.activeInsts) {
-          if (inst[1].identifer === id) {
-            inst[1].count += 1;
-            setMsgCount(inst[1].$el, inst[1].count);
-            return inst[1];
-          }
-        }
+      if (this.form < 2 && this.activeInsts.has(id)) {
+        const inst = this.activeInsts.get(id);
+        inst.count += 1;
+        setMsgCount(inst.$el, inst.count);
+        return inst;
       }
       const props = {
         ...conf,
