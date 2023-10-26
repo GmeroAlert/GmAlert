@@ -48,8 +48,8 @@ option?: {
 }
 
 GmAlert.message.config({
- timeout: number // 设置全局的消失时间
- maxCount: number // 设置message全局最大实例个数
+ timeout: number // 设置默认时间
+ maxCount: number // 设置最大实例个数
 })
 ```
 
@@ -66,8 +66,8 @@ option?: {
 }
 
 GmAlert.notice.config({
- timeout: number // 设置全局的消失时间
- maxCount: number // 设置message全局最大实例个数
+ timeout: number // 设置默认消失时间
+ maxCount: number // 设置最大实例个数
 })
 ```
 
@@ -109,7 +109,7 @@ option?: {
  showClose?: boolean
 }
 
-GmAlert.notice.config({
- timeout: number // 设置全局的消失时间
+GmAlert.information.config({
+ timeout: number // 设置默认的消失时间
 })
 ```
