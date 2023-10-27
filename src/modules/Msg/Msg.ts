@@ -10,7 +10,6 @@ export interface OneMsg extends Omit<MsgType, 'open'> {
   // 用于标识消息是否重复, 这是内容+类型字符串的组合
   // 一般只用于messsage和notice
   readonly identifer: string
-  timer?: NodeJS.Timeout
   progress?: {
     pause: () => void
     resume: () => void
@@ -79,16 +78,12 @@ export class Msg {
   private sT(oMsg: OneMsg, timeout?: number) {
     if (!timeout) return
     const { $el } = oMsg
-    oMsg.progress ?? this.mkP(oMsg, timeout)
-    oMsg.progress!.reset()
+    let p = oMsg.progress!
+    p ??= this.mkP(oMsg, timeout)
+    p.reset()
 
-    $el.addEventListener('mouseenter', () => {
-      oMsg.progress!.pause()
-    })
-
-    $el.addEventListener('mouseleave', () => {
-      oMsg.progress!.resume()
-    })
+    $el.onmouseenter = p.pause
+    $el.onmouseleave = p.resume
   }
 
   // 设置进度
@@ -99,8 +94,8 @@ export class Msg {
     $progress.append($progressBar)
     $el.append($progress)
 
-    const removeTimer = () => {
-      clearTimeout(oMsg.timer)
+    $progressBar.ontransitionend = () => {
+      oMsg.close(-1)
     }
 
     const get = () => {
@@ -108,27 +103,23 @@ export class Msg {
     }
 
     const pause = () => {
-      removeTimer()
       changeStyle($progressBar, ['transition:none', `width:${get() * 100}%`])
     }
 
     // eslint-disable-next-line require-await
     const resume = async () => {
-      const p = Math.floor(timeout * get())
-      oMsg.timer = setTimeout(() => {
-        oMsg.close(-1)
-      }, p)
-
-      changeStyle($progressBar, ['width:0', `transition:width ${p}ms linear`])
+      changeStyle($progressBar, [
+        'width:0',
+        `transition:width ${timeout * get()}ms linear`,
+      ])
     }
 
     const reset = () => {
-      removeTimer()
       changeStyle($progressBar, ['width:100%', 'transition:none'])
       resume()
     }
 
-    oMsg.progress = { pause, resume, reset, get }
+    return (oMsg.progress = { pause, resume, reset, get })
   }
 
   // 判断消息是否存在, 设置msgCount以及关闭多余消息

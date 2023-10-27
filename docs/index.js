@@ -441,14 +441,11 @@ var GmAlert = (function () {
       const {
         $el
       } = oMsg;
-      oMsg.progress ?? this.mkP(oMsg, timeout);
-      oMsg.progress.reset();
-      $el.addEventListener('mouseenter', () => {
-        oMsg.progress.pause();
-      });
-      $el.addEventListener('mouseleave', () => {
-        oMsg.progress.resume();
-      });
+      let p = oMsg.progress;
+      p ??= this.mkP(oMsg, timeout);
+      p.reset();
+      $el.onmouseenter = p.pause;
+      $el.onmouseleave = p.resume;
     }
 
     // 设置进度
@@ -460,31 +457,25 @@ var GmAlert = (function () {
       const $progressBar = newDiv(styles$6['gmsg-progress-bar']);
       $progress.append($progressBar);
       $el.append($progress);
-      const removeTimer = () => {
-        clearTimeout(oMsg.timer);
+      $progressBar.ontransitionend = () => {
+        oMsg.close(-1);
       };
       const get = () => {
         return $progressBar.clientWidth / $progress.clientWidth;
       };
       const pause = () => {
-        removeTimer();
         changeStyle($progressBar, ['transition:none', `width:${get() * 100}%`]);
       };
 
       // eslint-disable-next-line require-await
       const resume = async () => {
-        const p = Math.floor(timeout * get());
-        oMsg.timer = setTimeout(() => {
-          oMsg.close(-1);
-        }, p);
-        changeStyle($progressBar, ['width:0', `transition:width ${p}ms linear`]);
+        changeStyle($progressBar, ['width:0', `transition:width ${timeout * get()}ms linear`]);
       };
       const reset = () => {
-        removeTimer();
         changeStyle($progressBar, ['width:100%', 'transition:none']);
         resume();
       };
-      oMsg.progress = {
+      return oMsg.progress = {
         pause,
         resume,
         reset,
