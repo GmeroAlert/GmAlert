@@ -4,12 +4,13 @@
   position: relative;
   width: 20rem;
   margin-bottom: 1em;
+  pointer-events: all;
   background: var-color('bg');
   border-radius: 5px;
   box-shadow: var-color('shadow-v');
   opacity: 0;
   transform-origin: top center;
-  animation-duration: 0.25s;
+  animation-duration: 0.2s;
 
   .notice-main {
     display: flex;
@@ -29,30 +30,35 @@
   }
 }
 
+/* 展开 */
+@keyframes openin {
+  0% {
+    max-height: 0;
+  }
+}
+
 /* notice进入 */
 @keyframes notice-movein {
   0% {
-    opacity: 0;
     transform: translateX(100%);
   }
 
-  50% {
-    opacity: 0.75;
-  }
-
   100% {
-    opacity: 1;
     transform: translateX(0);
   }
 }
 
 /* notice退出 */
 @keyframes notice-moveout {
-  0% {
-    opacity: 1;
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
   }
+}
 
-  60% {
+/* 收起 */
+@keyframes closeout {
+  0% {
     opacity: 0;
     transform: translateX(100%);
   }
@@ -61,5 +67,6 @@
     max-height: 0;
     margin: 0;
     opacity: 0;
+    transform: translateX(100%);
   }
 }
