@@ -7,22 +7,6 @@ export function newDiv(...className: string[]) {
   return $div
 }
 
-export function slideOpenEl(el: HTMLElement, duration: string) {
-  const height = el.offsetHeight
-  const maxHeight = height + 10
-  changeStyle(el, [
-    'max-height:0',
-    'margin-bottom:0',
-    'opacity:0',
-    `transition:all ${duration}`,
-  ])
-
-  setTimeout(() => {
-    changeStyle(el, [`max-height:${maxHeight}px`])
-    el.style.marginBottom = ''
-  })
-}
-
 export function setMsgCount($el: HTMLElement, count: number) {
   const countClassName = styles['gmsg-count']
   let $count = $el.querySelector(`.${countClassName}`) as HTMLElement
