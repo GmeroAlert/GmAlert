@@ -3,6 +3,7 @@
 .msg {
   position: relative;
   overflow: visible;
+  pointer-events: all;
   transform-origin: center;
   animation-duration: 0.3s;
 
