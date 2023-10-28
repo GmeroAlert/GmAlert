@@ -63,18 +63,14 @@ const getMessageContainer = () => {
 }
 
 const getNoticeContainer = () => {
-  let $scrollContainer = document.querySelector<HTMLElement>(
-    `.${styles['scroll-content']}`,
+  let $wrapper = document.querySelector<HTMLElement>(
+    `.${styles['gmsg-notice-container']}`,
   )
-  if ($scrollContainer) return $scrollContainer
-  const $wrapper = newDiv(styles['gmsg-notice-container'])
-  const $scrollWrapper = newDiv(styles['scroll-wrapper'])
-  $scrollContainer = newDiv(styles['scroll-content'])
-  $scrollWrapper.append($scrollContainer)
-  $wrapper.append($scrollWrapper)
+  if ($wrapper) return $wrapper
+  $wrapper = newDiv(styles['gmsg-notice-container'])
   getContainer().append($wrapper)
 
-  return $scrollContainer
+  return $wrapper
 }
 
 // 0: message | 1: notice | 2: alert
