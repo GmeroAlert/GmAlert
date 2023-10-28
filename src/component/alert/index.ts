@@ -37,32 +37,18 @@ export default function GmAlert(props: PropsAlert): MsgType {
 
   const open = () => {
     $root.append($wrapper)
-    return new Promise<void>((resolve) => {
-      const handle = (animationName: string) => {
-        if (animationName === styles['alert-show']) {
-          resolve()
-          return true
-        }
-        return false
-      }
-
-      animationendHandle($wrapper, handle)
-    })
   }
 
   const close = (status: number) => {
     changeAnimation($wrapper, styles['alert-hide'])
     return new Promise<void>((resolve) => {
-      const handle = (e: string) => {
+      animationendHandle($wrapper, (e: string) => {
         if (e === styles['alert-hide']) {
           $wrapper.remove()
           props.onClosed(status)
           resolve()
-          return true
         }
-        return false
-      }
-      animationendHandle($wrapper, handle)
+      })
     })
   }
 

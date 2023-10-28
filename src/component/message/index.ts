@@ -10,7 +10,7 @@ export const MessageState = {
 }
 
 export interface MsgType {
-  open: () => Promise<void>
+  open: () => void
   close: (status: number) => Promise<void>
   $el: HTMLElement
 }
@@ -36,16 +36,6 @@ export default function GmMessage(props: PropsMessage): MsgType {
   const open = () => {
     getRoot(0).append($wrapper)
     changeAnimation($wrapper, MessageState.opening)
-    return new Promise<void>((resolve) => {
-      const handle = (e: string) => {
-        if (e === MessageState.opening) {
-          resolve()
-          return true
-        }
-        return false
-      }
-      animationendHandle($wrapper, handle)
-    })
   }
 
   const close = (status: number) => {
@@ -54,17 +44,13 @@ export default function GmMessage(props: PropsMessage): MsgType {
     changeAnimation($main, styles['msg-out'])
 
     return new Promise<void>((resolve) => {
-      const handle = (e: string) => {
+      animationendHandle($wrapper, (e: string) => {
         if (e === MessageState.closing) {
           $wrapper.remove()
           props.onClosed(status)
           resolve()
-          return true
         }
-
-        return false
-      }
-      animationendHandle($wrapper, handle)
+      })
     })
   }
 

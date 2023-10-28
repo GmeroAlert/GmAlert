@@ -1,10 +1,9 @@
 export function animationendHandle(
   $el: HTMLElement,
-  handle: (animationName: string) => boolean,
+  handle: (animationName: string) => void,
 ) {
   const animationend = (e: AnimationEvent) => {
-    if (handle(e.animationName))
-      $el.removeEventListener('animationend', animationend)
+    handle(e.animationName)
   }
   $el.addEventListener('animationend', animationend)
 }

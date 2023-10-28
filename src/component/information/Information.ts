@@ -33,31 +33,19 @@ export default function GmInformation(props: PropsInfo): MsgType {
 
   const open = () => {
     getRoot(2).append($wrapper)
-    return new Promise<void>((resolve) => {
-      const handle = (e: string) => {
-        if (e === styles['info-move-in']) {
-          resolve()
-          return true
-        }
-        return false
-      }
-      animationendHandle($wrapper, handle)
-    })
   }
 
   const close = (status: number) => {
     return new Promise<void>((resolve) => {
       changeAnimation($wrapper, styles['info-move-out'])
-      const handle = (e: string) => {
+
+      animationendHandle($wrapper, (e: string) => {
         if (e === styles['info-move-out']) {
           $wrapper.remove()
           props.onClosed(status)
           resolve()
-          return true
         }
-        return false
-      }
-      animationendHandle($wrapper, handle)
+      })
     })
   }
 
