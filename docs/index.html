@@ -37,6 +37,7 @@
     <button type="button" id="warningnotice">warn notice</button>
     <button type="button" id="successnotice">success notice</button>
     <button type="button" id="loadingnotice">loading notice</button>
+    <button type="button" id="multinotice">mutiple notice</button>
 
     <button type="button" id="successalert">success alert</button>
 
@@ -82,7 +83,9 @@
       })
       document.querySelector('#infonotice').addEventListener('click', () => {
         notice(
-          '我觉得这是一条info的notice, 代表着你可以说一些信息类的信息?',
+          '我觉得这是一条info的notice, 代表着你可以说一些信息类的信息?但我实在不知道该说什么，所以就这样吧' +
+            '但是真的就这样了吗？你好像还可以说一些很长的话，但是我不知道你会说什么，所以我就这样吧，你看我说了这么多废话，就是想让你看看该组件在长文本下的效果' +
+            '但我觉得还不够长，所以还得水一点废话，显得这段文本够长，只要这段文本够长',
           'info',
         )
       })
@@ -99,6 +102,11 @@
       })
       document.querySelector('#warningnotice').addEventListener('click', () => {
         notice('warning', 'warning')
+      })
+      document.querySelector('#multinotice').addEventListener('click', () => {
+        for (let i = 0; i < 20; i++) {
+          notice(`这是第${i}条消息`)
+        }
       })
 
       document.querySelector('#successalert').addEventListener('click', () => {

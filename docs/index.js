@@ -3,7 +3,7 @@ var GmAlert = (function () {
 
   function animationendHandle($el, handle) {
     const animationend = e => {
-      if (handle(e.animationName)) $el.removeEventListener('animationend', animationend);
+      handle(e.animationName);
     };
     $el.addEventListener('animationend', animationend);
   }
@@ -36,23 +36,14 @@ var GmAlert = (function () {
     }
   }
 
-  var css_248z$7 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.gmsg-container___zBj1f {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 9999;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  overflow: visible;\n  pointer-events: none;\n}\n.gmsg-container___zBj1f * {\n  box-sizing: border-box;\n}\n.gmsg-container___zBj1f .scroll-wrapper___Yqcvq {\n  position: absolute;\n  height: -moz-fit-content;\n  height: fit-content;\n  max-height: 100vh;\n  padding: 1rem 1rem 33px 50px;\n  overflow-x: hidden;\n  overflow-y: scroll;\n  overflow: hidden scroll;\n  scroll-behavior: smooth;\n  /* 隐藏scrollbar */\n}\n.gmsg-container___zBj1f .scroll-wrapper___Yqcvq .scroll-content___Uv4Ha {\n  padding-bottom: 3rem;\n  pointer-events: all;\n}\n.gmsg-container___zBj1f .scroll-wrapper___Yqcvq::-webkit-scrollbar {\n  display: none;\n  width: 0;\n  height: 0;\n}\n.gmsg-container___zBj1f .gmsg-notice-container___gOvtQ {\n  position: absolute;\n  top: 0;\n  right: 0;\n  left: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n}\n.gmsg-container___zBj1f .gmsg-message-container___2yUUf {\n  position: absolute;\n  top: calc(50% - 4rem);\n  right: 0;\n  left: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  pointer-events: all;\n}\n\n.gmsg-count___wPjtw {\n  position: absolute;\n  top: -4px;\n  left: -4px;\n  display: inline-block;\n  min-width: 16px;\n  height: 16px;\n  font-size: 12px;\n  line-height: 16px;\n  color: #fff;\n  text-align: center;\n  background-color: red;\n  border-radius: 2px;\n  animation-duration: 0.3s;\n}\n\n.gmsg-progress___j1--F {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  overflow: hidden;\n  border-bottom-right-radius: 5px;\n  border-bottom-left-radius: 5px;\n}\n.gmsg-progress___j1--F .gmsg-progress-bar___rgM9E {\n  display: flex;\n  width: 100%;\n  height: 0.25em;\n  background-color: var(--gma-light);\n}\n\n/* svg抖动 */\n@keyframes shake___vLuMZ {\n  0%, 100% {\n    opacity: 1;\n    transform: translateX(0);\n  }\n  25%, 75% {\n    opacity: 0.75;\n    transform: translateX(-4px);\n  }\n  50% {\n    opacity: 0.25;\n    transform: translateX(4px);\n  }\n}";
-  var styles$6 = {"gmsg-container":"gmsg-container___zBj1f","scroll-wrapper":"scroll-wrapper___Yqcvq","scroll-content":"scroll-content___Uv4Ha","gmsg-notice-container":"gmsg-notice-container___gOvtQ","gmsg-message-container":"gmsg-message-container___2yUUf","gmsg-count":"gmsg-count___wPjtw","gmsg-progress":"gmsg-progress___j1--F","gmsg-progress-bar":"gmsg-progress-bar___rgM9E","shake":"shake___vLuMZ"};
+  var css_248z$7 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.gmsg-container___zBj1f {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 9999;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  overflow: visible;\n  pointer-events: none;\n}\n.gmsg-container___zBj1f * {\n  box-sizing: border-box;\n}\n.gmsg-container___zBj1f .gmsg-notice-container___gOvtQ {\n  position: absolute;\n  top: 1em;\n  right: 1em;\n  left: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n}\n.gmsg-container___zBj1f .gmsg-message-container___2yUUf {\n  position: absolute;\n  top: calc(50% - 4rem);\n  right: 0;\n  left: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.gmsg-count___wPjtw {\n  position: absolute;\n  top: -0.5em;\n  left: -0.5em;\n  display: inline-block;\n  min-width: 1.25em;\n  height: 1.25em;\n  padding: 0 2px;\n  font-size: 0.875em;\n  color: #fff;\n  text-align: center;\n  background-color: rgb(236, 49, 49);\n  border-radius: 2px;\n  animation-duration: 0.3s;\n}\n\n.gmsg-progress___j1--F {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  overflow: hidden;\n  border-bottom-right-radius: 5px;\n  border-bottom-left-radius: 5px;\n}\n.gmsg-progress___j1--F .gmsg-progress-bar___rgM9E {\n  display: flex;\n  width: 100%;\n  height: 0.25em;\n  background-color: var(--gma-light);\n}\n\n/* svg抖动 */\n@keyframes shake___vLuMZ {\n  0%, 100% {\n    opacity: 1;\n    transform: translateX(0);\n  }\n  25%, 75% {\n    opacity: 0.75;\n    transform: translateX(-4px);\n  }\n  50% {\n    opacity: 0.25;\n    transform: translateX(4px);\n  }\n}";
+  var styles$6 = {"gmsg-container":"gmsg-container___zBj1f","gmsg-notice-container":"gmsg-notice-container___gOvtQ","gmsg-message-container":"gmsg-message-container___2yUUf","gmsg-count":"gmsg-count___wPjtw","gmsg-progress":"gmsg-progress___j1--F","gmsg-progress-bar":"gmsg-progress-bar___rgM9E","shake":"shake___vLuMZ"};
   styleInject(css_248z$7);
 
   function newDiv(...className) {
     const $div = document.createElement('div');
     $div.classList.add(...className);
     return $div;
-  }
-  function slideOpenEl(el, duration) {
-    const height = el.offsetHeight;
-    const maxHeight = height + 10;
-    changeStyle(el, ['max-height:0', 'margin-bottom:0', 'opacity:0', `transition:all ${duration}`]);
-    setTimeout(() => {
-      changeStyle(el, [`max-height:${maxHeight}px`]);
-      el.style.marginBottom = '';
-    });
   }
   function setMsgCount($el, count) {
     const countClassName = styles$6['gmsg-count'];
@@ -84,15 +75,11 @@ var GmAlert = (function () {
     return $root;
   };
   const getNoticeContainer = () => {
-    let $scrollContainer = document.querySelector(`.${styles$6['scroll-content']}`);
-    if ($scrollContainer) return $scrollContainer;
-    const $wrapper = newDiv(styles$6['gmsg-notice-container']);
-    const $scrollWrapper = newDiv(styles$6['scroll-wrapper']);
-    $scrollContainer = newDiv(styles$6['scroll-content']);
-    $scrollWrapper.append($scrollContainer);
-    $wrapper.append($scrollWrapper);
+    let $wrapper = document.querySelector(`.${styles$6['gmsg-notice-container']}`);
+    if ($wrapper) return $wrapper;
+    $wrapper = newDiv(styles$6['gmsg-notice-container']);
     getContainer().append($wrapper);
-    return $scrollContainer;
+    return $wrapper;
   };
 
   // 0: message | 1: notice | 2: alert
@@ -123,7 +110,7 @@ var GmAlert = (function () {
   styleInject(css_248z$5);
 
   // info, warning, error, success, loading, close
-  const Icons = [`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" style="fill:#29abe2"/><path d="M12,17.5a1,1,0,0,1-1-1v-5h-.5a1,1,0,0,1,0-2H12a1,1,0,0,1,1,1v6A1,1,0,0,1,12,17.5Z" style="fill:#fff"/><path d="M14,18.5H10a1,1,0,0,1,0-2h4a1,1,0,0,1,0,2Z" style="fill:#fff"/><circle cx="12" cy="6" r="1.5" style="fill:#fff"/></svg>`, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" style="fill:#faad14"/><path d="M12,19.5A1.5,1.5,0,1,0,10.5,18,1.5,1.5,0,0,0,12,19.5Z" style="fill:#fff;fill-rule:evenodd"/><path d="M12,14a1.5,1.5,0,0,1-1.5-1.5v-7a1.5,1.5,0,0,1,3,0v7A1.5,1.5,0,0,1,12,14Z" style="fill:#fff"/></svg>`, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" style="fill:#f5222d"/><path d="M16.5,7.5l-9,9" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px"/><path d="M7.5,7.5l9,9" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px"/></svg>`, '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,.5l3.18,2.2h3.93l1.21,3.55,3.18,2.2L22.28,12l1.22,3.55-3.18,2.2L19.11,21.3H15.18L12,23.5,8.82,21.3H4.89L3.68,17.75.5,15.55,1.72,12,.5,8.45l3.18-2.2L4.89,2.7H8.82Z" style="fill:#52c41a;stroke:#52c41a;stroke-linecap:round;stroke-linejoin:round"/><path d="M7.5,12l3,3,6-6" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"/></svg>', `<svg class="${styles$4['animate-turn']}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1,12A11,11,0,0,0,12,23h0A11,11,0,0,0,12,1" style="fill:none;stroke:#1890ff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"/><path d="M18.5,12A6.5,6.5,0,1,0,12,18.5h0" style="fill:none;stroke:#1890ff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"/></svg>`, '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2,2,22,22" style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:4px"/><path d="M2,22,22,2" style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:4px"/></svg>'];
+  const Icons = [`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" style="fill:#29abe2"/><path d="M12,17.5a1,1,0,0,1-1-1v-5h-.5a1,1,0,0,1,0-2H12a1,1,0,0,1,1,1v6A1,1,0,0,1,12,17.5Z" style="fill:#fff"/><path d="M14,18.5H10a1,1,0,0,1,0-2h4a1,1,0,0,1,0,2Z" style="fill:#fff"/><circle cx="12" cy="6" r="1.5" style="fill:#fff"/></svg>`, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" style="fill:#faad14"/><path d="M12,19.5A1.5,1.5,0,1,0,10.5,18,1.5,1.5,0,0,0,12,19.5Z" style="fill:#fff;fill-rule:evenodd"/><path d="M12,14a1.5,1.5,0,0,1-1.5-1.5v-7a1.5,1.5,0,0,1,3,0v7A1.5,1.5,0,0,1,12,14Z" style="fill:#fff"/></svg>`, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" style="fill:#e06968"/><path d="M16,8,8,16" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"/><path d="M8,8l8,8" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"/></svg>`, '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,.5l3.18,2.2h3.93l1.21,3.55,3.18,2.2L22.28,12l1.22,3.55-3.18,2.2L19.11,21.3H15.18L12,23.5,8.82,21.3H4.89L3.68,17.75.5,15.55,1.72,12,.5,8.45l3.18-2.2L4.89,2.7H8.82Z" style="fill:#52c41a;stroke:#52c41a;stroke-linecap:round;stroke-linejoin:round"/><path d="M7.5,12l3,3,6-6" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"/></svg>', `<svg class="${styles$4['animate-turn']}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1,12A11,11,0,0,0,12,23h0A11,11,0,0,0,12,1" style="fill:none;stroke:#1890ff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"/><path d="M18.5,12A6.5,6.5,0,1,0,12,18.5h0" style="fill:none;stroke:#1890ff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"/></svg>`, '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1.5,1.5l21,21" style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px"/><path d="M1.5,22.5l21-21" style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px"/></svg>'];
   function svgIcon(index, className = '') {
     return `<i class="${styles$4.icon} ${className} ${index === 5 ? styles$4.close : ''}">${Icons[index]}</i>`;
   }
@@ -194,30 +181,17 @@ var GmAlert = (function () {
     const $root = getRoot(2);
     const open = () => {
       $root.append($wrapper);
-      return new Promise(resolve => {
-        const handle = animationName => {
-          if (animationName === styles$3['alert-show']) {
-            resolve();
-            return true;
-          }
-          return false;
-        };
-        animationendHandle($wrapper, handle);
-      });
     };
     const close = status => {
       changeAnimation($wrapper, styles$3['alert-hide']);
       return new Promise(resolve => {
-        const handle = e => {
+        animationendHandle($wrapper, e => {
           if (e === styles$3['alert-hide']) {
             $wrapper.remove();
             props.onClosed(status);
             resolve();
-            return true;
           }
-          return false;
-        };
-        animationendHandle($wrapper, handle);
+        });
       });
     };
     if (props.showCancel || props.showConfirm) {
@@ -261,30 +235,17 @@ var GmAlert = (function () {
     $wrapper.innerHTML = `<div class="${styles$2['info-header']}"><div class="${styles$2['info-status']}" style="background:${color};"></div><span style="margin-right:auto;font-weight:600">${props.headerLeft || '公告'}</span><span style="font-size:.875em;opacity:.7">${props.headerRight || ''}</span>${props.showClose ? SvgIcon('close', styles$2['info-close']) : ''}</div>` + `<div class="${styles$2['info-content']}">${props.content}</div>`;
     const open = () => {
       getRoot(2).append($wrapper);
-      return new Promise(resolve => {
-        const handle = e => {
-          if (e === styles$2['info-move-in']) {
-            resolve();
-            return true;
-          }
-          return false;
-        };
-        animationendHandle($wrapper, handle);
-      });
     };
     const close = status => {
       return new Promise(resolve => {
         changeAnimation($wrapper, styles$2['info-move-out']);
-        const handle = e => {
+        animationendHandle($wrapper, e => {
           if (e === styles$2['info-move-out']) {
             $wrapper.remove();
             props.onClosed(status);
             resolve();
-            return true;
           }
-          return false;
-        };
-        animationendHandle($wrapper, handle);
+        });
       });
     };
     if (props.showClose) {
@@ -300,7 +261,7 @@ var GmAlert = (function () {
     };
   }
 
-  var css_248z$2 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.msg___HocBn {\n  position: relative;\n  overflow: visible;\n  transform-origin: center;\n  animation-duration: 0.3s;\n}\n.msg___HocBn > :nth-child(2) {\n  opacity: 0;\n}\n.msg___HocBn .icon___kbi0p {\n  position: absolute;\n  top: 9px;\n  left: 8px;\n  font-size: 16px;\n}\n.msg___HocBn .msg-main___ap8Hy {\n  position: relative;\n  box-sizing: border-box;\n  min-width: 3rem;\n  max-width: 20em;\n  padding: 8px;\n  padding-left: 30px;\n  margin-bottom: 0.4rem;\n  overflow: hidden;\n  text-align: center;\n  background: var(--gma-bg);\n  border-radius: 4px;\n  box-shadow: var(--gma-shadow-v);\n  /* 从中间开始放大 */\n  transform-origin: center;\n  animation-duration: 0.3s;\n}\n.msg___HocBn .msg-content___9Svp7 {\n  text-align: left;\n  pointer-events: all;\n  /* 解决字体模糊抖动问题 */\n  transform: perspective(1px);\n}\n\n@keyframes msg-moveout___v-7Kq {\n  0% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  100% {\n    opacity: 0;\n    transform: scale(0.7);\n  }\n}\n@keyframes msg-out___ca1cd {\n  100% {\n    max-height: 0;\n    padding-top: 0;\n    padding-bottom: 0;\n    margin-bottom: 0;\n  }\n}\n@keyframes msg-movein___6htRb {\n  0% {\n    opacity: 0;\n    transform: scale(0.5);\n  }\n  100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n}";
+  var css_248z$2 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.msg___HocBn {\n  position: relative;\n  overflow: visible;\n  pointer-events: all;\n  transform-origin: center;\n  animation-duration: 0.3s;\n}\n.msg___HocBn > :nth-child(2) {\n  opacity: 0;\n}\n.msg___HocBn .icon___kbi0p {\n  position: absolute;\n  top: 9px;\n  left: 8px;\n  font-size: 16px;\n}\n.msg___HocBn .msg-main___ap8Hy {\n  position: relative;\n  box-sizing: border-box;\n  min-width: 3rem;\n  max-width: 20em;\n  padding: 8px;\n  padding-left: 30px;\n  margin-bottom: 0.4rem;\n  overflow: hidden;\n  text-align: center;\n  background: var(--gma-bg);\n  border-radius: 4px;\n  box-shadow: var(--gma-shadow-v);\n  /* 从中间开始放大 */\n  transform-origin: center;\n  animation-duration: 0.3s;\n}\n.msg___HocBn .msg-content___9Svp7 {\n  text-align: left;\n  pointer-events: all;\n  /* 解决字体模糊抖动问题 */\n  transform: perspective(1px);\n}\n\n@keyframes msg-moveout___v-7Kq {\n  0% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  100% {\n    opacity: 0;\n    transform: scale(0.7);\n  }\n}\n@keyframes msg-out___ca1cd {\n  100% {\n    max-height: 0;\n    padding-top: 0;\n    padding-bottom: 0;\n    margin-bottom: 0;\n  }\n}\n@keyframes msg-movein___6htRb {\n  0% {\n    opacity: 0;\n    transform: scale(0.5);\n  }\n  100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n}";
   var styles$1 = {"msg":"msg___HocBn","icon":"icon___kbi0p","msg-main":"msg-main___ap8Hy","msg-content":"msg-content___9Svp7","msg-moveout":"msg-moveout___v-7Kq","msg-out":"msg-out___ca1cd","msg-movein":"msg-movein___6htRb"};
   styleInject(css_248z$2);
 
@@ -318,32 +279,19 @@ var GmAlert = (function () {
     const open = () => {
       getRoot(0).append($wrapper);
       changeAnimation($wrapper, MessageState.opening);
-      return new Promise(resolve => {
-        const handle = e => {
-          if (e === MessageState.opening) {
-            resolve();
-            return true;
-          }
-          return false;
-        };
-        animationendHandle($wrapper, handle);
-      });
     };
     const close = status => {
       $main.style.maxHeight = `${$main.offsetHeight}px`;
       changeAnimation($wrapper, MessageState.closing);
       changeAnimation($main, styles$1['msg-out']);
       return new Promise(resolve => {
-        const handle = e => {
+        animationendHandle($wrapper, e => {
           if (e === MessageState.closing) {
             $wrapper.remove();
             props.onClosed(status);
             resolve();
-            return true;
           }
-          return false;
-        };
-        animationendHandle($wrapper, handle);
+        });
       });
     };
     return {
@@ -353,51 +301,38 @@ var GmAlert = (function () {
     };
   }
 
-  var css_248z$1 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.notice___xJTn2 {\n  position: relative;\n  width: 20rem;\n  margin-bottom: 1em;\n  background: var(--gma-bg);\n  border-radius: 5px;\n  box-shadow: var(--gma-shadow-v);\n  opacity: 0;\n  transform-origin: top center;\n  animation-duration: 0.25s;\n}\n.notice___xJTn2 .notice-main___YXiGH {\n  display: flex;\n  flex-direction: column;\n  align-items: normal;\n}\n.notice___xJTn2 .notice-main___YXiGH .notice-content___ysok2 {\n  position: relative;\n  margin: 1rem 1rem 1.2rem 3.4rem;\n}\n.notice___xJTn2 .notice-icon___MvUBU {\n  position: absolute;\n  top: 0.7rem;\n  left: 1rem;\n}\n\n/* notice进入 */\n@keyframes notice-movein___M8YUM {\n  0% {\n    opacity: 0;\n    transform: translateX(100%);\n  }\n  50% {\n    opacity: 0.75;\n  }\n  100% {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n/* notice退出 */\n@keyframes notice-moveout___vwgYy {\n  0% {\n    opacity: 1;\n  }\n  60% {\n    opacity: 0;\n    transform: translateX(100%);\n  }\n  100% {\n    max-height: 0;\n    margin: 0;\n    opacity: 0;\n  }\n}";
-  var styles = {"notice":"notice___xJTn2","notice-main":"notice-main___YXiGH","notice-content":"notice-content___ysok2","notice-icon":"notice-icon___MvUBU","notice-movein":"notice-movein___M8YUM","notice-moveout":"notice-moveout___vwgYy"};
+  var css_248z$1 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.notice___xJTn2 {\n  position: relative;\n  width: 20rem;\n  margin-bottom: 1em;\n  pointer-events: all;\n  background: var(--gma-bg);\n  border-radius: 5px;\n  box-shadow: var(--gma-shadow-v);\n  opacity: 0;\n  transform-origin: top center;\n  animation-duration: 0.2s;\n}\n.notice___xJTn2 .notice-main___YXiGH {\n  display: flex;\n  flex-direction: column;\n  align-items: normal;\n}\n.notice___xJTn2 .notice-main___YXiGH .notice-content___ysok2 {\n  position: relative;\n  margin: 1rem 1rem 1.2rem 3.4rem;\n}\n.notice___xJTn2 .notice-icon___MvUBU {\n  position: absolute;\n  top: 0.7rem;\n  left: 1rem;\n}\n\n/* 展开 */\n@keyframes openin___H4b3e {\n  0% {\n    max-height: 0;\n  }\n}\n/* notice进入 */\n@keyframes notice-movein___M8YUM {\n  0% {\n    transform: translateX(100%);\n  }\n  100% {\n    transform: translateX(0);\n  }\n}\n/* notice退出 */\n@keyframes notice-moveout___vwgYy {\n  100% {\n    opacity: 0;\n    transform: translateX(100%);\n  }\n}\n/* 收起 */\n@keyframes closeout___uI6Au {\n  0% {\n    opacity: 0;\n    transform: translateX(100%);\n  }\n  100% {\n    max-height: 0;\n    margin: 0;\n    opacity: 0;\n    transform: translateX(100%);\n  }\n}";
+  var styles = {"notice":"notice___xJTn2","notice-main":"notice-main___YXiGH","notice-content":"notice-content___ysok2","notice-icon":"notice-icon___MvUBU","openin":"openin___H4b3e","notice-movein":"notice-movein___M8YUM","notice-moveout":"notice-moveout___vwgYy","closeout":"closeout___uI6Au"};
   styleInject(css_248z$1);
 
-  const noticeState = {
-    opening: styles['notice-movein'],
-    done: '',
-    closing: styles['notice-moveout']
-  };
   function GmNotice(props) {
     const icon = AnimatedIcon(props.type, true, styles['notice-icon']);
     const $wrapper = newDiv(styles.notice);
     $wrapper.innerHTML = `<div class="${styles['notice-main']}">${icon}\
   <div class="${styles['notice-content']}">${props.content}</div></div>`;
+    animationendHandle($wrapper, animationName => {
+      if (animationName === styles.openin) {
+        changeStyle($wrapper, [`opacity:1`, `animation-name:${styles['notice-movein']}`]);
+      }
+      if (animationName === styles['notice-moveout']) {
+        changeAnimation($wrapper, styles.closeout);
+      }
+    });
     const open = () => {
       getRoot(1).prepend($wrapper);
-      return new Promise(resolve => {
-        slideOpenEl($wrapper, '.1s');
-        setTimeout(() => {
-          $wrapper.style.transition = '';
-          changeStyle($wrapper, ['opacity: 1', `animation-name: ${noticeState.opening}`]);
-        }, 100);
-        const handle = e => {
-          if (e === noticeState.opening) {
-            resolve();
-            return true;
-          }
-          return false;
-        };
-        animationendHandle($wrapper, handle);
-      });
+      changeStyle($wrapper, [`max-height:${$wrapper.offsetHeight + 10}px`]);
+      changeAnimation($wrapper, styles.openin);
     };
     const close = status => {
       return new Promise(resolve => {
-        changeStyle($wrapper, [`max-height:${$wrapper.offsetHeight + 10}px`, `animation-name:${noticeState.closing}`]);
-        const handle = e => {
-          if (e === noticeState.closing) {
+        changeAnimation($wrapper, styles['notice-moveout']);
+        animationendHandle($wrapper, animationName => {
+          if (animationName === styles.closeout) {
             $wrapper.remove();
             props.onClosed(status);
             resolve();
-            return true;
           }
-          return false;
-        };
-        animationendHandle($wrapper, handle);
+        });
       });
     };
     return {
@@ -503,9 +438,6 @@ var GmAlert = (function () {
       };
       let inst;
       switch (this.form) {
-        case 0:
-          inst = GmMessage(props);
-          break;
         case 1:
           inst = GmNotice(props);
           break;
@@ -519,16 +451,14 @@ var GmAlert = (function () {
           inst = GmMessage(props);
           break;
       }
-      if (this.form < 2) {
-        this.activeInsts.size >= this.maxCount && this.activeInsts.values().next().value.close(-2);
-      } else {
-        // 关闭所有消息
-        this.activeInsts.values().next().value?.close(-2);
-        this.activeInsts.clear();
+      if (this.form > 1 || this.activeInsts.size >= this.maxCount) {
+        const nextInst = this.activeInsts.values().next().value;
+        nextInst?.close(-2);
+        this.activeInsts.delete(nextInst?.id);
       }
       const oMsg = {
         ...inst,
-        identifer: id,
+        id,
         count: 1
       };
       this.activeInsts.set(id, oMsg);
