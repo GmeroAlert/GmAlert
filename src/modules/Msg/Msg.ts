@@ -9,7 +9,7 @@ import styles from '../../main.module.scss'
 export interface OneMsg extends Omit<MsgType, 'open'> {
   // 用于标识消息是否重复, 这是内容+类型字符串的组合
   // 一般只用于messsage和notice
-  readonly identifer: string
+  readonly id: string
   progress?: {
     pause: () => void
     resume: () => void
@@ -148,9 +148,6 @@ export class Msg {
     let inst: MsgType
 
     switch (this.form) {
-      case 0:
-        inst = GmMessage(props)
-        break
       case 1:
         inst = GmNotice(props)
         break
@@ -165,17 +162,16 @@ export class Msg {
         break
     }
 
-    if (this.form < 2) {
-      this.activeInsts.size >= this.maxCount &&
-        this.activeInsts.values().next().value.close(-2)
-    } else {
-      // 关闭所有消息
-      this.activeInsts.values().next().value?.close(-2)
-      this.activeInsts.clear()
+    if (this.form > 1 || this.activeInsts.size >= this.maxCount) {
+      const nextInst = this.activeInsts.values().next().value
+      nextInst?.close(-2)
+      this.activeInsts.delete(nextInst?.id)
     }
-    const oMsg: OneMsg = { ...inst, identifer: id, count: 1 }
+
+    const oMsg: OneMsg = { ...inst, id, count: 1 }
 
     this.activeInsts.set(id, oMsg)
+
     inst.open()
 
     return oMsg
