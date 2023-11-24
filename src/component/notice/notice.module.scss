@@ -10,7 +10,7 @@
   box-shadow: var-color('shadow-v');
   opacity: 0;
   transform-origin: top center;
-  animation-duration: 0.2s;
+  animation-duration: 0.3s;
 
   .notice-main {
     display: flex;
@@ -43,6 +43,10 @@
     transform: translateX(100%);
   }
 
+  75% {
+    transform: translateX(-2%);
+  }
+
   100% {
     transform: translateX(0);
   }
@@ -50,9 +54,14 @@
 
 /* notice退出 */
 @keyframes notice-moveout {
+  35% {
+    opacity: 1;
+    transform: translateX(-2%);
+  }
+
   100% {
     opacity: 0;
-    transform: translateX(100%);
+    transform: translateX(80%);
   }
 }
 
