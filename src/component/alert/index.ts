@@ -21,9 +21,8 @@ function Button(text: string, onClick: () => void) {
 }
 
 export default function GmAlert(props: PropsAlert): MsgType {
-  const type = props.type || 'info'
   const $wrapper = newDiv(styles.alert)
-  const icon = AnimatedIcon(type, false, styles['alert-icon'])
+  const icon = AnimatedIcon(props.type, false, styles['alert-icon'])
 
   $wrapper.innerHTML = `${icon}<div class="${styles['alert-title']}">${props.content}</div>`
 
@@ -69,7 +68,7 @@ export default function GmAlert(props: PropsAlert): MsgType {
     $wrapper.append($buttons)
   }
 
-  if (props.showClose) {
+  if (props.showClose !== false) {
     const $close = newDiv()
     $close.innerHTML = SvgIcon('close', styles['alert-close'])
 

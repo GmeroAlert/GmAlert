@@ -24,7 +24,9 @@ export interface Config {
   maxCount: number
 }
 
-export interface MsgPropsExt {
+export interface MsgPropsFull {
+  content: string
+  type: 'success' | 'error' | 'warning' | 'info' | 'loading'
   timeout?: number
   text?: string
   headerLeft?: string
@@ -61,13 +63,9 @@ export class Msg {
     this.maxCount = config.maxCount || this.maxCount
   }
 
-  fire(
-    text: string,
-    type?: 'success' | 'error' | 'warning' | 'info' | 'loading',
-    conf?: MsgPropsExt,
-  ) {
-    const oMsg = this.mkMsg(text, type || 'success', conf)
-    if (type !== 'loading') {
+  fire(conf: MsgPropsFull) {
+    const oMsg = this.mkMsg(conf)
+    if (conf.type !== 'loading') {
       this.sT(oMsg, conf?.timeout || this.timeout)
     }
 
@@ -123,12 +121,8 @@ export class Msg {
   }
 
   // 判断消息是否存在, 设置msgCount以及关闭多余消息
-  private mkMsg(
-    content: string,
-    type: 'success' | 'error' | 'warning' | 'info' | 'loading',
-    conf?: MsgPropsExt,
-  ) {
-    const id = `${content}${type}`
+  private mkMsg(conf: MsgPropsFull) {
+    const id = `${conf.content}${conf.type}`
     if (this.form < 2 && this.activeInsts.has(id)) {
       const inst = this.activeInsts.get(id)!
       inst.count += 1
@@ -138,10 +132,8 @@ export class Msg {
 
     const props = {
       ...conf,
-      content,
-      type,
       onClosed: (status: number) => {
-        this.form < 2 && this.activeInsts.delete(id)
+        status !== -2 && this.activeInsts.delete(id)
         conf?.onClosed && conf.onClosed(status)
       },
     }
@@ -164,8 +156,10 @@ export class Msg {
 
     if (this.form > 1 || this.activeInsts.size >= this.maxCount) {
       const nextInst = this.activeInsts.values().next().value
-      nextInst?.close(-2)
-      this.activeInsts.delete(nextInst?.id)
+      if (nextInst) {
+        nextInst.close(-2)
+        this.activeInsts.delete(nextInst.id)
+      }
     }
 
     const oMsg: OneMsg = { ...inst, id, count: 1 }
