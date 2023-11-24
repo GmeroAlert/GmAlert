@@ -18,7 +18,7 @@ const ColorMap: Record<string, string> = {
 }
 
 export default function GmInformation(props: PropsInfo): MsgType {
-  const color = ColorMap[props.type || 'info'] || ColorMap.info
+  const color = ColorMap[props.type] || ColorMap.info
   const $wrapper = newDiv(styles.info)
   $wrapper.innerHTML =
     `<div class="${styles['info-header']}"><div class="${
