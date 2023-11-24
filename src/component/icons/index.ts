@@ -27,14 +27,15 @@ export function AnimatedIcon(
     case iconSets[4]:
       return LoadingIcon(dense, className)
     default:
-      return SuccessIcon(dense, className)
+      return ''
   }
 }
 
 // info, warning, error, success, loading, close
 export function SvgIcon(
-  type?: 'info' | 'warning' | 'error' | 'success' | 'loading' | 'close',
+  type: 'info' | 'warning' | 'error' | 'success' | 'loading' | 'close',
   className?: string,
 ) {
-  return svgIcon(iconSets.indexOf(type || 'success'), className)
+  if (!iconSets.includes(type)) return ''
+  return svgIcon(iconSets.indexOf(type), className)
 }
