@@ -148,13 +148,14 @@ var GmAlert = (function () {
       case iconSets[4]:
         return LoadingIcon(dense, className);
       default:
-        return SuccessIcon(dense, className);
+        return '';
     }
   }
 
   // info, warning, error, success, loading, close
   function SvgIcon(type, className) {
-    return svgIcon(iconSets.indexOf(type || 'success'), className);
+    if (!iconSets.includes(type)) return '';
+    return svgIcon(iconSets.indexOf(type), className);
   }
 
   var css_248z$4 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.alert___Su0Xe {\n  position: absolute;\n  display: flex;\n  flex-direction: column;\n  min-width: 350px;\n  padding: 1rem;\n  pointer-events: all;\n  background: var(--gma-bg);\n  border-radius: 5px;\n  box-shadow: var(--gma-shadow-v);\n  animation: alert-show___fKZw2 0.3s;\n  animation-fill-mode: both;\n}\n\n.alert-icon___Wi1df {\n  margin: 0 auto;\n}\n\n.alert-btn-group___uvh-2 {\n  display: flex;\n  justify-content: center;\n  margin-top: 1rem;\n}\n.alert-btn-group___uvh-2 .alert-btn___AgfUF {\n  padding: 0.625em 1.1em;\n  margin: 0.3125em;\n  font-size: 1em;\n  font-weight: 500;\n  color: #fff;\n  cursor: pointer;\n  background: transparent none repeat 0 0 / auto auto padding-box border-box scroll;\n  background: initial;\n  background-color: #7066e0;\n  border: 0;\n  border-radius: 0.25em;\n}\n.alert-btn-group___uvh-2 .alert-btn___AgfUF:hover {\n  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));\n}\n\n.alert-content___3l0Cr {\n  z-index: 1;\n  margin: 1em 1.6em 0.3em;\n  overflow: auto;\n  font-size: 1.125em;\n  color: inherit;\n  text-align: center;\n  word-break: break-word;\n  word-wrap: break-word;\n}\n\n.alert-title___-WvmC {\n  position: relative;\n  max-width: 100%;\n  padding: 0.8em 1em 0;\n  margin: 0;\n  font-size: 1.875em;\n  font-weight: 600;\n  color: inherit;\n  text-align: center;\n  text-transform: none;\n  word-wrap: break-word;\n}\n\n.alert-close___vIbaH {\n  position: absolute;\n  top: 6px;\n  right: 6px;\n}\n\n@keyframes alert-show___fKZw2 {\n  0% {\n    transform: scale(0.7);\n  }\n  45% {\n    transform: scale(1.05);\n  }\n  80% {\n    transform: scale(0.95);\n  }\n  100% {\n    transform: scale(1);\n  }\n}\n@keyframes alert-hide___ZbDx6 {\n  0% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  100% {\n    opacity: 0;\n    transform: scale(0.5);\n  }\n}";
@@ -169,9 +170,8 @@ var GmAlert = (function () {
     return $btn;
   }
   function GmAlert$1(props) {
-    const type = props.type || 'info';
     const $wrapper = newDiv(styles$3.alert);
-    const icon = AnimatedIcon(type, false, styles$3['alert-icon']);
+    const icon = AnimatedIcon(props.type, false, styles$3['alert-icon']);
     $wrapper.innerHTML = `${icon}<div class="${styles$3['alert-title']}">${props.content}</div>`;
     if (props.text) {
       const $text = newDiv(styles$3['alert-content']);
@@ -204,7 +204,7 @@ var GmAlert = (function () {
       }));
       $wrapper.append($buttons);
     }
-    if (props.showClose) {
+    if (props.showClose !== false) {
       const $close = newDiv();
       $close.innerHTML = SvgIcon('close', styles$3['alert-close']);
       $close.onclick = () => {
@@ -219,7 +219,7 @@ var GmAlert = (function () {
     };
   }
 
-  var css_248z$3 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.info___51U1X {\n  position: absolute;\n  right: 2em;\n  bottom: 1.5em;\n  display: flex;\n  flex-direction: column;\n  width: 21em;\n  pointer-events: all;\n  background: var(--gma-bg);\n  border-radius: 5px;\n  box-shadow: var(--gma-shadow-v);\n  animation: 0.3s info-move-in___XAlMs cubic-bezier(0.42, 0, 0.3, 1.11);\n}\n\n.info-header___cUSk2 {\n  display: flex;\n  align-items: center;\n  padding: 6px;\n  border-bottom: var(--gma-border);\n}\n\n.info-close___jIgt3 {\n  margin-left: 0.5em;\n  font-size: 1em;\n}\n\n.info-status___0TBsJ {\n  width: 1.2em;\n  height: 1.2em;\n  margin-right: 0.5em;\n  border-radius: 4px;\n}\n\n.info-content___FYDoM {\n  padding: 10px 1em;\n}\n\n@keyframes info-move-in___XAlMs {\n  0% {\n    opacity: 0;\n    transform: translateY(20px);\n  }\n  100% {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n@keyframes info-move-out___yd8AG {\n  100% {\n    opacity: 0;\n    transform: translateY(20px);\n  }\n}";
+  var css_248z$3 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.info___51U1X {\n  position: absolute;\n  right: 2em;\n  bottom: 1.5em;\n  display: flex;\n  flex-direction: column;\n  width: 21em;\n  pointer-events: all;\n  background: var(--gma-bg);\n  border-radius: 5px;\n  box-shadow: var(--gma-shadow-v);\n  animation: 0.3s info-move-in___XAlMs ease-in-out;\n}\n\n.info-header___cUSk2 {\n  display: flex;\n  align-items: center;\n  padding: 6px;\n  border-bottom: var(--gma-border);\n}\n\n.info-close___jIgt3 {\n  margin-left: 0.5em;\n  font-size: 1em;\n}\n\n.info-status___0TBsJ {\n  width: 1.2em;\n  height: 1.2em;\n  margin-right: 0.5em;\n  border-radius: 4px;\n}\n\n.info-content___FYDoM {\n  padding: 10px 1em;\n}\n\n@keyframes info-move-in___XAlMs {\n  0% {\n    opacity: 0;\n    transform: translateY(20px);\n  }\n  100% {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n@keyframes info-move-out___yd8AG {\n  100% {\n    opacity: 0;\n    transform: translateY(20px);\n  }\n}";
   var styles$2 = {"info":"info___51U1X","info-move-in":"info-move-in___XAlMs","info-header":"info-header___cUSk2","info-close":"info-close___jIgt3","info-status":"info-status___0TBsJ","info-content":"info-content___FYDoM","info-move-out":"info-move-out___yd8AG"};
   styleInject(css_248z$3);
 
@@ -230,7 +230,7 @@ var GmAlert = (function () {
     error: '#f56c6c'
   };
   function GmInformation(props) {
-    const color = ColorMap[props.type || 'info'] || ColorMap.info;
+    const color = ColorMap[props.type] || ColorMap.info;
     const $wrapper = newDiv(styles$2.info);
     $wrapper.innerHTML = `<div class="${styles$2['info-header']}"><div class="${styles$2['info-status']}" style="background:${color};"></div><span style="margin-right:auto;font-weight:600">${props.headerLeft || '公告'}</span><span style="font-size:.875em;opacity:.7">${props.headerRight || ''}</span>${props.showClose ? SvgIcon('close', styles$2['info-close']) : ''}</div>` + `<div class="${styles$2['info-content']}">${props.content}</div>`;
     const open = () => {
@@ -301,7 +301,7 @@ var GmAlert = (function () {
     };
   }
 
-  var css_248z$1 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.notice___xJTn2 {\n  position: relative;\n  width: 20rem;\n  margin-bottom: 1em;\n  pointer-events: all;\n  background: var(--gma-bg);\n  border-radius: 5px;\n  box-shadow: var(--gma-shadow-v);\n  opacity: 0;\n  transform-origin: top center;\n  animation-duration: 0.2s;\n}\n.notice___xJTn2 .notice-main___YXiGH {\n  display: flex;\n  flex-direction: column;\n  align-items: normal;\n}\n.notice___xJTn2 .notice-main___YXiGH .notice-content___ysok2 {\n  position: relative;\n  margin: 1rem 1rem 1.2rem 3.4rem;\n}\n.notice___xJTn2 .notice-icon___MvUBU {\n  position: absolute;\n  top: 0.7rem;\n  left: 1rem;\n}\n\n/* 展开 */\n@keyframes openin___H4b3e {\n  0% {\n    max-height: 0;\n  }\n}\n/* notice进入 */\n@keyframes notice-movein___M8YUM {\n  0% {\n    transform: translateX(100%);\n  }\n  100% {\n    transform: translateX(0);\n  }\n}\n/* notice退出 */\n@keyframes notice-moveout___vwgYy {\n  100% {\n    opacity: 0;\n    transform: translateX(100%);\n  }\n}\n/* 收起 */\n@keyframes closeout___uI6Au {\n  0% {\n    opacity: 0;\n    transform: translateX(100%);\n  }\n  100% {\n    max-height: 0;\n    margin: 0;\n    opacity: 0;\n    transform: translateX(100%);\n  }\n}";
+  var css_248z$1 = "@charset \"UTF-8\";\n/* 获取颜色 */\n.notice___xJTn2 {\n  position: relative;\n  width: 20rem;\n  margin-bottom: 1em;\n  pointer-events: all;\n  background: var(--gma-bg);\n  border-radius: 5px;\n  box-shadow: var(--gma-shadow-v);\n  opacity: 0;\n  transform-origin: top center;\n  animation-duration: 0.3s;\n}\n.notice___xJTn2 .notice-main___YXiGH {\n  display: flex;\n  flex-direction: column;\n  align-items: normal;\n}\n.notice___xJTn2 .notice-main___YXiGH .notice-content___ysok2 {\n  position: relative;\n  margin: 1rem 1rem 1.2rem 3.4rem;\n}\n.notice___xJTn2 .notice-icon___MvUBU {\n  position: absolute;\n  top: 0.7rem;\n  left: 1rem;\n}\n\n/* 展开 */\n@keyframes openin___H4b3e {\n  0% {\n    max-height: 0;\n  }\n}\n/* notice进入 */\n@keyframes notice-movein___M8YUM {\n  0% {\n    transform: translateX(100%);\n  }\n  75% {\n    transform: translateX(-2%);\n  }\n  100% {\n    transform: translateX(0);\n  }\n}\n/* notice退出 */\n@keyframes notice-moveout___vwgYy {\n  35% {\n    opacity: 1;\n    transform: translateX(-2%);\n  }\n  100% {\n    opacity: 0;\n    transform: translateX(80%);\n  }\n}\n/* 收起 */\n@keyframes closeout___uI6Au {\n  0% {\n    opacity: 0;\n    transform: translateX(100%);\n  }\n  100% {\n    max-height: 0;\n    margin: 0;\n    opacity: 0;\n    transform: translateX(100%);\n  }\n}";
   var styles = {"notice":"notice___xJTn2","notice-main":"notice-main___YXiGH","notice-content":"notice-content___ysok2","notice-icon":"notice-icon___MvUBU","openin":"openin___H4b3e","notice-movein":"notice-movein___M8YUM","notice-moveout":"notice-moveout___vwgYy","closeout":"closeout___uI6Au"};
   styleInject(css_248z$1);
 
@@ -362,9 +362,9 @@ var GmAlert = (function () {
       this.timeout = config.timeout || this.timeout;
       this.maxCount = config.maxCount || this.maxCount;
     }
-    fire(text, type, conf) {
-      const oMsg = this.mkMsg(text, type || 'success', conf);
-      if (type !== 'loading') {
+    fire(conf) {
+      const oMsg = this.mkMsg(conf);
+      if (conf.type !== 'loading') {
         this.sT(oMsg, conf?.timeout || this.timeout);
       }
       return oMsg;
@@ -419,8 +419,8 @@ var GmAlert = (function () {
     }
 
     // 判断消息是否存在, 设置msgCount以及关闭多余消息
-    mkMsg(content, type, conf) {
-      const id = `${content}${type}`;
+    mkMsg(conf) {
+      const id = `${conf.content}${conf.type}`;
       if (this.form < 2 && this.activeInsts.has(id)) {
         const inst = this.activeInsts.get(id);
         inst.count += 1;
@@ -429,10 +429,8 @@ var GmAlert = (function () {
       }
       const props = {
         ...conf,
-        content,
-        type,
         onClosed: status => {
-          this.form < 2 && this.activeInsts.delete(id);
+          status !== -2 && this.activeInsts.delete(id);
           conf?.onClosed && conf.onClosed(status);
         }
       };
@@ -453,8 +451,10 @@ var GmAlert = (function () {
       }
       if (this.form > 1 || this.activeInsts.size >= this.maxCount) {
         const nextInst = this.activeInsts.values().next().value;
-        nextInst?.close(-2);
-        this.activeInsts.delete(nextInst?.id);
+        if (nextInst) {
+          nextInst.close(-2);
+          this.activeInsts.delete(nextInst.id);
+        }
       }
       const oMsg = {
         ...inst,
@@ -470,10 +470,37 @@ var GmAlert = (function () {
   var css_248z = "@charset \"UTF-8\";\n/* 获取颜色 */\n.gmalert-global-vars {\n  --gma-bg: #fff;\n  --gma-text: #707070;\n  --gma-light: #d4d4d4;\n  --gma-border: 1px solid #d3d3d3;\n  --gma-shadow: rgba(0, 0, 0, 0.08);\n  --gma-shadow-v: 0 0 1px var(--gma-shadow), 0 1px 2px var(--gma-shadow), 1px 2px 4px var(--gma-shadow), 1px 3px 8px var(--gma-shadow), 2px 4px 16px var(--gma-shadow);\n  font-size: 13px;\n  line-height: 1.3;\n  color: #707070;\n  color: var(--gma-text);\n}";
   styleInject(css_248z);
 
+  function getArgs(args) {
+    const result = {
+      content: 'success',
+      type: 'success'
+    };
+    let firstStr = false;
+    const assignArg = arg => {
+      switch (typeof arg) {
+        case 'string':
+          if (firstStr) {
+            result.type = arg;
+          } else {
+            result.content = arg;
+            firstStr = true;
+          }
+          break;
+        case 'object':
+          Object.assign(result, arg);
+          break;
+      }
+    };
+    for (let index = 0; index < 3; index++) {
+      const element = args[index];
+      element && assignArg(element);
+    }
+    return result;
+  }
   function MakeMsg(form) {
     const $msg = new Msg(form);
-    const res = (content, type, conf) => {
-      return $msg.fire(content, type, conf);
+    const res = (...args) => {
+      return $msg.fire(getArgs(args));
     };
     res.config = $msg.config.bind($msg);
     return res;
