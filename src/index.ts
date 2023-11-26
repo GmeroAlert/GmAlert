@@ -1,5 +1,5 @@
 import { alert, information, message, notice } from './main'
 
-const Gmal = { alert, message, notice, information }
+const Gmal = { alert, information, notice, message }
 
 export default Gmal

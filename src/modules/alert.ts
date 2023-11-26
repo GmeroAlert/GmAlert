@@ -1,9 +1,11 @@
-import { animationendHandle, changeAnimation } from '../../utils/animateHandle'
-import { getRoot, newDiv } from '../../utils/html'
-import { AnimatedIcon, SvgIcon } from '../../component/icons'
-import type { MsgType, PropsMessage } from '../message'
-import { MakeMsg } from '../../core/Msg'
-import styles from './alert.module.scss'
+import { animationendHandle, changeAnimation } from '../utils/animateHandle'
+import { cn, getRoot, newDiv } from '../utils/html'
+import { AnimatedIcon } from '../component/animatedIcons/animatedIcons'
+import { MakeMsg } from '../core/Msg'
+import { CloseIcon } from '../component/icons/close'
+import type { MsgType, PropsMessage } from './message'
+
+import '../styles/alert.scss'
 
 interface PropsAlert extends PropsMessage {
   text?: string
@@ -16,19 +18,21 @@ function Button(text: string, onClick: () => void) {
   const $btn = document.createElement('button')
   $btn.textContent = text
   $btn.onclick = onClick
-  $btn.classList.add(styles['alert-btn'])
+  $btn.classList.add(cn('alert-btn'))
 
   return $btn
 }
 
 export function GmAlert(props: PropsAlert): MsgType {
-  const $wrapper = newDiv(styles.alert)
-  const icon = AnimatedIcon(props.type, false, styles['alert-icon'])
+  const $wrapper = newDiv(cn('alert'))
+  const icon = AnimatedIcon(props.type, false, cn('alert-icon'))
 
-  $wrapper.innerHTML = `${icon}<div class="${styles['alert-title']}">${props.content}</div>`
+  $wrapper.innerHTML = `${icon}<div class="${cn('alert-title')}">${
+    props.content
+  }</div>`
 
   if (props.text) {
-    const $text = newDiv(styles['alert-content'])
+    const $text = newDiv(cn('alert-content'))
     $text.textContent = props.text
     $wrapper.append($text)
   }
@@ -40,10 +44,10 @@ export function GmAlert(props: PropsAlert): MsgType {
   }
 
   const close = (status: number) => {
-    changeAnimation($wrapper, styles['alert-hide'])
+    changeAnimation($wrapper, cn('alert-hide'))
     return new Promise<void>((resolve) => {
       animationendHandle($wrapper, (e: string) => {
-        if (e === styles['alert-hide']) {
+        if (e === cn('alert-hide')) {
           $wrapper.remove()
           props.onClosed(status)
           resolve()
@@ -53,7 +57,7 @@ export function GmAlert(props: PropsAlert): MsgType {
   }
 
   if (props.showCancel || props.showConfirm) {
-    const $buttons = newDiv(styles['alert-btn-group'])
+    const $buttons = newDiv(cn('alert-btn-group'))
     props.showCancel &&
       $buttons.append(
         Button('取消', () => {
@@ -71,7 +75,7 @@ export function GmAlert(props: PropsAlert): MsgType {
 
   if (!props.hideClose) {
     const $close = newDiv()
-    $close.innerHTML = SvgIcon('close', styles['alert-close'])
+    $close.innerHTML = CloseIcon(cn('alert-close'))
 
     $close.onclick = () => {
       close(0)

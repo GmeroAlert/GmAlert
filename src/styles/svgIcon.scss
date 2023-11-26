@@ -1,8 +1,8 @@
-.animate-turn {
-  animation: message-turn 1s linear infinite;
+.gmal-ani-turn {
+  animation: gmal-turn 1s linear infinite;
 }
 
-.icon {
+.gmal-svgicon {
   line-height: 1;
 
   svg {
@@ -12,18 +12,8 @@
   }
 }
 
-.close {
-  cursor: pointer;
-  opacity: 0.4;
-  transition: all 0.2s;
-
-  &:hover {
-    opacity: 0.8;
-  }
-}
-
 /* loading的转动 */
-@keyframes message-turn {
+@keyframes gmal-turn {
   0% {
     transform: rotate(0deg);
   }

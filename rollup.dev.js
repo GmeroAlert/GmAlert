@@ -1,3 +1,4 @@
+import serve from 'rollup-plugin-serve'
 import babel from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
@@ -8,26 +9,17 @@ import postcss from 'rollup-plugin-postcss'
 // 引入package.json
 import pkg from './package.json' assert { type: 'json' }
 
-// 拿到package.json的name属性来动态设置打包名称
-const libName = pkg.name
 // iife umd 等格式需要name来作为浏览器windows下的函数名
 const funcName = 'Gmal'
 
 const bundles = [
   {
-    input: './src/index.ts',
+    input: './src/docs/index.ts',
     output: {
-      file: `./dist/${libName}.min.js`,
+      file: `./docs/index.js`,
       format: 'iife',
       name: funcName,
       sourcemap: false,
-    },
-  },
-  {
-    input: './src/main.ts',
-    output: {
-      file: `./dist/${libName}.esm.js`,
-      format: 'esm',
     },
   }
 ]
@@ -42,7 +34,7 @@ export default bundles.map(({ input, output }) => ({
     postcss({
       plugins: [postcssPresetEnv()],
       minimize: true,
-      extract: `${libName}.min.css`, // 如果你想导出css而不是css in js
+      extract: `index.css`, // 如果你想导出css而不是css in js
     }),
     commonjs(),
     babel({
@@ -51,6 +43,11 @@ export default bundles.map(({ input, output }) => ({
       exclude: 'mode_modules/**',
       plugins: ['annotate-pure-calls']
     }),
-    output.file.includes('.min.') && terser(),
+    terser(),
+    !process.env.needbuild && serve({
+      open: false,
+      contentBase: ['docs'],
+      port: 3010
+    })
   ]
 }))

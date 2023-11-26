@@ -1,5 +1,8 @@
-import styles from '../main.module.scss'
 import { changeAnimation } from './animateHandle'
+
+export function cn(className: string) {
+  return `gmal-${className}`
+}
 
 export function newDiv(...className: string[]) {
   const $div = document.createElement('div')
@@ -8,7 +11,7 @@ export function newDiv(...className: string[]) {
 }
 
 export function setMsgCount($el: HTMLElement, count: number) {
-  const countClassName = styles['gmsg-count']
+  const countClassName = cn('count')
   let $count = $el.querySelector(`.${countClassName}`) as HTMLElement
   if (!$count) {
     $count = document.createElement('span')
@@ -19,17 +22,15 @@ export function setMsgCount($el: HTMLElement, count: number) {
   $count.innerHTML = `${count > 99 ? '99' : count}`
   changeAnimation($count, '')
   setTimeout(() => {
-    changeAnimation($count, styles.shake)
+    changeAnimation($count, cn('shake'))
   })
 }
 
 const getContainer = () => {
-  let $root = document.querySelector<HTMLElement>(
-    `.${styles['gmsg-container']}`,
-  )
+  let $root = document.querySelector<HTMLElement>(`.gmal-box`)
 
   if (!$root) {
-    $root = newDiv(styles['gmsg-container'], 'gmalert-global-vars')
+    $root = newDiv(cn('box'))
     document.body.append($root)
   }
 
@@ -37,21 +38,17 @@ const getContainer = () => {
 }
 
 const getMessageContainer = () => {
-  let $root = document.querySelector<HTMLElement>(
-    `.${styles['gmsg-message-container']}`,
-  )
+  let $root = document.querySelector<HTMLElement>(`.${cn('msg-box')}`)
   if ($root) return $root
-  $root = newDiv(styles['gmsg-message-container'])
+  $root = newDiv(cn('msg-box'))
   getContainer().append($root)
   return $root
 }
 
 const getNoticeContainer = () => {
-  let $wrapper = document.querySelector<HTMLElement>(
-    `.${styles['gmsg-notice-container']}`,
-  )
+  let $wrapper = document.querySelector<HTMLElement>(`.${cn('notice-box')}`)
   if ($wrapper) return $wrapper
-  $wrapper = newDiv(styles['gmsg-notice-container'])
+  $wrapper = newDiv(cn('notice-box'))
   getContainer().append($wrapper)
 
   return $wrapper
@@ -75,4 +72,10 @@ export function changeStyle(el: HTMLElement, arr: string[]): void {
   original.pop()
 
   el.style.cssText = `${original.concat(arr).join(';')};`
+}
+
+export function injectCss(css: string) {
+  const $style = document.createElement('style')
+  $style.innerHTML = css
+  document.head.append($style)
 }

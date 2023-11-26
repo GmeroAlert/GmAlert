@@ -1,6 +1,6 @@
-@import '../../styles/functions';
+@import './functions';
 
-.notice {
+.gmal-notice {
   position: relative;
   width: 20rem;
   margin-bottom: 1em;
@@ -12,18 +12,18 @@
   transform-origin: top center;
   animation-duration: 0.3s;
 
-  .notice-main {
+  .gmal-notice-main {
     display: flex;
     flex-direction: column;
     align-items: normal;
 
-    .notice-content {
+    .gmal-notice-content {
       position: relative;
       margin: 1rem 1rem 1.2rem 3.4rem;
     }
   }
 
-  .notice-icon {
+  .gmal-notice-icon {
     position: absolute;
     top: 0.7rem;
     left: 1rem;
@@ -31,20 +31,20 @@
 }
 
 /* 展开 */
-@keyframes openin {
+@keyframes gmal-open {
   0% {
     max-height: 0;
   }
 }
 
-/* notice进入 */
-@keyframes notice-movein {
+/* gmal-notice进入 */
+@keyframes gmal-notice-movein {
   0% {
     transform: translateX(100%);
   }
 
-  75% {
-    transform: translateX(-2%);
+  70% {
+    transform: translateX(-3%);
   }
 
   100% {
@@ -52,8 +52,8 @@
   }
 }
 
-/* notice退出 */
-@keyframes notice-moveout {
+/* gmal-notice退出 */
+@keyframes gmal-notice-moveout {
   35% {
     opacity: 1;
     transform: translateX(-2%);
@@ -66,7 +66,7 @@
 }
 
 /* 收起 */
-@keyframes closeout {
+@keyframes gmal-close {
   0% {
     opacity: 0;
     transform: translateX(100%);

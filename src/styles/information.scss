@@ -1,6 +1,6 @@
-@import '../../styles/functions';
+@import './functions';
 
-.info {
+.gmal-info {
   position: absolute;
   right: 2em;
   bottom: 1.5em;
@@ -11,33 +11,37 @@
   background: var-color('bg');
   border-radius: 5px;
   box-shadow: var-color('shadow-v');
-  animation: 0.3s info-move-in ease-in-out;
+  animation: 0.3s gmal-info-move-in ease-in-out;
 }
 
-.info-header {
+.gmal-info-header {
   display: flex;
   align-items: center;
   padding: 6px;
   border-bottom: var-color('border');
 }
 
-.info-close {
+.gmal-info-close {
   margin-left: 0.5em;
-  font-size: 1em;
+  opacity: 0.5;
+
+  &:hover {
+      opacity: 1;
+  }
 }
 
-.info-status {
+.gmal-info-status {
   width: 1.2em;
   height: 1.2em;
   margin-right: 0.5em;
   border-radius: 4px;
 }
 
-.info-content {
+.gmal-info-content {
   padding: 10px 1em;
 }
 
-@keyframes info-move-in {
+@keyframes gmal-info-move-in {
   0% {
     opacity: 0;
     transform: translateY(20px);
@@ -49,7 +53,7 @@
   }
 }
 
-@keyframes info-move-out {
+@keyframes gmal-info-move-out {
   100% {
     opacity: 0;
     transform: translateY(20px);

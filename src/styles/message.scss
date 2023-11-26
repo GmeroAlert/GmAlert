@@ -1,6 +1,6 @@
-@import '../../styles/functions';
+@import './functions';
 
-.msg {
+.gmal-msg {
   position: relative;
   overflow: visible;
   pointer-events: all;
@@ -11,14 +11,14 @@
     opacity: 0;
   }
 
-  .icon {
+  .gmal-icon {
     position: absolute;
     top: 9px;
     left: 8px;
     font-size: 16px;
   }
 
-  .msg-main {
+  .gmal-msg-main {
     position: relative;
     box-sizing: border-box;
     min-width: 3rem;
@@ -37,7 +37,7 @@
     animation-duration: 0.3s;
   }
 
-  .msg-content {
+  .gmal-msg-content {
     text-align: left;
     pointer-events: all;
 
@@ -46,7 +46,7 @@
   }
 }
 
-@keyframes msg-moveout {
+@keyframes gmal-msg-moveout {
   0% {
     opacity: 1;
     transform: scale(1);
@@ -59,7 +59,7 @@
 }
 
 // for main
-@keyframes msg-out {
+@keyframes gmal-msg-out {
   100% {
     max-height: 0;
     padding-top: 0;
@@ -68,7 +68,7 @@
   }
 }
 
-@keyframes msg-movein {
+@keyframes gmal-msg-movein {
   0% {
     opacity: 0;
     transform: scale(0.5);

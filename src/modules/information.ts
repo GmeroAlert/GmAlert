@@ -1,9 +1,10 @@
-import { animationendHandle, changeAnimation } from '../../utils/animateHandle'
-import { getRoot, newDiv } from '../../utils/html'
-import { SvgIcon } from '../../component/icons'
-import type { MsgType, PropsMessage } from '../message'
-import { MakeMsg } from '../../core/Msg'
-import styles from './information.module.scss'
+import { animationendHandle, changeAnimation } from '../utils/animateHandle'
+import { cn, getRoot, newDiv } from '../utils/html'
+import { MakeMsg } from '../core/Msg'
+import { CloseIcon } from '../component/icons/close'
+import type { MsgType, PropsMessage } from './message'
+
+import '../styles/information.scss'
 
 interface PropsInfo extends PropsMessage {
   headerLeft?: string
@@ -20,17 +21,16 @@ const ColorMap: Record<string, string> = {
 
 export function GmInformation(props: PropsInfo): MsgType {
   const color = ColorMap[props.type] || ColorMap.info
-  const $wrapper = newDiv(styles.info)
+  const $wrapper = newDiv(cn('info'))
   $wrapper.innerHTML =
-    `<div class="${styles['info-header']}"><div class="${
-      styles['info-status']
-    }" style="background:${color};"></div><span style="margin-right:auto;font-weight:600">${
+    `<div class="${cn('info-header')}"><div class="${cn(
+      'info-status',
+    )}" style="background:${color};"></div><span style="margin-right:auto;font-weight:600">${
       props.headerLeft || '公告'
     }</span><span style="font-size:.875em;opacity:.7">${
       props.headerRight || ''
-    }</span>${
-      props.hideClose ? '' : SvgIcon('close', styles['info-close'])
-    }</div>` + `<div class="${styles['info-content']}">${props.content}</div>`
+    }</span>${props.hideClose ? '' : CloseIcon(cn('info-close'))}</div>` +
+    `<div class="${cn('info-content')}">${props.content}</div>`
 
   const open = () => {
     getRoot(2).append($wrapper)
@@ -38,10 +38,10 @@ export function GmInformation(props: PropsInfo): MsgType {
 
   const close = (status: number) => {
     return new Promise<void>((resolve) => {
-      changeAnimation($wrapper, styles['info-move-out'])
+      changeAnimation($wrapper, cn('info-move-out'))
 
       animationendHandle($wrapper, (e: string) => {
-        if (e === styles['info-move-out']) {
+        if (e === cn('info-move-out')) {
           $wrapper.remove()
           props.onClosed(status)
           resolve()
@@ -51,9 +51,7 @@ export function GmInformation(props: PropsInfo): MsgType {
   }
 
   if (!props.hideClose) {
-    const $close = $wrapper.querySelector<HTMLElement>(
-      `.${styles['info-close']}`,
-    )!
+    const $close = $wrapper.querySelector<HTMLElement>(`.${cn('info-close')}`)!
     $close.onclick = () => {
       close(0)
     }

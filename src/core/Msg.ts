@@ -1,6 +1,7 @@
 import type { MsgType, PropsMessage } from '../modules/message'
-import { changeStyle, newDiv, setMsgCount } from '../utils/html'
-import styles from '../main.module.scss'
+import { changeStyle, cn, newDiv, setMsgCount } from '../utils/html'
+
+import '../styles/main.scss'
 
 export interface OneMsg extends Omit<MsgType, 'open'> {
   // 用于标识消息是否重复, 这是内容+类型字符串的组合
@@ -88,8 +89,8 @@ export class Msg {
   // 设置进度
   private mkP(oMsg: OneMsg, timeout: number) {
     const { $el } = oMsg
-    const $progress = newDiv(styles['gmsg-progress'])
-    const $progressBar = newDiv(styles['gmsg-progress-bar'])
+    const $progress = newDiv(cn('progress'))
+    const $progressBar = newDiv(cn('progress-bar'))
     $progress.append($progressBar)
     $el.append($progress)
 

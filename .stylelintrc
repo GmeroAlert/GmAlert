@@ -3,5 +3,5 @@
     "stylelint-config-standard-scss",
     "stylelint-config-recess-order"
   ],
-  "ignoreFiles": ["node_modules/**/*", "dist/**/*","*.css"]
+  "ignoreFiles": ["node_modules/**/*", "dist/**/*","*.min.css","docs/**/*"]
 }

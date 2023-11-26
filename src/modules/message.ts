@@ -1,14 +1,10 @@
-import { animationendHandle, changeAnimation } from '../../utils/animateHandle'
-import { getRoot, newDiv } from '../../utils/html'
-import { SvgIcon } from '../../component/icons'
-import { MakeMsg } from '../../core/Msg'
-import styles from './message.module.scss'
+import { animationendHandle, changeAnimation } from '../utils/animateHandle'
+import { cn, getRoot, newDiv } from '../utils/html'
+import { SvgIcon } from '../component/svgicons'
+import { MakeMsg } from '../core/Msg'
 
-export const MessageState = {
-  opening: styles['msg-movein'],
-  done: '',
-  closing: styles['msg-moveout'],
-}
+import '../styles/message.scss'
+import type { MsgColor } from './types'
 
 export interface MsgType {
   open: () => void
@@ -17,7 +13,7 @@ export interface MsgType {
 }
 
 export interface PropsMessage {
-  type: 'success' | 'error' | 'warning' | 'info' | 'loading'
+  type: MsgColor
   content: string
   /**
    *
@@ -28,25 +24,27 @@ export interface PropsMessage {
 }
 
 export function GmMessage(props: PropsMessage): MsgType {
-  const icon = SvgIcon(props.type, styles.icon)
-  const $wrapper = newDiv(styles.msg)
-  const $main = newDiv(styles['msg-main'])
+  const icon = SvgIcon(props.type, cn('icon'))
+  const $wrapper = newDiv(cn('msg'))
+  const $main = newDiv(cn('msg-main'))
   $wrapper.append($main)
-  $main.innerHTML = `${icon}<div class=${styles['msg-content']}>${props.content}</div>`
+  $main.innerHTML = `${icon}<div class=${cn('msg-content')}>${
+    props.content
+  }</div>`
 
   const open = () => {
     getRoot(0).append($wrapper)
-    changeAnimation($wrapper, MessageState.opening)
+    changeAnimation($wrapper, cn('msg-movein'))
   }
 
   const close = (status: number) => {
     $main.style.maxHeight = `${$main.offsetHeight}px`
-    changeAnimation($wrapper, MessageState.closing)
-    changeAnimation($main, styles['msg-out'])
+    changeAnimation($wrapper, cn('msg-moveout'))
+    changeAnimation($main, cn('msg-out'))
 
     return new Promise<void>((resolve) => {
       animationendHandle($wrapper, (e: string) => {
-        if (e === MessageState.closing) {
+        if (e === cn('msg-moveout')) {
           $wrapper.remove()
           props.onClosed(status)
           resolve()

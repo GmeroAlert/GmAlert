@@ -14,8 +14,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    // 插件
-    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   // 入口文件
   "include": ["src/**/*.ts", "lib/**/*", "main.d.ts"],
