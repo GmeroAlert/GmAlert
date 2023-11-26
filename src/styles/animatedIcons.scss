@@ -13,6 +13,7 @@
   user-select: none;
   border: 0.4em solid rgb(0 0 0 / 0%);
   border-radius: 50%;
+  animation-fill-mode: both;
 }
 
 .gmal-success-icon {
@@ -191,7 +192,7 @@
 
   100% {
     opacity: 1;
-    transform: rotateX(0deg);
+    transform: rotateX(0);
   }
 }
 
@@ -288,6 +289,7 @@
   min-width: 2em;
   height: 2em;
   border-width: 0.25em;
+  animation-delay: .3s;
 
   &.gmal-load-icon {
     i{
