@@ -1,11 +1,12 @@
 import { animationendHandle, changeAnimation } from '../../utils/animateHandle'
 import { changeStyle, getRoot, newDiv } from '../../utils/html'
-import { AnimatedIcon } from '../icons'
+import { AnimatedIcon } from '../../component/icons'
 import type { MsgType, PropsMessage } from '../message'
 
+import { MakeMsg } from '../../core/Msg'
 import styles from './notice.module.scss'
 
-export default function GmNotice(props: PropsMessage): MsgType {
+export function GmNotice(props: PropsMessage): MsgType {
   const icon = AnimatedIcon(props.type, true, styles['notice-icon'])
   const $wrapper = newDiv(styles.notice)
 
@@ -50,3 +51,5 @@ export default function GmNotice(props: PropsMessage): MsgType {
     $el: $wrapper,
   }
 }
+
+export const notice = MakeMsg(GmNotice, 0)

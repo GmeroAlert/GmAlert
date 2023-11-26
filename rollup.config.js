@@ -1,46 +1,62 @@
 import babel from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import serve from 'rollup-plugin-serve'
+import terser from '@rollup/plugin-terser'
 import postcss from 'rollup-plugin-postcss'
-import replace from '@rollup/plugin-replace'
 import postcssPresetEnv from 'postcss-preset-env'
 
+// 引入package.json
 import pkg from './package.json' assert { type: 'json' }
 
-export default [
+// 拿到package.json的name属性来动态设置打包名称
+const libName = pkg.name
+// iife umd 等格式需要name来作为浏览器windows下的函数名
+const funcName = 'Gmal'
+// css的前缀
+const cssPre = 'Gmal'
+
+const bundles = [
   {
-    input: 'src/index.ts',
+    input: './src/index.ts',
     output: {
-      file: 'docs/index.js',
+      file: `./dist/${libName}.min.js`,
       format: 'iife',
-      name: 'GmAlert',
-      sourcemap: true,
+      name: funcName,
+      sourcemap: false,
     },
-    plugins: [
-      resolve({
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      }),
-      replace({
-        __VERSION__: JSON.stringify(pkg.version),
-        preventAssignment: true,
-      }),
-      postcss({
-        modules: {
-          generateScopedName: '[local]___[hash:base64:5]',
-        },
-        plugins: [postcssPresetEnv()],
-        // extract: 'css/index.css',
-      }),
-      commonjs(),
-      babel({
-        babelHelpers: 'bundled',
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        exclude: 'mode_modules/**',
-      }),
-      serve({
-        contentBase: ['docs', 'lib'],
-      }),
-    ],
   },
+  {
+    input: './src/main.ts',
+    output: {
+      file: `./dist/${libName}.esm.js`,
+      format: 'esm',
+    },
+  }
 ]
+
+export default bundles.map(({ input, output }) => ({
+  input,
+  output,
+  plugins: [
+    resolve({
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    }),
+    postcss({
+      modules: {
+        generateScopedName: `${cssPre}_[hash:base64:4]`, // cssinjs
+        //generateScopedName: `[local]`, // 原始
+      },
+      minimize: true,
+      plugins: [postcssPresetEnv()],
+      // extract: `${libName}.min.css`, // 如果你想导出css而不是css in js
+    }),
+    commonjs(),
+    babel({
+      babelHelpers: 'bundled',
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      exclude: 'mode_modules/**',
+      plugins: ['annotate-pure-calls']
+    }),
+    output.file.includes('.min.') && terser(),
+  ]
+}))

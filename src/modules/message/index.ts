@@ -1,6 +1,7 @@
 import { animationendHandle, changeAnimation } from '../../utils/animateHandle'
 import { getRoot, newDiv } from '../../utils/html'
-import { SvgIcon } from '../icons'
+import { SvgIcon } from '../../component/icons'
+import { MakeMsg } from '../../core/Msg'
 import styles from './message.module.scss'
 
 export const MessageState = {
@@ -26,7 +27,7 @@ export interface PropsMessage {
   onClosed: (status: number) => void
 }
 
-export default function GmMessage(props: PropsMessage): MsgType {
+export function GmMessage(props: PropsMessage): MsgType {
   const icon = SvgIcon(props.type, styles.icon)
   const $wrapper = newDiv(styles.msg)
   const $main = newDiv(styles['msg-main'])
@@ -60,3 +61,5 @@ export default function GmMessage(props: PropsMessage): MsgType {
     $el: $wrapper,
   }
 }
+
+export const message = MakeMsg(GmMessage, 0)

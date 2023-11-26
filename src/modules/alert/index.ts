@@ -1,12 +1,13 @@
 import { animationendHandle, changeAnimation } from '../../utils/animateHandle'
 import { getRoot, newDiv } from '../../utils/html'
-import { AnimatedIcon, SvgIcon } from '../icons'
+import { AnimatedIcon, SvgIcon } from '../../component/icons'
 import type { MsgType, PropsMessage } from '../message'
+import { MakeMsg } from '../../core/Msg'
 import styles from './alert.module.scss'
 
 interface PropsAlert extends PropsMessage {
   text?: string
-  showClose?: boolean
+  hideClose?: boolean
   showConfirm?: boolean
   showCancel?: boolean
 }
@@ -20,7 +21,7 @@ function Button(text: string, onClick: () => void) {
   return $btn
 }
 
-export default function GmAlert(props: PropsAlert): MsgType {
+export function GmAlert(props: PropsAlert): MsgType {
   const $wrapper = newDiv(styles.alert)
   const icon = AnimatedIcon(props.type, false, styles['alert-icon'])
 
@@ -68,7 +69,7 @@ export default function GmAlert(props: PropsAlert): MsgType {
     $wrapper.append($buttons)
   }
 
-  if (props.showClose !== false) {
+  if (!props.hideClose) {
     const $close = newDiv()
     $close.innerHTML = SvgIcon('close', styles['alert-close'])
 
@@ -81,3 +82,5 @@ export default function GmAlert(props: PropsAlert): MsgType {
 
   return { close, open, $el: $wrapper }
 }
+
+export const alert = MakeMsg(GmAlert, 1)

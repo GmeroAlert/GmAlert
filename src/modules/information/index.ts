@@ -1,13 +1,14 @@
 import { animationendHandle, changeAnimation } from '../../utils/animateHandle'
 import { getRoot, newDiv } from '../../utils/html'
-import { SvgIcon } from '../icons'
+import { SvgIcon } from '../../component/icons'
 import type { MsgType, PropsMessage } from '../message'
+import { MakeMsg } from '../../core/Msg'
 import styles from './information.module.scss'
 
 interface PropsInfo extends PropsMessage {
   headerLeft?: string
   headerRight?: string
-  showClose?: boolean
+  hideClose?: boolean
 }
 
 const ColorMap: Record<string, string> = {
@@ -17,7 +18,7 @@ const ColorMap: Record<string, string> = {
   error: '#f56c6c',
 }
 
-export default function GmInformation(props: PropsInfo): MsgType {
+export function GmInformation(props: PropsInfo): MsgType {
   const color = ColorMap[props.type] || ColorMap.info
   const $wrapper = newDiv(styles.info)
   $wrapper.innerHTML =
@@ -28,7 +29,7 @@ export default function GmInformation(props: PropsInfo): MsgType {
     }</span><span style="font-size:.875em;opacity:.7">${
       props.headerRight || ''
     }</span>${
-      props.showClose ? SvgIcon('close', styles['info-close']) : ''
+      props.hideClose ? '' : SvgIcon('close', styles['info-close'])
     }</div>` + `<div class="${styles['info-content']}">${props.content}</div>`
 
   const open = () => {
@@ -49,7 +50,7 @@ export default function GmInformation(props: PropsInfo): MsgType {
     })
   }
 
-  if (props.showClose) {
+  if (!props.hideClose) {
     const $close = $wrapper.querySelector<HTMLElement>(
       `.${styles['info-close']}`,
     )!
@@ -60,3 +61,5 @@ export default function GmInformation(props: PropsInfo): MsgType {
 
   return { open, close, $el: $wrapper }
 }
+
+export const information = MakeMsg(GmInformation, 1)

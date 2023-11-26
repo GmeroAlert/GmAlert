@@ -1,10 +1,6 @@
-import GmAlert from '../../component/alert'
-import GmInformation from '../../component/information/Information'
-import type { MsgType } from '../../component/message'
-import GmMessage from '../../component/message'
-import GmNotice from '../../component/notice'
-import { changeStyle, newDiv, setMsgCount } from '../../utils/html'
-import styles from '../../main.module.scss'
+import type { MsgType, PropsMessage } from '../modules/message'
+import { changeStyle, newDiv, setMsgCount } from '../utils/html'
+import styles from '../main.module.scss'
 
 export interface OneMsg extends Omit<MsgType, 'open'> {
   // 用于标识消息是否重复, 这是内容+类型字符串的组合
@@ -37,6 +33,8 @@ export interface MsgPropsFull {
   showCancel?: boolean
 }
 
+export type MsgCore = (props: PropsMessage) => MsgType
+
 /**
  * 消息容器
  */
@@ -47,13 +45,16 @@ export class Msg {
 
   private activeInsts: Map<string, OneMsg> = new Map()
 
-  // 0:'msg' | 1:'notice' | 2:'alert' | 3:'information'
-  form: number
+  // 0: 'due to maxCount' | 1:'msg only one'
+  type: number
 
-  constructor(form: number) {
-    this.form = form
+  private core: (props: PropsMessage) => MsgType
 
-    if (form > 1) {
+  constructor(core: MsgCore, type: number) {
+    this.type = type
+    this.core = core
+
+    if (type === 1) {
       this.timeout = 0
     }
   }
@@ -123,7 +124,7 @@ export class Msg {
   // 判断消息是否存在, 设置msgCount以及关闭多余消息
   private mkMsg(conf: MsgPropsFull) {
     const id = `${conf.content}${conf.type}`
-    if (this.form < 2 && this.activeInsts.has(id)) {
+    if (!this.type && this.activeInsts.has(id)) {
       const inst = this.activeInsts.get(id)!
       inst.count += 1
       setMsgCount(inst.$el, inst.count)
@@ -137,24 +138,10 @@ export class Msg {
         conf?.onClosed && conf.onClosed(status)
       },
     }
-    let inst: MsgType
 
-    switch (this.form) {
-      case 1:
-        inst = GmNotice(props)
-        break
-      case 2:
-        inst = GmAlert(props)
-        break
-      case 3:
-        inst = GmInformation(props)
-        break
-      default:
-        inst = GmMessage(props)
-        break
-    }
+    const inst = this.core(props)
 
-    if (this.form > 1 || this.activeInsts.size >= this.maxCount) {
+    if (this.type === 1 || this.activeInsts.size >= this.maxCount) {
       const nextInst = this.activeInsts.values().next().value
       if (nextInst) {
         nextInst.close(-2)
@@ -170,4 +157,46 @@ export class Msg {
 
     return oMsg
   }
+}
+
+function getArgs(args: (string | object)[]) {
+  const result: MsgPropsFull = {
+    content: 'success',
+    type: 'success',
+  }
+
+  let firstStr = false
+  const assignArg = (arg: string | object) => {
+    switch (typeof arg) {
+      case 'string':
+        if (firstStr) {
+          result.type = arg as MsgPropsFull['type']
+        } else {
+          result.content = arg
+          firstStr = true
+        }
+        break
+      case 'object':
+        Object.assign(result, arg)
+        break
+    }
+  }
+
+  for (let index = 0; index < 3; index++) {
+    const element = args[index]
+    element && assignArg(element)
+  }
+
+  return result
+}
+
+export function MakeMsg(core: MsgCore, type: number) {
+  const $msg = new Msg(core, type)
+  const res = (...args: (string | object)[]) => {
+    return $msg.fire(getArgs(args))
+  }
+
+  res.config = $msg.config.bind($msg)
+
+  return res
 }
