@@ -2,8 +2,8 @@ import babel from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
-import postcss from 'rollup-plugin-postcss'
 import postcssPresetEnv from 'postcss-preset-env'
+import styles from '@ironkinoko/rollup-plugin-styles'
 
 // 引入package.json
 import pkg from './package.json' assert { type: 'json' }
@@ -41,13 +41,14 @@ export default bundles.map(({ input, output }) => ({
     resolve({
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     }),
-    postcss({
+    styles({
+      mode: ["inject", {treeshakeable: output.format === 'esm'}],
+      autoModules: true,
       modules: {
-        generateScopedName: `${cssPre}_[hash:base64:4]`, // cssinjs
-        //generateScopedName: `[local]`, // 原始
+        generateScopedName: `${cssPre}_[hash:4]`,
       },
-      minimize: true,
       plugins: [postcssPresetEnv()],
+      minimize: true
       // extract: `${libName}.min.css`, // 如果你想导出css而不是css in js
     }),
     commonjs(),
