@@ -38,13 +38,25 @@ function BtnBox(type: 'alert' | 'message' | 'notice' | 'information') {
       core = alert
   }
 
+  let loadingFired = false
+
   btnBox.append(Button(`${type} success`, () => core('success')))
   btnBox.append(Button(`${type} error`, () => core('error', 'error')))
   btnBox.append(Button(`${type} warning`, () => core('warning', 'warning')))
   btnBox.append(Button(`${type} info`, () => core('info', 'info')))
   btnBox.append(
     Button(`${type} loading`, () => {
-      const tmp = core('loading', 'loading')
+      if (loadingFired) {
+        return
+      }
+      loadingFired = true
+      const tmp = core({
+        type: 'loading',
+        content: 'loading',
+        onClosed() {
+          loadingFired = false
+        },
+      })
       setTimeout(
         () =>
           tmp.close().then(() => {
@@ -67,7 +79,24 @@ function Area(text: string) {
 }
 
 const AlertArea = Area('Alert')
-AlertArea.append(BtnBox('alert'))
+const alertBtnBox = BtnBox('alert')
+const input = document.createElement('input')
+alertBtnBox.append(
+  Button('alert html', () => {
+    alert({
+      content: '输入点什么吧',
+      type: 'info',
+      html: input,
+      showConfirm: true,
+      hideClose: true,
+      onClosed() {
+        message(`${input.value ? `你输入了：${input.value}` : '你没有输入'}`)
+        input.value = ''
+      },
+    })
+  }),
+)
+AlertArea.append(alertBtnBox)
 const MessageArea = Area('Message')
 MessageArea.append(BtnBox('message'))
 const NoticeArea = Area('Notice')
