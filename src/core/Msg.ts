@@ -11,7 +11,6 @@ export interface OneMsg extends Omit<MsgType, 'open'> {
     pause: () => void
     resume: () => void
     reset: () => void
-    get: () => number
   }
   count: number
 }
@@ -28,10 +27,11 @@ export interface MsgPropsFull {
   text?: string
   headerLeft?: string
   headerRight?: string
-  showClose?: boolean
+  hideClose?: boolean
   onClosed?: (status: number) => void
   showConfirm?: boolean
   showCancel?: boolean
+  html?: string | HTMLElement
 }
 
 export type MsgCore = (props: PropsMessage) => MsgType
@@ -106,8 +106,7 @@ export class Msg {
       changeStyle($progressBar, ['transition:none', `width:${get() * 100}%`])
     }
 
-    // eslint-disable-next-line require-await
-    const resume = async () => {
+    const resume = () => {
       changeStyle($progressBar, [
         'width:0',
         `transition:width ${timeout * get()}ms linear`,
@@ -119,7 +118,7 @@ export class Msg {
       resume()
     }
 
-    return (oMsg.progress = { pause, resume, reset, get })
+    return (oMsg.progress = { pause, resume, reset })
   }
 
   // 判断消息是否存在, 设置msgCount以及关闭多余消息
@@ -135,8 +134,10 @@ export class Msg {
     const props = {
       ...conf,
       onClosed: (status: number) => {
-        status !== -2 && this.activeInsts.delete(id)
         conf?.onClosed && conf.onClosed(status)
+      },
+      onClose: () => {
+        this.activeInsts.delete(id)
       },
     }
 
@@ -145,8 +146,8 @@ export class Msg {
     if (this.type === 1 || this.activeInsts.size >= this.maxCount) {
       const nextInst = this.activeInsts.values().next().value
       if (nextInst) {
+        nextInst.progress?.pause()
         nextInst.close(-2)
-        this.activeInsts.delete(nextInst.id)
       }
     }
 
@@ -160,7 +161,7 @@ export class Msg {
   }
 }
 
-function getArgs(args: (string | object)[]) {
+function getArgs(args: (string | MsgPropsFull)[]) {
   const result: MsgPropsFull = {
     content: 'success',
     type: 'success',
@@ -193,7 +194,7 @@ function getArgs(args: (string | object)[]) {
 
 export function MakeMsg(core: MsgCore, type: number) {
   const $msg = new Msg(core, type)
-  const res = (...args: (string | object)[]) => {
+  const res = (...args: (string | MsgPropsFull)[]) => {
     return $msg.fire(getArgs(args))
   }
 

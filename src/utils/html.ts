@@ -26,7 +26,7 @@ export function setMsgCount($el: HTMLElement, count: number) {
   })
 }
 
-const getContainer = () => {
+export const getContainer = () => {
   let $root = document.querySelector<HTMLElement>(`.gmal-box`)
 
   if (!$root) {
@@ -37,7 +37,7 @@ const getContainer = () => {
   return $root
 }
 
-const getMessageContainer = () => {
+export const getMessageContainer = () => {
   let $root = document.querySelector<HTMLElement>(`.${cn('msg-box')}`)
   if ($root) return $root
   $root = newDiv(cn('msg-box'))
@@ -45,25 +45,13 @@ const getMessageContainer = () => {
   return $root
 }
 
-const getNoticeContainer = () => {
+export const getNoticeContainer = () => {
   let $wrapper = document.querySelector<HTMLElement>(`.${cn('notice-box')}`)
   if ($wrapper) return $wrapper
   $wrapper = newDiv(cn('notice-box'))
   getContainer().append($wrapper)
 
   return $wrapper
-}
-
-// 0: message | 1: notice | 2: alert
-export const getRoot = (type: 0 | 1 | 2) => {
-  switch (type) {
-    case 0:
-      return getMessageContainer()
-    case 1:
-      return getNoticeContainer()
-    case 2:
-      return getContainer()
-  }
 }
 
 // 用于修改样式的工具类，并且可以减少回流重绘，后面代码中会频繁用到

@@ -1,5 +1,15 @@
 @import './functions';
 
+.gmal-msg-box {
+  position: absolute;
+  top: calc(50% - 4rem);
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .gmal-msg {
   position: relative;
   overflow: visible;

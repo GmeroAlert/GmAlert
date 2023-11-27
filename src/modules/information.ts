@@ -1,5 +1,5 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { cn, getRoot, newDiv } from '../utils/html'
+import { cn, getContainer, newDiv } from '../utils/html'
 import { MakeMsg } from '../core/Msg'
 import { CloseIcon } from '../component/icons/close'
 import type { MsgType, PropsMessage } from './message'
@@ -33,10 +33,11 @@ export function GmInformation(props: PropsInfo): MsgType {
     `<div class="${cn('info-content')}">${props.content}</div>`
 
   const open = () => {
-    getRoot(2).append($wrapper)
+    getContainer().append($wrapper)
   }
 
   const close = (status: number) => {
+    props.onClose()
     return new Promise<void>((resolve) => {
       changeAnimation($wrapper, cn('info-move-out'))
 

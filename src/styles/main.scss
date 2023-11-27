@@ -31,26 +31,6 @@ $theme-vars: (
   @each $key, $value in $theme-vars {
     #{$color-prefix}-#{$key}: #{$value};
   }
-
-  .gmal-notice-box {
-    position: absolute;
-    top: 1em;
-    right: 1em;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
-  .gmal-msg-box {
-    position: absolute;
-    top: calc(50% - 4rem);
-    right: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
 }
 
 .gmal-count {
@@ -106,4 +86,17 @@ $theme-vars: (
   }
 }
 
+.gmal-ani-turn {
+  animation: gmal-turn 1s linear infinite;
+}
 
+/* loading的转动 */
+@keyframes gmal-turn {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,5 +1,5 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { cn, getRoot, newDiv } from '../utils/html'
+import { cn, getMessageContainer, newDiv } from '../utils/html'
 import { SvgIcon } from '../component/svgicons'
 import { MakeMsg } from '../core/Msg'
 
@@ -21,6 +21,7 @@ export interface PropsMessage {
    * @returns
    */
   onClosed: (status: number) => void
+  onClose: () => void
 }
 
 export function GmMessage(props: PropsMessage): MsgType {
@@ -33,11 +34,12 @@ export function GmMessage(props: PropsMessage): MsgType {
   }</div>`
 
   const open = () => {
-    getRoot(0).append($wrapper)
+    getMessageContainer().append($wrapper)
     changeAnimation($wrapper, cn('msg-movein'))
   }
 
   const close = (status: number) => {
+    props.onClose()
     $main.style.maxHeight = `${$main.offsetHeight}px`
     changeAnimation($wrapper, cn('msg-moveout'))
     changeAnimation($main, cn('msg-out'))

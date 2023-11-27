@@ -1,5 +1,5 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { changeStyle, cn, getRoot, newDiv } from '../utils/html'
+import { changeStyle, cn, getNoticeContainer, newDiv } from '../utils/html'
 import { AnimatedIcon } from '../component/animatedIcons/animatedIcons'
 import { MakeMsg } from '../core/Msg'
 import type { MsgType, PropsMessage } from './message'
@@ -27,12 +27,19 @@ export function GmNotice(props: PropsMessage): MsgType {
   })
 
   const open = () => {
-    getRoot(1).prepend($wrapper)
+    getNoticeContainer().prepend($wrapper)
     changeStyle($wrapper, [`max-height:${$wrapper.offsetHeight + 10}px`])
     changeAnimation($wrapper, cn('open'))
+    setTimeout(() => {
+      const $icon = $wrapper.querySelector<HTMLElement>(`.${cn('notice-icon')}`)
+      if ($icon) {
+        $icon.style.opacity = '1'
+      }
+    }, 400)
   }
 
   const close = (status: number) => {
+    props.onClose()
     return new Promise<void>((resolve) => {
       changeAnimation($wrapper, cn('notice-moveout'))
       animationendHandle($wrapper, (animationName) => {
