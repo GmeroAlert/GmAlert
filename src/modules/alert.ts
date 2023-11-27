@@ -1,5 +1,5 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { cn, getRoot, newDiv } from '../utils/html'
+import { cn, getContainer, newDiv } from '../utils/html'
 import { AnimatedIcon } from '../component/animatedIcons/animatedIcons'
 import { MakeMsg } from '../core/Msg'
 import { CloseIcon } from '../component/icons/close'
@@ -9,6 +9,7 @@ import '../styles/alert.scss'
 
 interface PropsAlert extends PropsMessage {
   text?: string
+  html?: string | HTMLElement
   hideClose?: boolean
   showConfirm?: boolean
   showCancel?: boolean
@@ -31,19 +32,28 @@ export function GmAlert(props: PropsAlert): MsgType {
     props.content
   }</div>`
 
-  if (props.text) {
+  if (props.text || props.html) {
     const $text = newDiv(cn('alert-content'))
-    $text.textContent = props.text
+    if (props.html) {
+      if (typeof props.html === 'string') {
+        $text.innerHTML = props.html
+      } else {
+        $text.append(props.html)
+      }
+    } else {
+      $text.textContent = props.text || 'hello'
+    }
     $wrapper.append($text)
   }
 
-  const $root = getRoot(2)
+  const $root = getContainer()
 
   const open = () => {
     $root.append($wrapper)
   }
 
   const close = (status: number) => {
+    props.onClose()
     changeAnimation($wrapper, cn('alert-hide'))
     return new Promise<void>((resolve) => {
       animationendHandle($wrapper, (e: string) => {
