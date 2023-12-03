@@ -61,9 +61,3 @@ export function changeStyle(el: HTMLElement, arr: string[]): void {
 
   el.style.cssText = `${original.concat(arr).join(';')};`
 }
-
-export function injectCss(css: string) {
-  const $style = document.createElement('style')
-  $style.innerHTML = css
-  document.head.append($style)
-}
