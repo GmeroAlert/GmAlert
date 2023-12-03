@@ -18,9 +18,9 @@
   background: var-color('bg');
   border-radius: 5px;
   box-shadow: var-color('shadow-v');
-  opacity: 0;
   transform-origin: top center;
-  animation-duration: 0.3s;
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
 
   .gmal-notice-main {
     display: flex;
@@ -46,48 +46,45 @@
 @keyframes gmal-open {
   0% {
     max-height: 0;
+    opacity: 0;
+    transform: translateX(100%);
   }
-}
 
-/* gmal-notice进入 */
-@keyframes gmal-notice-movein {
-  0% {
+  30% {
+    max-height: var(--mh);
+    opacity: 0;
     transform: translateX(100%);
   }
 
   70% {
+    opacity: 1;
     transform: translateX(-3%);
   }
 
   100% {
+    opacity: 1;
     transform: translateX(0);
   }
 }
 
-/* gmal-notice退出 */
-@keyframes gmal-notice-moveout {
-  35% {
+
+/* 收起 */
+@keyframes gmal-close {
+  30% {
     opacity: 1;
     transform: translateX(-2%);
   }
 
-  100% {
+  70% {
+    max-height: var(--mh);
+    margin: 0;
     opacity: 0;
     transform: translateX(80%);
-  }
-}
-
-/* 收起 */
-@keyframes gmal-close {
-  0% {
-    opacity: 0;
-    transform: translateX(100%);
   }
 
   100% {
     max-height: 0;
     margin: 0;
     opacity: 0;
-    transform: translateX(100%);
   }
 }
