@@ -2,14 +2,14 @@
 
 - 使用 typescript 构建，原生 js 让你更轻松的融合进你自己的项目
 - 支持 4 种消息类型，包括 notice、message、alert、infomation
-- 每种消息类型支持多种样式，error、success、warning、info、loading
+- 每种消息类型支持多种样式，error、success、warn、info、loading
 - 轻量级，js + css 仅仅 20kb(没有使用 gzip 压缩)
 
-demo: <https://g-mero.github.io/GmAlert/>
+文档: <https://gmeroalert.github.io/>
 
 ## 安装
 
-请到[Releases · g-mero/GmAlert (github.com)](https://github.com/g-mero/GmAlert/releases)页面下载最新的编译后文件(.css 与.js)
+请到[Releases · g-mero/GmAlert (github.com)](https://github.com/GmeroAlert/GmAlert/releases)页面下载最新的编译后文件(.css 与.js)
 
 在您的网站中引入这两个文件, 比如:
 
@@ -30,14 +30,14 @@ demo: <https://g-mero.github.io/GmAlert/>
 
 我们将消息提示，分为四个模块：message, notice, alert, information，每个模块的效果与一些逻辑是不同的。比如，message 和 notice 每个页面可以同时存在多个实例，而 alert 跟 information 只能同时拥有一个实例，发起新的实例会强制关闭页面中已经存在的实例。
 
-它们的调用方式类似，都是通过 GmAlert.模块([message], [type?], [option?]) 进行调用，比如：GmAlert.message("这是一条消息")
+它们的调用方式类似，都是通过 Gmal.模块([message], [type?], [option?]) 进行调用，比如：Gmal.message("这是一条消息")
 
 以下是它们的可选参数和配置项
 
 ### message
 
 ```typescript
-type?: 'success' | 'error' | 'warning' | 'info' | 'loading'
+type?: 'success' | 'error' | 'warn' | 'info' | 'loading'
 
 option?: {
  timeout?: number // 消失的时间
@@ -47,7 +47,7 @@ option?: {
  onClosed?: (status: number) => void
 }
 
-GmAlert.message.config({
+Gmal.message.config({
  timeout: number // 设置默认时间
  maxCount: number // 设置最大实例个数
 })
@@ -56,7 +56,7 @@ GmAlert.message.config({
 ### notice
 
 ```typescript
-type?: 'success' | 'error' | 'warning' | 'info' | 'loading'
+type?: 'success' | 'error' | 'warn' | 'info' | 'loading'
 
 option?: {
  timeout?: number // 消失的时间
@@ -65,7 +65,7 @@ option?: {
  onClosed?: (status: number) => void
 }
 
-GmAlert.notice.config({
+Gmal.notice.config({
  timeout: number // 设置默认消失时间
  maxCount: number // 设置最大实例个数
 })
@@ -74,7 +74,7 @@ GmAlert.notice.config({
 ### alert
 
 ```typescript
-type?: 'success' | 'error' | 'warning' | 'info' | 'loading'
+type?: 'success' | 'error' | 'warn' | 'info' | 'loading'
 
 option?: {
  timeout?: number // 消失的时间
@@ -84,18 +84,20 @@ option?: {
  // -2 | undefined : 被强制关闭，一般是因为超出了maxCount
  onClosed?: (status: number) => void
  // 显示关闭按钮
- showClose?: boolean
+ hideClose?: boolean
  // 显示确认按钮
  showConfirm?: boolean
  // 显示取消按钮
  showCancel?: boolean
+ // html
+ html?: string | HTMLElement
 }
 ```
 
 ### information
 
 ```typescript
-type?: 'success' | 'error' | 'warning' | 'info'
+type?: 'success' | 'error' | 'warn' | 'info' | 'loading'
 
 option?: {
  timeout?: number // 消失的时间
@@ -106,10 +108,10 @@ option?: {
  // -2 | undefined : 被强制关闭，一般是因为超出了maxCount
  onClosed?: (status: number) => void
  // 显示关闭按钮
- showClose?: boolean
+ hideClose?: boolean
 }
 
-GmAlert.information.config({
+Gmal.information.config({
  timeout: number // 设置默认的消失时间
 })
 ```
