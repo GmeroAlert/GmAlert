@@ -47,18 +47,21 @@
   0% {
     max-height: 0;
     opacity: 0;
-    transform: translateX(100%);
   }
 
   30% {
     max-height: var(--mh);
     opacity: 0;
-    transform: translateX(100%);
+    transform: translateX(80%);
   }
 
   70% {
     opacity: 1;
-    transform: translateX(-3%);
+    transform: translateX(-2%);
+  }
+
+  85% {
+    transform: translateX(1%);
   }
 
   100% {
@@ -75,9 +78,9 @@
     transform: translateX(-2%);
   }
 
-  70% {
+  65% {
     max-height: var(--mh);
-    margin: 0;
+    margin-bottom: 1em;
     opacity: 0;
     transform: translateX(80%);
   }

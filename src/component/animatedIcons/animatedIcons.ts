@@ -11,12 +11,12 @@ function baseCn(dense: boolean, className: string, extClassName: string) {
 }
 
 function SuccessIcon(dense = false, className = '') {
-  return `<div ${baseCn(dense, 'success-icon', className)}><div class="${cn(
-    'success-line',
-  )} ${cn('line-tip')}"></div><div class="${cn('success-line')} ${cn(
+  return `<div ${baseCn(dense, 'ok-icon', className)}><div class="${cn(
+    'ok-line',
+  )} ${cn('line-tip')}"></div><div class="${cn('ok-line')} ${cn(
     'line-long',
-  )}"></div><div class="${cn('success-ring')}"></div><div class="${cn(
-    'success-fix',
+  )}"></div><div class="${cn('ok-ring')}"></div><div class="${cn(
+    'ok-fix',
   )}"></div></div>`
 }
 
@@ -50,7 +50,7 @@ export function AnimatedIcon(type: MsgColor, dense = false, className = '') {
       return SuccessIcon(dense, className)
     case 'error':
       return ErrorIcon(dense, className)
-    case 'warning':
+    case 'warn':
       return WarnIcon(dense, className)
     case 'info':
       return InfoIcon(dense, className)

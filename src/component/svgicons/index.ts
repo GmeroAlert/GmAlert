@@ -9,7 +9,7 @@ export const svgLoading = `<svg class="${cn(
   'ani-turn',
 )}" ${viewBox} ${styles}><path d="M1,12A11,11,0,0,0,12,23h0A11,11,0,0,0,12,1" style="fill:none;stroke:#1890ff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"/><path d="M18.5,12A6.5,6.5,0,1,0,12,18.5h0" style="fill:none;stroke:#1890ff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"/></svg>`
 
-// info, warning, error, success, loading
+// info, warn, error, success, loading
 const Icons = [
   `<svg ${viewBox} ${styles}><circle cx="12" cy="12" r="12" style="fill:#29abe2"/><path d="M12,17.5a1,1,0,0,1-1-1v-5h-.5a1,1,0,0,1,0-2H12a1,1,0,0,1,1,1v6A1,1,0,0,1,12,17.5Z" style="fill:#fff"/><path d="M14,18.5H10a1,1,0,0,1,0-2h4a1,1,0,0,1,0,2Z" style="fill:#fff"/><circle cx="12" cy="6" r="1.5" style="fill:#fff"/></svg>`,
   `<svg ${viewBox} ${styles}><circle cx="12" cy="12" r="12" style="fill:#faad14"/><path d="M12,19.5A1.5,1.5,0,1,0,10.5,18,1.5,1.5,0,0,0,12,19.5Z" style="fill:#fff;fill-rule:evenodd"/><path d="M12,14a1.5,1.5,0,0,1-1.5-1.5v-7a1.5,1.5,0,0,1,3,0v7A1.5,1.5,0,0,1,12,14Z" style="fill:#fff"/></svg>`,
@@ -18,7 +18,7 @@ const Icons = [
   svgLoading,
 ]
 
-const types = ['info', 'warning', 'error', 'success', 'loading']
+const types = ['info', 'warn', 'error', 'success', 'loading']
 
 export function SvgIcon(type: MsgColor, className = '') {
   const index = types.indexOf(type)

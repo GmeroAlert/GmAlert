@@ -10,7 +10,7 @@
   background: var-color('bg');
   border-radius: 5px;
   box-shadow: var-color('shadow-v');
-  animation: gmal-alert-show 0.3s;
+  animation: gmal-alert-in 0.3s;
   animation-fill-mode: both;
 }
 
@@ -76,7 +76,7 @@
   }
 }
 
-@keyframes gmal-alert-show {
+@keyframes gmal-alert-in {
   0% {
     transform: scale(0.7);
   }
@@ -94,12 +94,7 @@
   }
 }
 
-@keyframes gmal-alert-hide {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
+@keyframes gmal-alert-out {
   100% {
     opacity: 0;
     transform: scale(0.5);

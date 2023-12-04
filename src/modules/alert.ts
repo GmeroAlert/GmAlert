@@ -54,10 +54,10 @@ export function GmAlert(props: PropsAlert): MsgType {
 
   const close = (status: number) => {
     props.onClose()
-    changeAnimation($wrapper, cn('alert-hide'))
+    changeAnimation($wrapper, cn('alert-out'))
     return new Promise<void>((resolve) => {
       animationendHandle($wrapper, (e: string) => {
-        if (e === cn('alert-hide')) {
+        if (e === cn('alert-out')) {
           $wrapper.remove()
           props.onClosed(status)
           resolve()

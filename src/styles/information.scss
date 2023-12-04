@@ -11,7 +11,7 @@
   background: var-color('bg');
   border-radius: 5px;
   box-shadow: var-color('shadow-v');
-  animation: 0.3s gmal-info-move-in ease-in-out;
+  animation: 0.3s gmal-info-in ease-in-out;
 }
 
 .gmal-info-header {
@@ -41,7 +41,7 @@
   padding: 10px 1em;
 }
 
-@keyframes gmal-info-move-in {
+@keyframes gmal-info-in {
   0% {
     opacity: 0;
     transform: translateY(20px);
@@ -53,7 +53,7 @@
   }
 }
 
-@keyframes gmal-info-move-out {
+@keyframes gmal-info-out {
   100% {
     opacity: 0;
     transform: translateY(20px);

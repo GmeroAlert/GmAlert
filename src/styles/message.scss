@@ -17,45 +17,42 @@
   transform-origin: center;
   animation-duration: 0.3s;
 
-  > :nth-child(2) {
+  .gmal-progress {
     opacity: 0;
-  }
-
-  .gmal-icon {
-    position: absolute;
-    left: 8px;
-    font-size: 16px;
-  }
-
-  .gmal-msg-main {
-    position: relative;
-    box-sizing: border-box;
-    min-width: 3rem;
-    max-width: 20em;
-    padding: 8px;
-    padding-left: 30px;
-    margin-bottom: 0.4rem;
-    overflow: hidden;
-    text-align: center;
-    background: var-color('bg');
-    border-radius: 4px;
-    box-shadow: var-color('shadow-v');
-
-    /* 从中间开始放大 */
-    transform-origin: center;
-    animation-duration: 0.3s;
-  }
-
-  .gmal-msg-content {
-    text-align: left;
-    pointer-events: all;
-
-    /* 解决字体模糊抖动问题 */
-    transform: perspective(1px);
   }
 }
 
-@keyframes gmal-msg-moveout {
+.gmal-icon {
+  position: absolute;
+  left: 8px;
+  font-size: 16px;
+}
+
+.gmal-msg-main {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 3rem;
+  max-width: 20em;
+  padding: 8px;
+  padding-left: 30px;
+  margin-bottom: 0.4rem;
+  overflow: hidden;
+  text-align: center;
+  background: var-color('bg');
+  border-radius: 4px;
+  box-shadow: var-color('shadow-v');
+  animation-duration: 0.3s;
+}
+
+.gmal-msg-content {
+  text-align: left;
+  pointer-events: all;
+
+  /* 解决字体模糊抖动问题 */
+  transform: perspective(1px);
+}
+
+@keyframes gmal-msg-out {
   0% {
     opacity: 1;
     transform: scale(1);
@@ -68,23 +65,30 @@
 }
 
 // for main
-@keyframes gmal-msg-out {
+@keyframes gmal-msg-close {
   100% {
     max-height: 0;
     padding-top: 0;
     padding-bottom: 0;
-    margin-bottom: 0;
+    margin: 0;
   }
 }
 
-@keyframes gmal-msg-movein {
+// 复用alert的动画
+@keyframes gmal-alert-in {
   0% {
-    opacity: 0;
-    transform: scale(0.5);
+    transform: scale(0.7);
+  }
+
+  45% {
+    transform: scale(1.05);
+  }
+
+  80% {
+    transform: scale(0.95);
   }
 
   100% {
-    opacity: 1;
     transform: scale(1);
   }
 }

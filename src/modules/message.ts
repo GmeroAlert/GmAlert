@@ -35,18 +35,18 @@ export function GmMessage(props: PropsMessage): MsgType {
 
   const open = () => {
     getMessageContainer().append($wrapper)
-    changeAnimation($wrapper, cn('msg-movein'))
+    changeAnimation($wrapper, cn('alert-in'))
   }
 
   const close = (status: number) => {
     props.onClose()
     $main.style.maxHeight = `${$main.offsetHeight}px`
-    changeAnimation($wrapper, cn('msg-moveout'))
-    changeAnimation($main, cn('msg-out'))
+    changeAnimation($wrapper, cn('msg-out'))
+    changeAnimation($main, cn('msg-close'))
 
     return new Promise<void>((resolve) => {
       animationendHandle($wrapper, (e: string) => {
-        if (e === cn('msg-moveout')) {
+        if (e === cn('msg-out')) {
           $wrapper.remove()
           props.onClosed(status)
           resolve()

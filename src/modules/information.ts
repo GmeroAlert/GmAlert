@@ -12,14 +12,14 @@ interface PropsInfo extends PropsMessage {
   hideClose?: boolean
 }
 
-const ColorMap: Record<string, string> = {
-  info: '#409eff',
-  success: '#67c23a',
-  warning: '#e6a23c',
-  error: '#f56c6c',
-}
-
 export function GmInformation(props: PropsInfo): MsgType {
+  const ColorMap: Record<string, string> = {
+    info: '#409eff',
+    success: '#67c23a',
+    warn: '#e6a23c',
+    error: '#f56c6c',
+    loading: '#1890ff',
+  }
   const color = ColorMap[props.type] || ColorMap.info
   const $wrapper = newDiv(cn('info'))
   $wrapper.innerHTML =
@@ -39,10 +39,10 @@ export function GmInformation(props: PropsInfo): MsgType {
   const close = (status: number) => {
     props.onClose()
     return new Promise<void>((resolve) => {
-      changeAnimation($wrapper, cn('info-move-out'))
+      changeAnimation($wrapper, cn('info-out'))
 
       animationendHandle($wrapper, (e: string) => {
-        if (e === cn('info-move-out')) {
+        if (e === cn('info-out')) {
           $wrapper.remove()
           props.onClosed(status)
           resolve()

@@ -16,10 +16,10 @@
   animation-fill-mode: both;
 }
 
-.gmal-success-icon {
+.gmal-ok-icon {
   border-color: rgb(166 220 134 / 70%);
 
-  .gmal-success-ring {
+  .gmal-ok-ring {
     position: absolute;
     top: -0.375em;
     left: -0.375em;
@@ -35,7 +35,7 @@
     animation-fill-mode: both;
   }
 
-  .gmal-success-fix {
+  .gmal-ok-fix {
     position: absolute;
     top: 0.5em;
     left: 1.625em;
@@ -45,7 +45,7 @@
     transform: rotate(-45deg);
   }
 
-  .gmal-success-line {
+  .gmal-ok-line {
     position: absolute;
     z-index: 2;
     display: block;
@@ -297,7 +297,7 @@
     }
   }
 
-  .gmal-success-ring {
+  .gmal-ok-ring {
     top: -0.25em;
     left: -0.25em;
     width: 2em;
@@ -305,7 +305,7 @@
     border-width: 0.25em;
   }
 
-  .gmal-success-line {
+  .gmal-ok-line {
     height: 0.25em;
 
     &.gmal-line-tip {
@@ -323,7 +323,7 @@
     }
   }
 
-  .gmal-warn-content,.gmal-info-content,.gmal-err-r,.gmal-success-line,.gmal-success-ring {
+  .gmal-warn-content,.gmal-info-content,.gmal-err-r,.gmal-ok-line,.gmal-ok-ring {
     animation-delay: .3s !important;
   }
 

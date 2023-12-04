@@ -2,6 +2,7 @@ import type { MsgType, PropsMessage } from '../modules/message'
 import { changeStyle, cn, newDiv, setMsgCount } from '../utils/html'
 
 import '../styles/main.scss'
+import type { MsgColor } from '../modules/types'
 
 export interface OneMsg extends Omit<MsgType, 'open'> {
   // 用于标识消息是否重复, 这是内容+类型字符串的组合
@@ -22,7 +23,7 @@ export interface Config {
 
 export interface MsgPropsFull {
   content: string
-  type: 'success' | 'error' | 'warning' | 'info' | 'loading'
+  type: MsgColor
   timeout?: number
   text?: string
   headerLeft?: string
@@ -161,14 +162,14 @@ export class Msg {
   }
 }
 
-function getArgs(args: (string | MsgPropsFull)[]) {
+function getArgs(args: (string | MsgPropsFull | number)[]) {
   const result: MsgPropsFull = {
     content: 'success',
     type: 'success',
   }
 
   let firstStr = false
-  const assignArg = (arg: string | object) => {
+  const assignArg = (arg: string | object | number) => {
     switch (typeof arg) {
       case 'string':
         if (firstStr) {
@@ -178,13 +179,16 @@ function getArgs(args: (string | MsgPropsFull)[]) {
           firstStr = true
         }
         break
+      case 'number':
+        result.timeout = arg
+        break
       case 'object':
         Object.assign(result, arg)
         break
     }
   }
 
-  for (let index = 0; index < 3; index++) {
+  for (let index = 0; index < 4; index++) {
     const element = args[index]
     element && assignArg(element)
   }
@@ -194,7 +198,7 @@ function getArgs(args: (string | MsgPropsFull)[]) {
 
 export function MakeMsg(core: MsgCore, type: number) {
   const $msg = new Msg(core, type)
-  const res = (...args: (string | MsgPropsFull)[]) => {
+  const res = (...args: (string | MsgPropsFull | number)[]) => {
     return $msg.fire(getArgs(args))
   }
 
