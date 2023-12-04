@@ -11,7 +11,7 @@ export interface OneMsg extends Omit<MsgType, 'open'> {
   progress?: {
     pause: () => void
     resume: () => void
-    reset: () => void
+    remove: () => void
   }
   count: number
 }
@@ -79,9 +79,8 @@ export class Msg {
   private sT(oMsg: OneMsg, timeout?: number) {
     if (!timeout) return
     const { $el } = oMsg
-    let p = oMsg.progress!
-    p ??= this.mkP(oMsg, timeout)
-    p.reset()
+    const p = this.mkP(oMsg, timeout)
+    p.resume()
 
     $el.onmouseenter = p.pause
     $el.onmouseleave = p.resume
@@ -89,6 +88,7 @@ export class Msg {
 
   // 设置进度
   private mkP(oMsg: OneMsg, timeout: number) {
+    oMsg.progress?.remove()
     const { $el } = oMsg
     const $progress = newDiv(cn('progress'))
     const $progressBar = newDiv(cn('progress-bar'))
@@ -114,12 +114,11 @@ export class Msg {
       ])
     }
 
-    const reset = () => {
-      changeStyle($progressBar, ['width:100%', 'transition:none'])
-      resume()
+    const remove = () => {
+      $progress.remove()
     }
 
-    return (oMsg.progress = { pause, resume, reset })
+    return (oMsg.progress = { pause, resume, remove })
   }
 
   // 判断消息是否存在, 设置msgCount以及关闭多余消息
