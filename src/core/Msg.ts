@@ -68,10 +68,14 @@ export class Msg {
 
   fire(conf: MsgPropsFull) {
     const oMsg = this.mkMsg(conf)
+
+    // 非loading类型才会设置定时
     if (conf.type !== 'loading') {
       this.sT(oMsg, conf?.timeout || this.timeout)
+      return
     }
 
+    // 只有loading类型的消息才会返回实例
     return oMsg
   }
 
