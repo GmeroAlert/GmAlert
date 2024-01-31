@@ -27,10 +27,10 @@ export function setMsgCount($el: HTMLElement, count: number) {
 }
 
 export const getContainer = () => {
-  let $root = document.querySelector<HTMLElement>(`.gmal-box`)
+  let $root = document.querySelector<HTMLElement>(`.gmal`)
 
   if (!$root) {
-    $root = newDiv(cn('box'))
+    $root = newDiv('gmal')
     document.body.append($root)
   }
 
@@ -60,4 +60,21 @@ export function changeStyle(el: HTMLElement, arr: string[]): void {
   original.pop()
 
   el.style.cssText = `${original.concat(arr).join(';')};`
+}
+
+// 用于设置滚动条
+export function bodyScroll(lock = true) {
+  const $body = document.body
+  if (lock) {
+    $body.style.overflow = 'hidden'
+    // set padding
+    const $html = document.documentElement
+    const bodyWidth = $body.clientWidth
+    const htmlWidth = $html.clientWidth
+    const scrollWidth = htmlWidth - bodyWidth
+    $body.style.paddingRight = `${scrollWidth}px`
+  } else {
+    $body.style.overflow = ''
+    $body.style.paddingRight = ''
+  }
 }
