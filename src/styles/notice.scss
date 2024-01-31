@@ -12,7 +12,7 @@
 
 .gmal-notice {
   position: relative;
-  width: 20rem;
+  width: 325px;
   margin-bottom: 1em;
   pointer-events: all;
   background: var-color('bg');
@@ -38,7 +38,7 @@
 .gmal-notice-icon {
   position: absolute;
   top: 0.7rem;
-  left: 1rem;
+  left: 1em;
   opacity: 0;
 }
 
@@ -69,7 +69,6 @@
     transform: translateX(0);
   }
 }
-
 
 /* 收起 */
 @keyframes gmal-close {

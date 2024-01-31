@@ -6,7 +6,7 @@
   bottom: 1.5em;
   display: flex;
   flex-direction: column;
-  width: 21em;
+  width: 320px;
   pointer-events: all;
   background: var-color('bg');
   border-radius: 5px;
@@ -26,7 +26,7 @@
   opacity: 0.5;
 
   &:hover {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
