@@ -1,5 +1,5 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { cn, getContainer, newDiv } from '../utils/html'
+import { bodyScroll, cn, getContainer, newDiv } from '../utils/html'
 import { AnimatedIcon } from '../component/animatedIcons/animatedIcons'
 import { MakeMsg } from '../core/Msg'
 import { CloseIcon } from '../component/icons/close'
@@ -13,6 +13,7 @@ interface PropsAlert extends PropsMessage {
   hideClose?: boolean
   showConfirm?: boolean
   showCancel?: boolean
+  hideMask?: boolean
 }
 
 function Button(text: string, onClick: () => void) {
@@ -25,8 +26,11 @@ function Button(text: string, onClick: () => void) {
 }
 
 export function GmAlert(props: PropsAlert): MsgType {
+  const $box = newDiv(cn('alert-box'))
   const $wrapper = newDiv(cn('alert'))
   const icon = AnimatedIcon(props.type, false, cn('alert-icon'))
+
+  $box.append($wrapper)
 
   $wrapper.innerHTML = `${icon}<div class="${cn('alert-title')}">${
     props.content
@@ -49,7 +53,8 @@ export function GmAlert(props: PropsAlert): MsgType {
   const $root = getContainer()
 
   const open = () => {
-    $root.append($wrapper)
+    bodyScroll()
+    $root.append($box)
   }
 
   const close = (status: number) => {
@@ -58,12 +63,25 @@ export function GmAlert(props: PropsAlert): MsgType {
     return new Promise<void>((resolve) => {
       animationendHandle($wrapper, (e: string) => {
         if (e === cn('alert-out')) {
-          $wrapper.remove()
+          $box.remove()
+          if (!document.querySelector(`.${cn('alert')}`)) {
+            bodyScroll(false)
+          }
           props.onClosed(status)
           resolve()
         }
       })
     })
+  }
+
+  $box.onclick = (e) => {
+    if (props.hideClose) {
+      return
+    }
+    if (e.target === $box) {
+      props.onClose()
+      close(0)
+    }
   }
 
   if (props.showCancel || props.showConfirm) {

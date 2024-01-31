@@ -1,7 +1,16 @@
 @import './functions';
 
+.gmal-alert-box {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+  background: rgb(0 0 0 / 50%);
+}
+
 .gmal-alert {
-  position: absolute;
   display: flex;
   flex-direction: column;
   min-width: 350px;
@@ -69,10 +78,10 @@
   position: absolute;
   top: 6px;
   right: 6px;
-  opacity: .5;
-  
+  opacity: 0.5;
+
   &:hover {
-      opacity: .8;
+    opacity: 0.8;
   }
 }
 
