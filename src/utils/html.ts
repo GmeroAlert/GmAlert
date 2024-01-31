@@ -66,13 +66,11 @@ export function changeStyle(el: HTMLElement, arr: string[]): void {
 export function bodyScroll(lock = true) {
   const $body = document.body
   if (lock) {
-    $body.style.overflow = 'hidden'
     // set padding
-    const $html = document.documentElement
-    const bodyWidth = $body.clientWidth
-    const htmlWidth = $html.clientWidth
-    const scrollWidth = htmlWidth - bodyWidth
-    $body.style.paddingRight = `${scrollWidth}px`
+    $body.style.paddingRight = `${
+      window.innerWidth - document.documentElement.clientWidth
+    }px`
+    $body.style.overflow = 'hidden'
   } else {
     $body.style.overflow = ''
     $body.style.paddingRight = ''
