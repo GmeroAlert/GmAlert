@@ -14,11 +14,11 @@
   display: flex;
   flex-direction: column;
   min-width: 350px;
-  padding: 1rem;
+  padding: 1em;
   pointer-events: all;
-  background: var-color('bg');
+  background: vars('bg');
   border-radius: 5px;
-  box-shadow: var-color('shadow-v');
+  box-shadow: vars('shadow-v');
   animation: gmal-alert-in 0.3s;
   animation-fill-mode: both;
 }

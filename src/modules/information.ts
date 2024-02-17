@@ -7,6 +7,7 @@ import type { MsgType, PropsMessage } from './message'
 import '../styles/information.scss'
 
 interface PropsInfo extends PropsMessage {
+  title?: string
   headerLeft?: string
   headerRight?: string
   hideClose?: boolean
@@ -24,13 +25,14 @@ export function GmInformation(props: PropsInfo): MsgType {
   const $wrapper = newDiv(cn('info'))
   $wrapper.innerHTML =
     `<div class="${cn('info-header')}"><div class="${cn(
-      'info-status',
-    )}" style="background:${color};"></div><span style="margin-right:auto;font-weight:600">${
-      props.headerLeft || '公告'
-    }</span><span style="font-size:.875em;opacity:.7">${
-      props.headerRight || ''
-    }</span>${props.hideClose ? '' : CloseIcon(cn('info-close'))}</div>` +
-    `<div class="${cn('info-content')}">${props.content}</div>`
+      'info-title',
+    )}" style="background:${color};">${
+      props.title || ''
+    }</div><span style="margin-right:auto">${
+      props.headerLeft || ''
+    }</span><span style="opacity:.7">${props.headerRight || ''}</span>${
+      props.hideClose ? '' : CloseIcon(cn('info-close'))
+    }</div>` + `<div class="${cn('info-content')}">${props.content}</div>`
 
   const open = () => {
     getContainer().append($wrapper)

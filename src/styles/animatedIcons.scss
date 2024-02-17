@@ -6,14 +6,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 5em;
-  height: 5em;
+  width: 6em;
+  height: 6em;
   margin: 0;
-  line-height: 5em;
+  line-height: 6em;
   user-select: none;
   border: 0.4em solid rgb(0 0 0 / 0%);
   border-radius: 50%;
-  animation-fill-mode: both;
+  animation-fill-mode: both !important;
 }
 
 .gmal-ok-icon {
@@ -54,16 +54,16 @@
     border-radius: 0.125em;
 
     &.gmal-line-tip {
-      top: 2.875em;
-      left: 0.8125em;
+      top: 2.9em;
+      left: 0.8em;
       width: 1.5625em;
       transform: rotate(45deg);
       animation: gmal-anim-slt 0.75s;
     }
 
     &.gmal-line-long {
-      top: 2.375em;
-      right: 0.5em;
+      top: 2.36em;
+      right: 0.73em;
       width: 2.9375em;
       transform: rotate(-45deg);
       animation: gmal-anim-sll 0.75s;
@@ -92,8 +92,6 @@
 
 @keyframes gmal-anim-slt {
   0% {
-    top: 1.1875em;
-    left: 0.0625em;
     width: 0;
   }
 
@@ -112,38 +110,36 @@
   84% {
     top: 3em;
     left: 1.3125em;
-    width: 1.0625em;
+    width: 1.1em;
   }
 
   100% {
-    top: 2.8125em;
-    left: 0.8125em;
+    top: 2.9em;
+    left: 0.8em;
     width: 1.5625em;
   }
 }
 
 @keyframes gmal-anim-sll {
   0% {
-    top: 3.375em;
-    right: 2.875em;
     width: 0;
   }
 
   65% {
-    top: 3.375em;
-    right: 2.875em;
+    top: 3.33em;
+    right: 3em;
     width: 0;
   }
 
   84% {
-    top: 2.1875em;
-    right: 0;
-    width: 3.4375em;
+    top: 2.2em;
+    right: 0.13em;
+    width: 3.5em;
   }
 
   100% {
-    top: 2.375em;
-    right: 0.5em;
+    top: 2.36em;
+    right: 0.73em;
     width: 2.9375em;
   }
 }
@@ -160,11 +156,11 @@
 
     .gmal-err-ll {
       position: absolute;
-      top: 2.3125em;
-      left: 1.0625em;
+      top: 2.4em;
+      left: 1.1em;
       display: block;
-      width: 2.9375em;
-      height: 0.3125em;
+      width: 3em;
+      height: 0.32em;
       background-color: #f27474;
       border-radius: 0.125em;
       transform: rotate(45deg);
@@ -172,11 +168,11 @@
 
     .gmal-err-lr {
       position: absolute;
-      top: 2.3125em;
-      right: 1em;
+      top: 2.4em;
+      right: 1.1em;
       display: block;
-      width: 2.9375em;
-      height: 0.3125em;
+      width: 3em;
+      height: 0.32em;
       background-color: #f27474;
       border-radius: 0.125em;
       transform: rotate(-45deg);
@@ -285,61 +281,56 @@
 
 .gmal-aniicon.gmal-dense {
   align-self: center;
-  width: 2em;
-  min-width: 2em;
-  height: 2em;
+  width: 2.6em;
+  height: 2.6em;
   border-width: 0.25em;
-  animation-delay: .3s;
-
-  &.gmal-load-icon {
-    i{
-      font-size: 2.25em;
-    }
-  }
+  animation-delay: 0.3s;
 
   .gmal-ok-ring {
     top: -0.25em;
     left: -0.25em;
-    width: 2em;
-    height: 2em;
     border-width: 0.25em;
   }
 
   .gmal-ok-line {
-    height: 0.25em;
+    height: 0.3em;
 
     &.gmal-line-tip {
-      top: 1.1em;
-      left: 0.22em;
-      width: 0.75em;
+      top: 1.12em;
+      left: 0.2em;
+      width: 0.8em;
       animation: gmal-anim-slt-dense 0.75s;
     }
 
     &.gmal-line-long {
       top: 0.9em;
-      right: 0.15em;
-      width: 1.3em;
+      right: 0.2em;
+      width: 1.4em;
       animation: gmal-anim-sll-dense 0.75s;
     }
   }
 
-  .gmal-warn-content,.gmal-info-content,.gmal-err-r,.gmal-ok-line,.gmal-ok-ring {
-    animation-delay: .3s !important;
+  .gmal-warn-content,
+  .gmal-info-content,
+  .gmal-err-r,
+  .gmal-ok-line,
+  .gmal-ok-ring {
+    animation-delay: 0.3s !important;
   }
 
   .gmal-err-ll,
   .gmal-err-lr {
-    top: 0.875em;
+    top: 1em;
     width: 1.5em;
-    height: 0.25em;
+    height: 0.2em;
   }
 
   .gmal-err-ll {
-    left: 0.25em;
+    left: 0.3em;
   }
 
   .gmal-err-lr {
-    right: 0.25em;
+    right: 0.3em;
   }
 
   .gmal-warn-content,
@@ -351,58 +342,54 @@
 
 @keyframes gmal-anim-slt-dense {
   0% {
-    top: 0.5625em;
-    left: 0.0625em;
     width: 0;
   }
 
   54% {
-    top: 0.25em;
-    left: 0.13em;
+    top: 0.3em;
+    left: 0;
     width: 0;
   }
 
   70% {
-    top: 0.7em;
-    left: -0.14em;
+    top: 0.9em;
+    left: -0.2em;
     width: 1.4em;
   }
 
   84% {
-    top: 1.18em;
-    left: 0.3em;
-    width: 0.7em;
+    top: 1.28em;
+    left: 0.4em;
+    width: 0.62em;
   }
 
   100% {
-    top: 1.1em;
-    left: 0.22em;
-    width: 0.75em;
+    top: 1.12em;
+    left: 0.2em;
+    width: 0.8em;
   }
 }
 
 @keyframes gmal-anim-sll-dense {
   0% {
-    top: 1.6em;
-    right: 1.3em;
     width: 0;
   }
 
   65% {
-    top: 1em;
-    right: 1em;
+    top: 1.2em;
+    right: 1.2em;
     width: 0;
   }
 
   84% {
-    top: 0.91em;
+    top: 0.9em;
     right: 0;
-    width: 1.45em;
+    width: 1.66em;
   }
 
   100% {
     top: 0.9em;
-    right: 0.15em;
-    width: 1.3em;
+    right: 0.2em;
+    width: 1.4em;
   }
 }

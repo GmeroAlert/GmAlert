@@ -24,23 +24,24 @@
 
 .gmal-icon {
   position: absolute;
-  left: 8px;
-  font-size: 16px;
+  left: 0.5em;
+  font-size: 1.25em;
 }
 
 .gmal-msg-main {
   position: relative;
   box-sizing: border-box;
-  min-width: 3rem;
+  min-width: 4em;
   max-width: 20em;
-  padding: 8px;
-  padding-left: 30px;
+  padding: 0.5em;
+  padding-right: 0.6em;
+  padding-left: 2.2em;
   margin-bottom: 0.4rem;
   overflow: hidden;
   text-align: center;
-  background: var-color('bg');
+  background: vars('bg');
   border-radius: 4px;
-  box-shadow: var-color('shadow-v');
+  box-shadow: vars('shadow-v');
   animation-duration: 0.3s;
 }
 

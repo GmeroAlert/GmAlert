@@ -12,12 +12,12 @@
 
 .gmal-notice {
   position: relative;
-  width: 325px;
+  width: 360px;
   margin-bottom: 1em;
   pointer-events: all;
-  background: var-color('bg');
+  background: vars('bg');
   border-radius: 5px;
-  box-shadow: var-color('shadow-v');
+  box-shadow: vars('shadow-v');
   transform-origin: top center;
   animation-duration: 0.4s;
   animation-fill-mode: both;
@@ -29,8 +29,7 @@
 
     .gmal-notice-content {
       position: relative;
-      margin: 1rem 1rem 1.2rem 3.4rem;
-      font-size: 1.1em;
+      margin: 1.3em 1em 1.6em 4em;
     }
   }
 }
@@ -38,7 +37,7 @@
 .gmal-notice-icon {
   position: absolute;
   top: 0.7rem;
-  left: 1em;
+  left: 0.8em;
   opacity: 0;
 }
 

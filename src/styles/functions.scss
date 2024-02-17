@@ -1,8 +1,8 @@
-$color-prefix: --gmal;
+$var-prefix: --gmal;
 
 /* 获取颜色 */
-@function var-color($color) {
-  @return var(#{$color-prefix}-#{$color});
+@function vars($color) {
+  @return var(#{$var-prefix}-#{$color});
 }
 
 // Tint a color: mix a color with white
