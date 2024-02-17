@@ -50,9 +50,15 @@ export default bundles.map(({ input, output }) => ({
     }),
     postcss({
       minimize: true,
-      extract: output.file.includes('-bundle')? false:`${libName}.min.css`, // 如果你想导出css而不是css in js
+      extract: output.file.includes('-bundle') ? false : `${libName}.min.css`, // 如果你想导出css而不是css in js
       inject: output.file.includes('-bundle'),
-      plugins: [postcssPresetEnv()],
+      plugins: [
+        postcssPresetEnv({
+          features: {
+            'custom-properties': false,
+          },
+        }),
+      ],
     }),
     commonjs(),
     babel({

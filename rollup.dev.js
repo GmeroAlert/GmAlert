@@ -21,7 +21,7 @@ const bundles = [
       name: funcName,
       sourcemap: false,
     },
-  }
+  },
 ]
 
 export default bundles.map(({ input, output }) => ({
@@ -32,8 +32,13 @@ export default bundles.map(({ input, output }) => ({
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     }),
     postcss({
-      plugins: [postcssPresetEnv()],
-      minimize: true,
+      plugins: [
+        postcssPresetEnv({
+          features: {
+            'custom-properties': false,
+          },
+        }),
+      ],
       extract: `index.css`, // 如果你想导出css而不是css in js
     }),
     commonjs(),
@@ -41,13 +46,14 @@ export default bundles.map(({ input, output }) => ({
       babelHelpers: 'bundled',
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
       exclude: 'mode_modules/**',
-      plugins: ['annotate-pure-calls']
+      plugins: ['annotate-pure-calls'],
     }),
     terser(),
-    !process.env.needbuild && serve({
-      open: false,
-      contentBase: ['test'],
-      port: 3010
-    })
-  ]
+    !process.env.needbuild &&
+      serve({
+        open: false,
+        contentBase: ['test'],
+        port: 3010,
+      }),
+  ],
 }))
