@@ -2,7 +2,7 @@ import type { MsgType, PropsMessage } from '../modules/message'
 import { changeStyle, cn, newDiv, setMsgCount } from '../utils/html'
 
 import '../styles/main.scss'
-import type { MsgColor } from '../modules/types'
+import type { MsgPropsFull, MsgPropsUser } from '../modules/types'
 
 export interface OneMsg extends Omit<MsgType, 'open'> {
   // 用于标识消息是否重复, 这是内容+类型字符串的组合
@@ -19,20 +19,6 @@ export interface OneMsg extends Omit<MsgType, 'open'> {
 export interface Config {
   timeout: number
   maxCount: number
-}
-
-export interface MsgPropsFull {
-  content: string
-  type: MsgColor
-  timeout?: number
-  text?: string
-  headerLeft?: string
-  headerRight?: string
-  hideClose?: boolean
-  onClosed?: (status: number) => void
-  showConfirm?: boolean
-  showCancel?: boolean
-  html?: string | HTMLElement
 }
 
 export type MsgCore = (props: PropsMessage) => MsgType
@@ -162,7 +148,7 @@ export class Msg {
   }
 }
 
-function getArgs(args: (string | MsgPropsFull | number)[]) {
+function getArgs(args: MsgPropsUser[]) {
   const result: MsgPropsFull = {
     content: 'success',
     type: 'success',
