@@ -48,9 +48,6 @@
 .gmal-msg-content {
   text-align: left;
   pointer-events: all;
-
-  /* 解决字体模糊抖动问题 */
-  transform: perspective(1px);
 }
 
 @keyframes gmal-msg-out {
