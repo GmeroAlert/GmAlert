@@ -17,9 +17,7 @@ function SuccessIcon(dense = false, className = '') {
     'ok-line',
   )} ${cn('line-tip')}"></div><div class="${cn('ok-line')} ${cn(
     'line-long',
-  )}"></div><div class="${cn('ok-ring')}"></div><div class="${cn(
-    'ok-fix',
-  )}"></div></div>`
+  )}"></div><div class="${cn('ok-ring')}"></div></div>`
 }
 
 function ErrorIcon(dense = false, className = '') {

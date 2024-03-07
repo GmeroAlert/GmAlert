@@ -12,15 +12,11 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  border: 0.4em solid transparent;
   animation-fill-mode: both !important;
 }
 
 .gmal-ani-wrap {
   position: absolute;
-  top: -0.375em;
-  left: -0.375em;
-  box-sizing: content-box !important;
   width: 100%;
   height: 100%;
   border: 0.4em solid transparent;
@@ -34,10 +30,7 @@
 }
 .gmal-ok-icon .gmal-ok-ring {
   position: absolute;
-  top: -0.375em;
-  left: -0.375em;
   z-index: 2;
-  box-sizing: content-box;
   width: 100%;
   height: 100%;
   border: 0.4em solid transparent;
@@ -46,15 +39,6 @@
   border-radius: 50%;
   animation: gmal-rt-rscl 0.4s ease-in;
   animation-fill-mode: both;
-}
-.gmal-ok-icon .gmal-ok-fix {
-  position: absolute;
-  top: 0.5em;
-  left: 1.625em;
-  z-index: 1;
-  width: 0.4375em;
-  height: 5.625em;
-  transform: rotate(-45deg);
 }
 .gmal-ok-icon .gmal-ok-line {
   position: absolute;
@@ -65,16 +49,16 @@
   border-radius: 0.125em;
 }
 .gmal-ok-icon .gmal-ok-line.gmal-line-tip {
-  top: 2.9em;
-  left: 0.8em;
-  width: 1.5625em;
+  top: 3.3em;
+  left: 1.21em;
+  width: 1.6em;
   transform: rotate(45deg);
   animation: gmal-anim-slt 0.75s;
 }
 .gmal-ok-icon .gmal-ok-line.gmal-line-long {
-  top: 2.36em;
-  right: 0.73em;
-  width: 2.9375em;
+  top: 2.8em;
+  right: 1.07em;
+  width: 3em;
   transform: rotate(-45deg);
   animation: gmal-anim-sll 0.75s;
 }
@@ -99,24 +83,24 @@
     width: 0;
   }
   54% {
-    top: 1.0625em;
-    left: 0.125em;
+    top: 1.48em;
+    left: 0.54em;
     width: 0;
   }
   70% {
-    top: 2.1875em;
-    left: -0.375em;
+    top: 2.5em;
+    left: 0;
     width: 3.125em;
   }
   84% {
-    top: 3em;
-    left: 1.3125em;
+    top: 3.42em;
+    left: 1.7em;
     width: 1.1em;
   }
   100% {
-    top: 2.9em;
-    left: 0.8em;
-    width: 1.5625em;
+    top: 3.3em;
+    left: 1.21em;
+    width: 1.6em;
   }
 }
 @keyframes gmal-anim-sll {
@@ -124,19 +108,19 @@
     width: 0;
   }
   65% {
-    top: 3.33em;
-    right: 3em;
+    top: 3.72em;
+    right: 3.36em;
     width: 0;
   }
   84% {
-    top: 2.2em;
-    right: 0.13em;
+    top: 2.6em;
+    right: 0.5em;
     width: 3.5em;
   }
   100% {
-    top: 2.36em;
-    right: 0.73em;
-    width: 2.9375em;
+    top: 2.8em;
+    right: 1.07em;
+    width: 3em;
   }
 }
 .gmal-err-icon {
@@ -150,8 +134,8 @@
 }
 .gmal-err-icon .gmal-err-r .gmal-err-ll {
   position: absolute;
-  top: 2.4em;
-  left: 1.1em;
+  top: 2.8em;
+  left: 1.5em;
   display: block;
   width: 3em;
   height: 0.32em;
@@ -161,8 +145,8 @@
 }
 .gmal-err-icon .gmal-err-r .gmal-err-lr {
   position: absolute;
-  top: 2.4em;
-  right: 1.1em;
+  top: 2.8em;
+  right: 1.5em;
   display: block;
   width: 3em;
   height: 0.32em;
@@ -257,31 +241,26 @@
   align-self: center;
   width: 2.6em;
   height: 2.6em;
-  border-width: 0.25em;
   animation-delay: 0.3s;
 }
 .gmal-aniicon.gmal-dense .gmal-ok-ring {
-  top: -0.25em;
-  left: -0.25em;
   border-width: 0.25em;
 }
 .gmal-aniicon.gmal-dense .gmal-ani-wrap {
-  top: -0.25em;
-  left: -0.25em;
   border-width: 0.25em;
 }
 .gmal-aniicon.gmal-dense .gmal-ok-line {
   height: 0.3em;
 }
 .gmal-aniicon.gmal-dense .gmal-ok-line.gmal-line-tip {
-  top: 1.12em;
-  left: 0.2em;
+  top: 1.37em;
+  left: 0.45em;
   width: 0.8em;
   animation: gmal-anim-slt-dense 0.75s;
 }
 .gmal-aniicon.gmal-dense .gmal-ok-line.gmal-line-long {
-  top: 0.9em;
-  right: 0.2em;
+  top: 1.15em;
+  right: 0.45em;
   width: 1.4em;
   animation: gmal-anim-sll-dense 0.75s;
 }
@@ -294,15 +273,15 @@
 }
 .gmal-aniicon.gmal-dense .gmal-err-ll,
 .gmal-aniicon.gmal-dense .gmal-err-lr {
-  top: 1em;
+  top: 1.25em;
   width: 1.5em;
   height: 0.2em;
 }
 .gmal-aniicon.gmal-dense .gmal-err-ll {
-  left: 0.3em;
+  left: 0.55em;
 }
 .gmal-aniicon.gmal-dense .gmal-err-lr {
-  right: 0.3em;
+  right: 0.55em;
 }
 .gmal-aniicon.gmal-dense .gmal-warn-content,
 .gmal-aniicon.gmal-dense .gmal-info-content {
@@ -315,23 +294,23 @@
     width: 0;
   }
   54% {
-    top: 0.3em;
-    left: 0;
+    top: 0.55em;
+    left: 0.25em;
     width: 0;
   }
   70% {
-    top: 0.9em;
-    left: -0.2em;
+    top: 1.15em;
+    left: 0.05em;
     width: 1.4em;
   }
   84% {
-    top: 1.28em;
-    left: 0.4em;
+    top: 1.53em;
+    left: 0.65em;
     width: 0.62em;
   }
   100% {
-    top: 1.12em;
-    left: 0.2em;
+    top: 1.37em;
+    left: 0.45em;
     width: 0.8em;
   }
 }
@@ -340,18 +319,18 @@
     width: 0;
   }
   65% {
-    top: 1.2em;
-    right: 1.2em;
+    top: 1.45em;
+    right: 1.45em;
     width: 0;
   }
   84% {
-    top: 0.9em;
-    right: 0;
+    top: 1.15em;
+    right: 0.25em;
     width: 1.66em;
   }
   100% {
-    top: 0.9em;
-    right: 0.2em;
+    top: 1.15em;
+    right: 0.45em;
     width: 1.4em;
   }
 }
@@ -374,11 +353,11 @@
   --gmal-border: 1px solid #d3d3d3;
   --gmal-shadow: rgba(0, 0, 0, 0.08);
   --gmal-shadow-v: 0 0 1px var(--gmal-shadow), 1px 2px 4px var(--gmal-shadow), 1px 3px 8px var(--gmal-shadow);
-  --gmal-success: #52c41a;
-  --gmal-info: #29abe2;
-  --gmal-warn: #faad14;
-  --gmal-error: #f5222d;
-  --gmal-loading: #1f00a7;
+  --gmal-success: #72b948;
+  --gmal-info: #30abd4;
+  --gmal-warn: #d1935c;
+  --gmal-error: #da5252;
+  --gmal-loading: #4e8da8;
 }
 .gmal * {
   box-sizing: border-box;
