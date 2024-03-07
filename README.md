@@ -5,6 +5,8 @@
 - 每种消息类型支持多种样式，error、success、warn、info、loading
 - 轻量级，js + css 仅仅 20kb(没有使用 gzip 压缩)
 
+DEMO: <https://gmeroalert.github.io/GmAlert/> (DEMO 展示的是 main 分支开发版本，可能跟 release 版本有区别)
+
 文档: <https://gmeroalert.github.io/>
 
 ## 安装
