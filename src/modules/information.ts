@@ -14,25 +14,17 @@ interface PropsInfo extends PropsMessage {
 }
 
 export function GmInformation(props: PropsInfo): MsgType {
-  const ColorMap: Record<string, string> = {
-    info: '#409eff',
-    success: '#67c23a',
-    warn: '#e6a23c',
-    error: '#f56c6c',
-    loading: '#1890ff',
-  }
-  const color = ColorMap[props.type] || ColorMap.info
+  const color = `var(--gmal-${props.type})`
   const $wrapper = newDiv(cn('info'))
   $wrapper.innerHTML =
-    `<div class="${cn('info-header')}"><div class="${cn(
-      'info-title',
-    )}" style="background:${color};">${
+    `<div class="${cn('info-header')}"><div class="${cn('info-title')} ${
+      props.type === 'loading' ? cn('load') : ''
+    }" style="background:${color}">${
       props.title || ''
     }</div><span style="margin-right:auto">${
       props.headerLeft || ''
-    }</span><span style="opacity:.7">${props.headerRight || ''}</span>${
-      props.hideClose ? '' : CloseIcon(cn('info-close'))
-    }</div>` + `<div class="${cn('info-content')}">${props.content}</div>`
+    }</span><span style="opacity:.7">${props.headerRight || ''}</span></div>` +
+    `<div class="${cn('info-content')}">${props.content}</div>`
 
   const open = () => {
     getContainer().append($wrapper)
@@ -54,10 +46,12 @@ export function GmInformation(props: PropsInfo): MsgType {
   }
 
   if (!props.hideClose) {
-    const $close = $wrapper.querySelector<HTMLElement>(`.${cn('info-close')}`)!
+    const $head = $wrapper.querySelector<HTMLElement>(`.${cn('info-header')}`)!
+    const $close = CloseIcon()
     $close.onclick = () => {
       close(0)
     }
+    $head.append($close)
   }
 
   return { open, close, $el: $wrapper }

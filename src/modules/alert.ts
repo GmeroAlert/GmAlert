@@ -102,8 +102,7 @@ export function GmAlert(props: PropsAlert): MsgType {
   }
 
   if (!props.hideClose) {
-    const $close = newDiv()
-    $close.innerHTML = CloseIcon(cn('alert-close'))
+    const $close = CloseIcon()
 
     $close.onclick = () => {
       close(0)

@@ -1,0 +1,853 @@
+@charset "UTF-8";
+/* 获取颜色 */
+.gmal-aniicon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 6em;
+  height: 6em;
+  margin: 0;
+  line-height: 6em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  border: 0.4em solid transparent;
+  animation-fill-mode: both !important;
+}
+
+.gmal-ani-wrap {
+  position: absolute;
+  top: -0.375em;
+  left: -0.375em;
+  box-sizing: content-box !important;
+  width: 100%;
+  height: 100%;
+  border: 0.4em solid transparent;
+  border-color: currentcolor;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.gmal-ok-icon {
+  color: var(--gmal-success);
+}
+.gmal-ok-icon .gmal-ok-ring {
+  position: absolute;
+  top: -0.375em;
+  left: -0.375em;
+  z-index: 2;
+  box-sizing: content-box;
+  width: 100%;
+  height: 100%;
+  border: 0.4em solid transparent;
+  border-top-color: currentcolor;
+  border-right-color: currentcolor;
+  border-radius: 50%;
+  animation: gmal-rt-rscl 0.4s ease-in;
+  animation-fill-mode: both;
+}
+.gmal-ok-icon .gmal-ok-fix {
+  position: absolute;
+  top: 0.5em;
+  left: 1.625em;
+  z-index: 1;
+  width: 0.4375em;
+  height: 5.625em;
+  transform: rotate(-45deg);
+}
+.gmal-ok-icon .gmal-ok-line {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  height: 0.3125em;
+  background: currentcolor;
+  border-radius: 0.125em;
+}
+.gmal-ok-icon .gmal-ok-line.gmal-line-tip {
+  top: 2.9em;
+  left: 0.8em;
+  width: 1.5625em;
+  transform: rotate(45deg);
+  animation: gmal-anim-slt 0.75s;
+}
+.gmal-ok-icon .gmal-ok-line.gmal-line-long {
+  top: 2.36em;
+  right: 0.73em;
+  width: 2.9375em;
+  transform: rotate(-45deg);
+  animation: gmal-anim-sll 0.75s;
+}
+
+@keyframes gmal-rt-rscl {
+  0% {
+    transform: rotate(72deg);
+  }
+  5% {
+    transform: rotate(72deg);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-14deg);
+  }
+}
+@keyframes gmal-anim-slt {
+  0% {
+    width: 0;
+  }
+  54% {
+    top: 1.0625em;
+    left: 0.125em;
+    width: 0;
+  }
+  70% {
+    top: 2.1875em;
+    left: -0.375em;
+    width: 3.125em;
+  }
+  84% {
+    top: 3em;
+    left: 1.3125em;
+    width: 1.1em;
+  }
+  100% {
+    top: 2.9em;
+    left: 0.8em;
+    width: 1.5625em;
+  }
+}
+@keyframes gmal-anim-sll {
+  0% {
+    width: 0;
+  }
+  65% {
+    top: 3.33em;
+    right: 3em;
+    width: 0;
+  }
+  84% {
+    top: 2.2em;
+    right: 0.13em;
+    width: 3.5em;
+  }
+  100% {
+    top: 2.36em;
+    right: 0.73em;
+    width: 2.9375em;
+  }
+}
+.gmal-err-icon {
+  color: var(--gmal-error);
+  animation: gmal-anim-err 0.5s;
+}
+.gmal-err-icon .gmal-err-r {
+  flex-grow: 1;
+  height: 100%;
+  animation: gmal-anim-err-l 0.5s;
+}
+.gmal-err-icon .gmal-err-r .gmal-err-ll {
+  position: absolute;
+  top: 2.4em;
+  left: 1.1em;
+  display: block;
+  width: 3em;
+  height: 0.32em;
+  background: currentcolor;
+  border-radius: 0.125em;
+  transform: rotate(45deg);
+}
+.gmal-err-icon .gmal-err-r .gmal-err-lr {
+  position: absolute;
+  top: 2.4em;
+  right: 1.1em;
+  display: block;
+  width: 3em;
+  height: 0.32em;
+  background: currentcolor;
+  border-radius: 0.125em;
+  transform: rotate(-45deg);
+}
+
+@keyframes gmal-anim-err {
+  0% {
+    opacity: 0;
+    transform: rotateX(100deg);
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+@keyframes gmal-anim-err-l {
+  0% {
+    margin-top: 1.625em;
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  50% {
+    margin-top: 1.625em;
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  80% {
+    margin-top: -0.375em;
+    transform: scale(1.15);
+  }
+  100% {
+    margin-top: 0;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.gmal-warn-icon {
+  color: var(--gmal-warn);
+  animation: gmal-anim-err 0.5s;
+}
+.gmal-warn-icon .gmal-warn-content {
+  display: flex;
+  align-items: center;
+  font-size: 3.75em;
+  animation: gmal-anim-warn 0.8s;
+}
+
+@keyframes gmal-anim-warn {
+  0% {
+    opacity: 0;
+    transform: rotateZ(45deg);
+  }
+  25% {
+    opacity: 0.4;
+    transform: rotateZ(-25deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: rotateZ(15deg);
+  }
+  75% {
+    opacity: 1;
+    transform: rotateZ(-5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0);
+  }
+}
+.gmal-info-icon {
+  color: #3fc3ee;
+  animation: gmal-anim-err 0.5s;
+}
+.gmal-info-icon .gmal-info-content {
+  display: flex;
+  align-items: center;
+  font-size: 3.75em;
+  animation: gmal-anim-warn 0.8s;
+}
+
+.gmal-load-icon {
+  line-height: 1;
+  border-color: transparent;
+}
+.gmal-load-icon svg {
+  font-size: 5.4em;
+}
+
+.gmal-aniicon.gmal-dense {
+  align-self: center;
+  width: 2.6em;
+  height: 2.6em;
+  border-width: 0.25em;
+  animation-delay: 0.3s;
+}
+.gmal-aniicon.gmal-dense .gmal-ok-ring {
+  top: -0.25em;
+  left: -0.25em;
+  border-width: 0.25em;
+}
+.gmal-aniicon.gmal-dense .gmal-ani-wrap {
+  top: -0.25em;
+  left: -0.25em;
+  border-width: 0.25em;
+}
+.gmal-aniicon.gmal-dense .gmal-ok-line {
+  height: 0.3em;
+}
+.gmal-aniicon.gmal-dense .gmal-ok-line.gmal-line-tip {
+  top: 1.12em;
+  left: 0.2em;
+  width: 0.8em;
+  animation: gmal-anim-slt-dense 0.75s;
+}
+.gmal-aniicon.gmal-dense .gmal-ok-line.gmal-line-long {
+  top: 0.9em;
+  right: 0.2em;
+  width: 1.4em;
+  animation: gmal-anim-sll-dense 0.75s;
+}
+.gmal-aniicon.gmal-dense .gmal-warn-content,
+.gmal-aniicon.gmal-dense .gmal-info-content,
+.gmal-aniicon.gmal-dense .gmal-err-r,
+.gmal-aniicon.gmal-dense .gmal-ok-line,
+.gmal-aniicon.gmal-dense .gmal-ok-ring {
+  animation-delay: 0.3s !important;
+}
+.gmal-aniicon.gmal-dense .gmal-err-ll,
+.gmal-aniicon.gmal-dense .gmal-err-lr {
+  top: 1em;
+  width: 1.5em;
+  height: 0.2em;
+}
+.gmal-aniicon.gmal-dense .gmal-err-ll {
+  left: 0.3em;
+}
+.gmal-aniicon.gmal-dense .gmal-err-lr {
+  right: 0.3em;
+}
+.gmal-aniicon.gmal-dense .gmal-warn-content,
+.gmal-aniicon.gmal-dense .gmal-info-content {
+  font-size: 1.75em;
+  font-weight: bold;
+}
+
+@keyframes gmal-anim-slt-dense {
+  0% {
+    width: 0;
+  }
+  54% {
+    top: 0.3em;
+    left: 0;
+    width: 0;
+  }
+  70% {
+    top: 0.9em;
+    left: -0.2em;
+    width: 1.4em;
+  }
+  84% {
+    top: 1.28em;
+    left: 0.4em;
+    width: 0.62em;
+  }
+  100% {
+    top: 1.12em;
+    left: 0.2em;
+    width: 0.8em;
+  }
+}
+@keyframes gmal-anim-sll-dense {
+  0% {
+    width: 0;
+  }
+  65% {
+    top: 1.2em;
+    right: 1.2em;
+    width: 0;
+  }
+  84% {
+    top: 0.9em;
+    right: 0;
+    width: 1.66em;
+  }
+  100% {
+    top: 0.9em;
+    right: 0.2em;
+    width: 1.4em;
+  }
+}
+@charset "UTF-8";
+/* 获取颜色 */
+.gmal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  overflow: visible;
+  font: 16px/1.3 "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  color: var(--gmal-text);
+  pointer-events: none;
+  --gmal-bg: #fff;
+  --gmal-text: #5a5a5a;
+  --gmal-light: #ddd;
+  --gmal-border: 1px solid #d3d3d3;
+  --gmal-shadow: rgba(0, 0, 0, 0.08);
+  --gmal-shadow-v: 0 0 1px var(--gmal-shadow), 1px 2px 4px var(--gmal-shadow), 1px 3px 8px var(--gmal-shadow);
+  --gmal-success: #52c41a;
+  --gmal-info: #29abe2;
+  --gmal-warn: #faad14;
+  --gmal-error: #f5222d;
+  --gmal-loading: #1f00a7;
+}
+.gmal * {
+  box-sizing: border-box;
+}
+
+.gmal-count {
+  position: absolute;
+  top: -0.4em;
+  left: -0.5em;
+  display: inline-block;
+  min-width: 1.2em;
+  height: 1.2em;
+  padding: 0 1px;
+  font-size: 0.875em;
+  color: #fff;
+  text-align: center;
+  background-color: rgb(236, 49, 49);
+  border-radius: 3px;
+  animation-duration: 0.3s;
+}
+
+.gmal-close {
+  font-family: monospace;
+  font-size: 1.8em;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 5px;
+  opacity: 0.5;
+  transition: all 0.2s;
+}
+.gmal-close:hover {
+  background: var(--gmal-light);
+}
+
+.gmal-progress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.gmal-progress .gmal-progress-bar {
+  display: flex;
+  width: 100%;
+  height: 0.25em;
+  background: var(--gmal-light);
+}
+
+/* svg抖动 */
+@keyframes gmal-shake {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  25%, 75% {
+    opacity: 0.75;
+    transform: translateX(-4px);
+  }
+  50% {
+    opacity: 0.25;
+    transform: translateX(4px);
+  }
+}
+.gmal-ani-turn {
+  animation: gmal-turn 1s linear infinite;
+}
+
+/* loading的转动 */
+@keyframes gmal-turn {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@charset "UTF-8";
+/* 获取颜色 */
+.gmal-alert-box {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.gmal-alert {
+  display: flex;
+  flex-direction: column;
+  min-width: 350px;
+  padding: 1em;
+  pointer-events: all;
+  background: var(--gmal-bg);
+  border-radius: 5px;
+  box-shadow: var(--gmal-shadow-v);
+  animation: gmal-alert-in 0.3s;
+  animation-fill-mode: both;
+}
+.gmal-alert .gmal-close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+
+.gmal-alert-icon {
+  margin: 0 auto;
+}
+
+.gmal-alert-btn-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.gmal-alert-btn-group .gmal-alert-btn {
+  padding: 0.625em 1.1em;
+  margin: 0.3125em;
+  font-size: 1em;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  background: transparent none repeat 0 0 / auto auto padding-box border-box scroll;
+  background: initial;
+  background-color: #7066e0;
+  border: 0;
+  border-radius: 0.25em;
+}
+.gmal-alert-btn-group .gmal-alert-btn:hover {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
+}
+
+.gmal-alert-content {
+  z-index: 1;
+  margin: 1em 1.6em 0.3em;
+  overflow: auto;
+  font-size: 1.125em;
+  color: inherit;
+  text-align: center;
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+.gmal-alert-title {
+  position: relative;
+  max-width: 100%;
+  padding: 0.8em 1em 0;
+  margin: 0;
+  font-size: 1.875em;
+  font-weight: 600;
+  color: inherit;
+  text-align: center;
+  text-transform: none;
+  word-wrap: break-word;
+}
+
+@keyframes gmal-alert-in {
+  0% {
+    transform: scale(0.7);
+  }
+  45% {
+    transform: scale(1.05);
+  }
+  80% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes gmal-alert-out {
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+@charset "UTF-8";
+/* 获取颜色 */
+.gmal-msg-box {
+  position: absolute;
+  top: calc(50% - 4rem);
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gmal-msg {
+  position: relative;
+  overflow: visible;
+  pointer-events: all;
+  transform-origin: center;
+  animation-duration: 0.3s;
+}
+.gmal-msg .gmal-progress {
+  opacity: 0;
+}
+
+.gmal-icon {
+  position: absolute;
+  left: 0.5em;
+  font-size: 1.25em;
+}
+
+.gmal-msg-main {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 4em;
+  max-width: 20em;
+  padding: 0.5em;
+  padding-right: 0.6em;
+  padding-left: 2.2em;
+  margin-bottom: 0.4rem;
+  overflow: hidden;
+  text-align: center;
+  background: var(--gmal-bg);
+  border-radius: 4px;
+  box-shadow: var(--gmal-shadow-v);
+  animation-duration: 0.3s;
+}
+
+.gmal-msg-content {
+  text-align: left;
+  pointer-events: all;
+  /* 解决字体模糊抖动问题 */
+  transform: perspective(1px);
+}
+
+@keyframes gmal-msg-out {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+@keyframes gmal-msg-close {
+  100% {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+  }
+}
+@keyframes gmal-alert-in {
+  0% {
+    transform: scale(0.7);
+  }
+  45% {
+    transform: scale(1.05);
+  }
+  80% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@charset "UTF-8";
+/* 获取颜色 */
+.gmal-notice-box {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.gmal-notice {
+  position: relative;
+  width: 360px;
+  margin-bottom: 1em;
+  pointer-events: all;
+  background: var(--gmal-bg);
+  border-radius: 5px;
+  box-shadow: var(--gmal-shadow-v);
+  transform-origin: top center;
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
+}
+.gmal-notice .gmal-notice-main {
+  display: flex;
+  flex-direction: column;
+  align-items: normal;
+}
+.gmal-notice .gmal-notice-main .gmal-notice-content {
+  position: relative;
+  margin: 1.3em 1em 1.35em 4em;
+}
+
+.gmal-notice-icon {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.8em;
+  opacity: 0;
+}
+
+/* 展开 */
+@keyframes gmal-open {
+  0% {
+    max-height: 0;
+    opacity: 0;
+  }
+  30% {
+    max-height: var(--mh);
+    opacity: 0;
+    transform: translateX(80%);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(-2%);
+  }
+  85% {
+    transform: translateX(1%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+/* 收起 */
+@keyframes gmal-close {
+  30% {
+    opacity: 1;
+    transform: translateX(-2%);
+  }
+  65% {
+    max-height: var(--mh);
+    margin-bottom: 1em;
+    opacity: 0;
+    transform: translateX(80%);
+  }
+  100% {
+    max-height: 0;
+    margin: 0;
+    opacity: 0;
+  }
+}
+@charset "UTF-8";
+/* 获取颜色 */
+.gmal-info {
+  position: absolute;
+  right: 2em;
+  bottom: 1.5em;
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  padding: 0.5em 1em;
+  pointer-events: all;
+  background: var(--gmal-bg);
+  border-radius: 5px;
+  box-shadow: var(--gmal-shadow-v);
+  animation: 0.3s gmal-info-in ease-in-out;
+}
+
+.gmal-info-header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 3px;
+  font-size: 0.92em;
+  border-bottom: var(--gmal-border);
+}
+.gmal-info-header .gmal-close {
+  margin-right: -0.3em;
+  margin-left: 0.1em;
+}
+
+.gmal-info-title {
+  min-width: 1.3em;
+  height: 1.3em;
+  padding: 0 0.3em;
+  margin-right: 0.4em;
+  color: #fff;
+  border-radius: 0.2em;
+}
+.gmal-info-title.gmal-load {
+  animation: 1s gmal-loading infinite;
+}
+
+.gmal-info-content {
+  padding: 0.5em;
+}
+
+@keyframes gmal-info-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes gmal-info-out {
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+@keyframes gmal-loading {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+:root {
+  --c-bg: #fff;
+  --c-text: #000;
+}
+
+body {
+  color: var(--c-text);
+  background-color: var(--c-bg);
+}
+
+[data-theme=dark] body {
+  --c-bg: rgb(20, 20, 20);
+  --c-text: #a8a8a8;
+}
+[data-theme=dark] .gmal {
+  --gmal-bg: #303030;
+  --gmal-text: #a8a8a8;
+  --gmal-border: 1px solid #535353;
+  --gmal-light: #535353;
+  --gmal-shadow: rgba(255, 255, 255, 0.1);
+}
+
+.btn {
+  padding: 0.5rem 1.3rem;
+  color: #fff;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  cursor: pointer;
+  background-color: #007fff;
+  border: none;
+  border-radius: 2px;
+  outline: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-box {
+  display: flex;
+  flex-wrap: wrap;
+}
+.btn-box .btn {
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+.area {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}

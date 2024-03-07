@@ -10,8 +10,10 @@ function baseCn(dense: boolean, className: string, extClassName: string) {
   } ${extClassName}"`
 }
 
+const border = `<div class="${cn('ani-wrap')}"></div>`
+
 function SuccessIcon(dense = false, className = '') {
-  return `<div ${baseCn(dense, 'ok-icon', className)}><div class="${cn(
+  return `<div ${baseCn(dense, 'ok-icon', className)}>${border}<div class="${cn(
     'ok-line',
   )} ${cn('line-tip')}"></div><div class="${cn('ok-line')} ${cn(
     'line-long',
@@ -21,23 +23,29 @@ function SuccessIcon(dense = false, className = '') {
 }
 
 function ErrorIcon(dense = false, className = '') {
-  return `<div ${baseCn(dense, 'err-icon', className)}><div class="${cn(
-    'err-r',
-  )}"><div class="${cn('err-ll')}"></div><div class="${cn(
-    'err-lr',
-  )}"></div></div></div>`
+  return `<div ${baseCn(
+    dense,
+    'err-icon',
+    className,
+  )}>${border}<div class="${cn('err-r')}"><div class="${cn(
+    'err-ll',
+  )}"></div><div class="${cn('err-lr')}"></div></div></div>`
 }
 
 function WarnIcon(dense = false, className = '') {
-  return `<div ${baseCn(dense, 'warn-icon', className)}><div class="${cn(
-    'warn-content',
-  )}">!</div></div>`
+  return `<div ${baseCn(
+    dense,
+    'warn-icon',
+    className,
+  )}>${border}<div class="${cn('warn-content')}">!</div></div>`
 }
 
 function InfoIcon(dense = false, className = '') {
-  return `<div ${baseCn(dense, 'info-icon', className)}><div class="${cn(
-    'info-content',
-  )}">i</div></div>`
+  return `<div ${baseCn(
+    dense,
+    'info-icon',
+    className,
+  )}>${border}<div class="${cn('info-content')}">i</div></div>`
 }
 
 function LoadingIcon(dense = false, className = '') {

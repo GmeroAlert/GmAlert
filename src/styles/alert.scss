@@ -21,6 +21,12 @@
   box-shadow: vars('shadow-v');
   animation: gmal-alert-in 0.3s;
   animation-fill-mode: both;
+
+  .gmal-close {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+  }
 }
 
 .gmal-alert-icon {
@@ -72,17 +78,6 @@
   text-align: center;
   text-transform: none;
   word-wrap: break-word;
-}
-
-.gmal-alert-close {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  opacity: 0.5;
-
-  &:hover {
-    opacity: 0.8;
-  }
 }
 
 @keyframes gmal-alert-in {

@@ -18,17 +18,13 @@
 .gmal-info-header {
   display: flex;
   align-items: center;
-  padding: 0.4em 0;
+  padding-bottom: 3px;
   font-size: 0.92em;
   border-bottom: vars('border');
-}
 
-.gmal-info-close {
-  margin-left: 0.5em;
-  opacity: 0.5;
-
-  &:hover {
-    opacity: 1;
+  .gmal-close {
+    margin-right: -.3em;
+    margin-left: .1em;
   }
 }
 
@@ -36,9 +32,13 @@
   min-width: 1.3em;
   height: 1.3em;
   padding: 0 0.3em;
-  margin-right: 0.5em;
+  margin-right: 0.4em;
   color: #fff;
   border-radius: 0.2em;
+  
+  &.gmal-load {
+    animation: 1s gmal-loading infinite;
+  }
 }
 
 .gmal-info-content {
@@ -61,5 +61,19 @@
   100% {
     opacity: 0;
     transform: translateY(20px);
+  }
+}
+
+@keyframes gmal-loading {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
   }
 }

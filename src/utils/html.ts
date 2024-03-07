@@ -4,10 +4,18 @@ export function cn(className: string) {
   return `gmal-${className}`
 }
 
+export function varName(name: string) {
+  return `var(--${cn(name)})`
+}
+
+export function newEl(tag: string, ...className: string[]) {
+  const $el = document.createElement(tag)
+  $el.classList.add(...className)
+  return $el
+}
+
 export function newDiv(...className: string[]) {
-  const $div = document.createElement('div')
-  $div.classList.add(...className)
-  return $div
+  return newEl('div', ...className)
 }
 
 export function setMsgCount($el: HTMLElement, count: number) {

@@ -3,17 +3,19 @@
 $theme-vars: (
   'bg': #fff,
   'text': #5a5a5a,
-  'light': #d4d4d4,
+  'light': #ddd,
   'border': 1px solid #d3d3d3,
   'shadow': rgb(0 0 0 / 8%),
-  'fs': 16px,
-  'font-family':
-    'Helvetica Neue, Helvetica, Arial, PingFang SC, Hiragino Sans GB, Heiti SC, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif',
   'shadow-v': (
     0 0 1px #{vars('shadow')},
     1px 2px 4px #{vars('shadow')},
     1px 3px 8px #{vars('shadow')},
   ),
+  'success': #52c41a,
+  'info': #29abe2,
+  'warn':#faad14,
+  'error': #f5222d,
+  'loading': #1f00a7,
 );
 
 .gmal {
@@ -21,9 +23,9 @@ $theme-vars: (
   inset: 0;
   z-index: 9999;
   overflow: visible;
-  font-family: vars('font-family');
-  font-size: vars('fs');
-  line-height: 1.3;
+  font: 16px/1.3 "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+  "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei",
+  sans-serif;
   color: vars('text');
   pointer-events: none;
 
@@ -52,6 +54,22 @@ $theme-vars: (
   animation-duration: 0.3s;
 }
 
+.gmal-close {
+  font-family: monospace;
+  font-size: 1.8em;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 5px;
+  opacity: .5;
+  transition: all 0.2s;
+
+  &:hover {
+    background: vars('light');
+  }
+}
+
 .gmal-progress {
   position: absolute;
   right: 0;
@@ -65,7 +83,7 @@ $theme-vars: (
     display: flex;
     width: 100%;
     height: 0.25em;
-    background-color: vars('light');
+    background: vars('light');
   }
 }
 

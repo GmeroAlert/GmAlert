@@ -17,5 +17,5 @@
   },
   // 入口文件
   "include": ["src/**/*.ts", "lib/**/*", "main.d.ts"],
-  "exclude": ["node_modules", "lib", "test", "dist"]
+  "exclude": ["node_modules", "lib", "demo", "dist"]
 }

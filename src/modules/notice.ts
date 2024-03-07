@@ -10,8 +10,9 @@ export function GmNotice(props: PropsMessage): MsgType {
   const icon = AnimatedIcon(props.type, true, cn('notice-icon'))
   const $wrapper = newDiv(cn('notice'))
 
-  $wrapper.innerHTML = `<div class="${cn('notice-main')}">${icon}\
-  <div class="${cn('notice-content')}">${props.content}</div></div>`
+  $wrapper.innerHTML = `<div class="${cn(
+    'notice-main',
+  )}">${icon}<div class="${cn('notice-content')}">${props.content}</div></div>`
 
   const open = () => {
     getNoticeContainer().prepend($wrapper)

@@ -41,6 +41,7 @@ export interface MsgPropsFull {
   showConfirm?: boolean
   showCancel?: boolean
   html?: string | HTMLElement
+  hideMask?: boolean
 }
 
 export type MsgPropsUser = Partial<MsgPropsFull> | string | number

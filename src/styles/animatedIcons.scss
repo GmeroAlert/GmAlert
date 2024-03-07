@@ -2,7 +2,6 @@
 
 .gmal-aniicon {
   position: relative;
-  box-sizing: content-box;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,13 +10,25 @@
   margin: 0;
   line-height: 6em;
   user-select: none;
-  border: 0.4em solid rgb(0 0 0 / 0%);
-  border-radius: 50%;
+  border: 0.4em solid transparent;
   animation-fill-mode: both !important;
 }
 
+.gmal-ani-wrap {
+  position: absolute;
+  top: -0.375em;
+  left: -0.375em;
+  box-sizing: content-box !important;
+  width: 100%;
+  height: 100%;
+  border: 0.4em solid transparent;
+  border-color: currentcolor;
+  border-radius: 50%;
+  opacity: .6;
+}
+
 .gmal-ok-icon {
-  border-color: rgb(166 220 134 / 70%);
+  color : vars('success');
 
   .gmal-ok-ring {
     position: absolute;
@@ -28,8 +39,8 @@
     width: 100%;
     height: 100%;
     border: 0.4em solid transparent;
-    border-top-color: #9ddf78;
-    border-right-color: #9ddf78;
+    border-top-color: currentcolor;
+    border-right-color: currentcolor;
     border-radius: 50%;
     animation: gmal-rt-rscl 0.4s ease-in;
     animation-fill-mode: both;
@@ -50,7 +61,7 @@
     z-index: 2;
     display: block;
     height: 0.3125em;
-    background-color: #9ddf78;
+    background: currentcolor;
     border-radius: 0.125em;
 
     &.gmal-line-tip {
@@ -145,10 +156,9 @@
 }
 
 .gmal-err-icon {
-  color: #f27474;
-  border-color: rgb(242 116 116 / 70%);
+  color: vars('error');
   animation: gmal-anim-err 0.5s;
-
+  
   .gmal-err-r {
     flex-grow: 1;
     height: 100%;
@@ -161,7 +171,7 @@
       display: block;
       width: 3em;
       height: 0.32em;
-      background-color: #f27474;
+      background: currentcolor;
       border-radius: 0.125em;
       transform: rotate(45deg);
     }
@@ -173,7 +183,7 @@
       display: block;
       width: 3em;
       height: 0.32em;
-      background-color: #f27474;
+      background: currentcolor;
       border-radius: 0.125em;
       transform: rotate(-45deg);
     }
@@ -187,7 +197,6 @@
   }
 
   100% {
-    opacity: 1;
     transform: rotateX(0);
   }
 }
@@ -218,8 +227,7 @@
 }
 
 .gmal-warn-icon {
-  color: #f8bb86;
-  border-color: rgb(250 206 168 / 70%);
+  color: vars('warn');
   animation: gmal-anim-err 0.5s;
 
   .gmal-warn-content {
@@ -259,7 +267,6 @@
 
 .gmal-info-icon {
   color: #3fc3ee;
-  border-color: rgb(157 224 246 / 70%);
   animation: gmal-anim-err 0.5s;
 
   .gmal-info-content {
@@ -287,6 +294,12 @@
   animation-delay: 0.3s;
 
   .gmal-ok-ring {
+    top: -0.25em;
+    left: -0.25em;
+    border-width: 0.25em;
+  }
+
+  .gmal-ani-wrap {
     top: -0.25em;
     left: -0.25em;
     border-width: 0.25em;

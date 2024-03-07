@@ -14,9 +14,9 @@ const funcName = 'Gmal'
 
 const bundles = [
   {
-    input: './src/test/index.ts',
+    input: './src/demo/index.ts',
     output: {
-      file: `./test/index.js`,
+      file: `./demo/index.js`,
       format: 'iife',
       name: funcName,
       sourcemap: false,
@@ -52,7 +52,7 @@ export default bundles.map(({ input, output }) => ({
     !process.env.needbuild &&
       serve({
         open: false,
-        contentBase: ['test'],
+        contentBase: ['demo'],
         port: 3010,
       }),
   ],
