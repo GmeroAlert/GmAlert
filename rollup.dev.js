@@ -16,7 +16,7 @@ const bundles = [
   {
     input: './src/demo/index.ts',
     output: {
-      file: `./demo/index.js`,
+      file: `./docs/index.js`,
       format: 'iife',
       name: funcName,
       sourcemap: false,
@@ -52,7 +52,7 @@ export default bundles.map(({ input, output }) => ({
     !process.env.needbuild &&
       serve({
         open: false,
-        contentBase: ['demo'],
+        contentBase: ['docs'],
         port: 3010,
       }),
   ],
