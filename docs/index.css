@@ -97,11 +97,6 @@
     left: 1.7em;
     width: 1.1em;
   }
-  100% {
-    top: 3.3em;
-    left: 1.21em;
-    width: 1.6em;
-  }
 }
 @keyframes gmal-anim-sll {
   0% {
@@ -116,11 +111,6 @@
     top: 2.6em;
     right: 0.5em;
     width: 3.5em;
-  }
-  100% {
-    top: 2.8em;
-    right: 1.07em;
-    width: 3em;
   }
 }
 .gmal-err-icon {
@@ -308,11 +298,6 @@
     left: 0.65em;
     width: 0.62em;
   }
-  100% {
-    top: 1.37em;
-    left: 0.45em;
-    width: 0.8em;
-  }
 }
 @keyframes gmal-anim-sll-dense {
   0% {
@@ -327,11 +312,6 @@
     top: 1.15em;
     right: 0.25em;
     width: 1.66em;
-  }
-  100% {
-    top: 1.15em;
-    right: 0.45em;
-    width: 1.4em;
   }
 }
 @charset "UTF-8";
@@ -355,9 +335,9 @@
   --gmal-shadow-v: 0 0 1px var(--gmal-shadow), 1px 2px 4px var(--gmal-shadow), 1px 3px 8px var(--gmal-shadow);
   --gmal-success: #72b948;
   --gmal-info: #30abd4;
-  --gmal-warn: #d1935c;
+  --gmal-warn: #e67930;
   --gmal-error: #da5252;
-  --gmal-loading: #4e8da8;
+  --gmal-loading: #31518d;
 }
 .gmal * {
   box-sizing: border-box;
@@ -640,7 +620,7 @@
 
 .gmal-notice {
   position: relative;
-  width: 360px;
+  width: 340px;
   margin-bottom: 1em;
   pointer-events: all;
   background: var(--gmal-bg);
