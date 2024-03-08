@@ -39,11 +39,16 @@ function BtnBox(type: 'alert' | 'message' | 'notice') {
   }
 
   let loadingFired = false
+  ;['success', 'error', 'warn', 'info'].forEach((t) => {
+    btnBox.append(
+      Button(`${type} ${t}`, () =>
+        core(t, {
+          text: `this is a ${t} message`,
+        }),
+      ),
+    )
+  })
 
-  btnBox.append(Button(`${type} success`, () => core('success')))
-  btnBox.append(Button(`${type} error`, () => core('error', 'error')))
-  btnBox.append(Button(`${type} warn`, () => core('warn', 'warn')))
-  btnBox.append(Button(`${type} info`, () => core('info', 'info')))
   btnBox.append(
     Button(`${type} loading`, () => {
       if (loadingFired) {
@@ -53,6 +58,7 @@ function BtnBox(type: 'alert' | 'message' | 'notice') {
       const tmp = core({
         type: 'loading',
         content: 'loading',
+        text: 'wait for 3 seconds...',
         onClosed() {
           loadingFired = false
         },
