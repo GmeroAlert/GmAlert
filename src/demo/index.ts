@@ -2,6 +2,16 @@ import { alert, message, notice } from '../main'
 import { newDiv } from '../utils/html'
 import InformationBtnBox from './information'
 
+import './index.scss'
+
+import '../styles/main.scss'
+import '../styles/animatedIcons.scss'
+
+import '../styles/alert.scss'
+import '../styles/information.scss'
+import '../styles/notice.scss'
+import '../styles/message.scss'
+
 notice.config({ timeout: 5000 })
 
 const $root = document.querySelector('#root')
@@ -43,6 +53,7 @@ function BtnBox(type: 'alert' | 'message' | 'notice') {
       Button(`${type} ${t}`, () =>
         core(t, {
           text: `this is a ${t} message`,
+          type: t,
         }),
       ),
     )

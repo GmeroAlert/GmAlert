@@ -1,3 +1,155 @@
+:root {
+  --c-bg: #fff;
+  --c-text: #000;
+}
+
+body {
+  color: var(--c-text);
+  background-color: var(--c-bg);
+}
+
+[data-theme=dark] body {
+  --c-bg: rgb(20, 20, 20);
+  --c-text: #a8a8a8;
+}
+[data-theme=dark] .gmal {
+  --gmal-bg: #303030;
+  --gmal-text: #a8a8a8;
+  --gmal-border: 1px solid #535353;
+  --gmal-light: #535353;
+  --gmal-shadow: rgba(255, 255, 255, 0.1);
+}
+
+.btn {
+  padding: 0.5rem 1.3rem;
+  color: #fff;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  cursor: pointer;
+  background-color: #007fff;
+  border: none;
+  border-radius: 2px;
+  outline: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-box {
+  display: flex;
+  flex-wrap: wrap;
+}
+.btn-box .btn {
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+.area {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+@charset "UTF-8";
+/* 获取颜色 */
+.gmal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  overflow: visible;
+  font: 16px/1.3 "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  color: var(--gmal-text);
+  pointer-events: none;
+  --gmal-bg: #fff;
+  --gmal-text: #5a5a5a;
+  --gmal-light: #ddd;
+  --gmal-border: 1px solid #d3d3d3;
+  --gmal-shadow: rgba(0, 0, 0, 0.08);
+  --gmal-shadow-v: 0 0 1px var(--gmal-shadow), 1px 2px 4px var(--gmal-shadow), 1px 3px 8px var(--gmal-shadow);
+  --gmal-success: #72b948;
+  --gmal-info: #30abd4;
+  --gmal-warn: #e67930;
+  --gmal-error: #da5252;
+  --gmal-loading: #31518d;
+}
+.gmal * {
+  box-sizing: border-box;
+}
+
+.gmal-count {
+  position: absolute;
+  top: -0.4em;
+  left: -0.5em;
+  display: inline-block;
+  min-width: 1.2em;
+  height: 1.2em;
+  padding: 0 1px;
+  font-size: 0.875em;
+  color: #fff;
+  text-align: center;
+  background-color: rgb(236, 49, 49);
+  border-radius: 3px;
+  animation-duration: 0.3s;
+}
+
+.gmal-close {
+  display: flex;
+  font-size: 1.5em;
+  cursor: pointer;
+  border-radius: 5px;
+  opacity: 0.3;
+  transition: all 0.2s;
+}
+.gmal-close:hover {
+  background: var(--gmal-light);
+  opacity: 0.5;
+}
+
+.gmal-progress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.gmal-progress .gmal-progress-bar {
+  display: flex;
+  width: 100%;
+  height: 0.25em;
+  background: var(--gmal-light);
+}
+
+/* svg抖动 */
+@keyframes gmal-shake {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  25%, 75% {
+    opacity: 0.75;
+    transform: translateX(-4px);
+  }
+  50% {
+    opacity: 0.25;
+    transform: translateX(4px);
+  }
+}
+.gmal-spin {
+  animation: gmal-turn 1s linear infinite;
+}
+
+/* loading的转动 */
+@keyframes gmal-turn {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 @charset "UTF-8";
 /* 获取颜色 */
 .gmal-aniicon {
@@ -316,108 +468,6 @@
 }
 @charset "UTF-8";
 /* 获取颜色 */
-.gmal {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 9999;
-  overflow: visible;
-  font: 16px/1.3 "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-  color: var(--gmal-text);
-  pointer-events: none;
-  --gmal-bg: #fff;
-  --gmal-text: #5a5a5a;
-  --gmal-light: #ddd;
-  --gmal-border: 1px solid #d3d3d3;
-  --gmal-shadow: rgba(0, 0, 0, 0.08);
-  --gmal-shadow-v: 0 0 1px var(--gmal-shadow), 1px 2px 4px var(--gmal-shadow), 1px 3px 8px var(--gmal-shadow);
-  --gmal-success: #72b948;
-  --gmal-info: #30abd4;
-  --gmal-warn: #e67930;
-  --gmal-error: #da5252;
-  --gmal-loading: #31518d;
-}
-.gmal * {
-  box-sizing: border-box;
-}
-
-.gmal-count {
-  position: absolute;
-  top: -0.4em;
-  left: -0.5em;
-  display: inline-block;
-  min-width: 1.2em;
-  height: 1.2em;
-  padding: 0 1px;
-  font-size: 0.875em;
-  color: #fff;
-  text-align: center;
-  background-color: rgb(236, 49, 49);
-  border-radius: 3px;
-  animation-duration: 0.3s;
-}
-
-.gmal-close {
-  display: flex;
-  font-size: 1.5em;
-  cursor: pointer;
-  border-radius: 5px;
-  opacity: 0.3;
-  transition: all 0.2s;
-}
-.gmal-close:hover {
-  background: var(--gmal-light);
-  opacity: 0.5;
-}
-
-.gmal-progress {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: hidden;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
-.gmal-progress .gmal-progress-bar {
-  display: flex;
-  width: 100%;
-  height: 0.25em;
-  background: var(--gmal-light);
-}
-
-/* svg抖动 */
-@keyframes gmal-shake {
-  0%, 100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  25%, 75% {
-    opacity: 0.75;
-    transform: translateX(-4px);
-  }
-  50% {
-    opacity: 0.25;
-    transform: translateX(4px);
-  }
-}
-.gmal-spin {
-  animation: gmal-turn 1s linear infinite;
-}
-
-/* loading的转动 */
-@keyframes gmal-turn {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-@charset "UTF-8";
-/* 获取颜色 */
 .gmal-alert-box {
   position: fixed;
   top: 0;
@@ -521,86 +571,74 @@
 }
 @charset "UTF-8";
 /* 获取颜色 */
-.gmal-msg-box {
+.gmal-info {
   position: absolute;
-  top: calc(50% - 4rem);
-  right: 0;
-  left: 0;
+  right: 2em;
+  bottom: 1.5em;
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-.gmal-msg {
-  position: relative;
-  overflow: visible;
+  width: 320px;
+  padding: 0.5em 1em;
   pointer-events: all;
-  transform-origin: center;
-  animation-duration: 0.3s;
-}
-.gmal-msg .gmal-progress {
-  opacity: 0;
-}
-
-.gmal-icon {
-  position: absolute;
-  left: 0.5em;
-  font-size: 1.25em;
-  color: white;
-}
-
-.gmal-msg-main {
-  position: relative;
-  box-sizing: border-box;
-  min-width: 4em;
-  max-width: 20em;
-  padding: 0.5em;
-  padding-right: 0.6em;
-  padding-left: 2.2em;
-  margin-bottom: 0.4rem;
-  overflow: hidden;
-  text-align: center;
   background: var(--gmal-bg);
-  border-radius: 4px;
+  border-radius: 5px;
   box-shadow: var(--gmal-shadow-v);
-  animation-duration: 0.3s;
+  animation: 0.3s gmal-info-in ease-in-out;
 }
 
-.gmal-msg-content {
-  text-align: left;
-  pointer-events: all;
+.gmal-info-header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 3px;
+  font-size: 0.92em;
+  border-bottom: var(--gmal-border);
+}
+.gmal-info-header .gmal-close {
+  margin-right: -0.3em;
+  margin-left: 0.1em;
 }
 
-@keyframes gmal-msg-out {
+.gmal-info-title {
+  min-width: 1.3em;
+  height: 1.3em;
+  padding: 0 0.3em;
+  margin-right: 0.4em;
+  color: #fff;
+  border-radius: 0.2em;
+}
+.gmal-info-title.gmal-load {
+  animation: 1s gmal-loading infinite;
+}
+
+.gmal-info-content {
+  padding: 0.5em;
+}
+
+@keyframes gmal-info-in {
   0% {
-    opacity: 1;
-    transform: scale(1);
+    opacity: 0;
+    transform: translateY(20px);
   }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes gmal-info-out {
   100% {
     opacity: 0;
-    transform: scale(0.7);
+    transform: translateY(20px);
   }
 }
-@keyframes gmal-msg-close {
-  100% {
-    max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin: 0;
-  }
-}
-@keyframes gmal-alert-in {
+@keyframes gmal-loading {
   0% {
-    transform: scale(0.7);
+    opacity: 1;
   }
-  45% {
-    transform: scale(1.05);
-  }
-  80% {
-    transform: scale(0.95);
+  50% {
+    opacity: 0.5;
   }
   100% {
-    transform: scale(1);
+    opacity: 1;
   }
 }
 @charset "UTF-8";
@@ -687,123 +725,85 @@
 }
 @charset "UTF-8";
 /* 获取颜色 */
-.gmal-info {
+.gmal-msg-box {
   position: absolute;
-  right: 2em;
-  bottom: 1.5em;
+  top: calc(50% - 4rem);
+  right: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
-  width: 320px;
-  padding: 0.5em 1em;
-  pointer-events: all;
-  background: var(--gmal-bg);
-  border-radius: 5px;
-  box-shadow: var(--gmal-shadow-v);
-  animation: 0.3s gmal-info-in ease-in-out;
-}
-
-.gmal-info-header {
-  display: flex;
   align-items: center;
-  padding-bottom: 3px;
-  font-size: 0.92em;
-  border-bottom: var(--gmal-border);
-}
-.gmal-info-header .gmal-close {
-  margin-right: -0.3em;
-  margin-left: 0.1em;
 }
 
-.gmal-info-title {
-  min-width: 1.3em;
-  height: 1.3em;
-  padding: 0 0.3em;
-  margin-right: 0.4em;
-  color: #fff;
-  border-radius: 0.2em;
+.gmal-msg {
+  position: relative;
+  overflow: visible;
+  pointer-events: all;
+  transform-origin: center;
+  animation-duration: 0.3s;
 }
-.gmal-info-title.gmal-load {
-  animation: 1s gmal-loading infinite;
+.gmal-msg .gmal-progress {
+  opacity: 0;
 }
 
-.gmal-info-content {
+.gmal-icon {
+  position: absolute;
+  left: 0.5em;
+  font-size: 1.25em;
+  color: white;
+}
+
+.gmal-msg-main {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 4em;
+  max-width: 20em;
   padding: 0.5em;
+  padding-right: 0.6em;
+  padding-left: 2.2em;
+  margin-bottom: 0.4rem;
+  overflow: hidden;
+  text-align: center;
+  background: var(--gmal-bg);
+  border-radius: 4px;
+  box-shadow: var(--gmal-shadow-v);
+  animation-duration: 0.3s;
 }
 
-@keyframes gmal-info-in {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.gmal-msg-content {
+  text-align: left;
+  pointer-events: all;
 }
-@keyframes gmal-info-out {
-  100% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-}
-@keyframes gmal-loading {
+
+@keyframes gmal-msg-out {
   0% {
     opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
+    transform: scale(1);
   }
   100% {
-    opacity: 1;
+    opacity: 0;
+    transform: scale(0.7);
   }
 }
-:root {
-  --c-bg: #fff;
-  --c-text: #000;
+@keyframes gmal-msg-close {
+  100% {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+  }
 }
-
-body {
-  color: var(--c-text);
-  background-color: var(--c-bg);
-}
-
-[data-theme=dark] body {
-  --c-bg: rgb(20, 20, 20);
-  --c-text: #a8a8a8;
-}
-[data-theme=dark] .gmal {
-  --gmal-bg: #303030;
-  --gmal-text: #a8a8a8;
-  --gmal-border: 1px solid #535353;
-  --gmal-light: #535353;
-  --gmal-shadow: rgba(255, 255, 255, 0.1);
-}
-
-.btn {
-  padding: 0.5rem 1.3rem;
-  color: #fff;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  cursor: pointer;
-  background-color: #007fff;
-  border: none;
-  border-radius: 2px;
-  outline: none;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.btn-box {
-  display: flex;
-  flex-wrap: wrap;
-}
-.btn-box .btn {
-  margin-right: 1em;
-  margin-bottom: 1em;
-}
-
-.area {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1em;
+@keyframes gmal-alert-in {
+  0% {
+    transform: scale(0.7);
+  }
+  45% {
+    transform: scale(1.05);
+  }
+  80% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
