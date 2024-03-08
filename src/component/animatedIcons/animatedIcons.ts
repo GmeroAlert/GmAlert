@@ -2,8 +2,6 @@ import type { MsgColor } from '../../modules/types'
 import { cn } from '../../utils/html'
 import { svgLoad } from '../svgicons'
 
-import '../../styles/animatedIcons.scss'
-
 function baseCn(dense: boolean, className: string, extClassName: string) {
   return `class="${cn('aniicon')} ${cn(className)} ${
     dense ? cn('dense') : ''

@@ -24,6 +24,24 @@ const bundles = [
     },
   },
   {
+    input: './src/index_message_notice.ts',
+    output: {
+      file: `./dist/${libName}_message_notice.min.js`,
+      format: 'iife',
+      name: funcName,
+      sourcemap: false,
+    },
+  },
+  {
+    input: './src/index_message_notice_infomation.ts',
+    output: {
+      file: `./dist/${libName}_message_notice_infomation.min.js`,
+      format: 'iife',
+      name: funcName,
+      sourcemap: false,
+    },
+  },
+  {
     input: './src/index.ts',
     output: {
       file: `./dist/${libName}-bundle.min.js`,
@@ -41,6 +59,10 @@ const bundles = [
   },
 ]
 
+const flieName = (path) => {
+  return path.split('/').pop().replace('.js', '')
+}
+
 export default bundles.map(({ input, output }) => ({
   input,
   output,
@@ -50,7 +72,9 @@ export default bundles.map(({ input, output }) => ({
     }),
     postcss({
       minimize: true,
-      extract: output.file.includes('-bundle') ? false : `${libName}.min.css`, // 如果你想导出css而不是css in js
+      extract: output.file.includes('-bundle')
+        ? false
+        : `${flieName(output.file)}.css`, // 如果你想导出css而不是css in js
       inject: output.file.includes('-bundle'),
       plugins: [
         postcssPresetEnv({

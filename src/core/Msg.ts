@@ -1,7 +1,6 @@
 import type { MsgType, PropsMessage } from '../modules/message'
 import { changeStyle, cn, newDiv, setMsgCount } from '../utils/html'
 
-import '../styles/main.scss'
 import type { MsgPropsFull, MsgPropsUser } from '../modules/types'
 
 export interface OneMsg extends Omit<MsgType, 'open'> {

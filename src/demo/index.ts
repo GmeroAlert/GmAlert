@@ -1,6 +1,5 @@
 import { alert, message, notice } from '../main'
 import { newDiv } from '../utils/html'
-import './index.scss'
 import InformationBtnBox from './information'
 
 notice.config({ timeout: 5000 })

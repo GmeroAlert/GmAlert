@@ -3,7 +3,6 @@ import { cn, getMessageContainer, newDiv } from '../utils/html'
 import { SvgIcon } from '../component/svgicons'
 import { MakeMsg } from '../core/Msg'
 
-import '../styles/message.scss'
 import type { MsgColor } from './types'
 
 export interface MsgType {

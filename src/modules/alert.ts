@@ -5,8 +5,6 @@ import { MakeMsg } from '../core/Msg'
 import { CloseIcon } from '../component/icons/close'
 import type { MsgType, PropsMessage } from './message'
 
-import '../styles/alert.scss'
-
 interface PropsAlert extends PropsMessage {
   text?: string
   html?: string | HTMLElement

@@ -4,8 +4,6 @@ import { AnimatedIcon } from '../component/animatedIcons/animatedIcons'
 import { MakeMsg } from '../core/Msg'
 import type { MsgType, PropsMessage } from './message'
 
-import '../styles/notice.scss'
-
 export function GmNotice(props: PropsMessage): MsgType {
   const icon = AnimatedIcon(props.type, true, cn('notice-icon'))
   const $wrapper = newDiv(cn('notice'))

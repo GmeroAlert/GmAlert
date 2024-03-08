@@ -4,8 +4,6 @@ import { MakeMsg } from '../core/Msg'
 import { CloseIcon } from '../component/icons/close'
 import type { MsgType, PropsMessage } from './message'
 
-import '../styles/information.scss'
-
 interface PropsInfo extends PropsMessage {
   title?: string
   headerLeft?: string
