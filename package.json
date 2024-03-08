@@ -1,6 +1,6 @@
 {
   "name": "gmalert",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "A simple but powerful alert component",
   "types": "dist/types/main.d.ts",
   "module": "dist/gmalert.esm.js",
