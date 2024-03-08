@@ -55,18 +55,16 @@ $theme-vars: (
 }
 
 .gmal-close {
-  font-family: monospace;
-  font-size: 1.8em;
-  font-style: normal;
-  font-weight: bold;
-  line-height: 1;
+  display: flex;
+  font-size: 1.5em;
   cursor: pointer;
   border-radius: 5px;
-  opacity: .5;
+  opacity: .3;
   transition: all 0.2s;
 
   &:hover {
     background: vars('light');
+    opacity: .5;
   }
 }
 
@@ -107,7 +105,7 @@ $theme-vars: (
   }
 }
 
-.gmal-ani-turn {
+.gmal-spin {
   animation: gmal-turn 1s linear infinite;
 }
 

@@ -1,6 +1,6 @@
 import type { MsgColor } from '../../modules/types'
 import { cn } from '../../utils/html'
-import { svgLoading } from '../svgicons'
+import { svgLoad } from '../svgicons'
 
 import '../../styles/animatedIcons.scss'
 
@@ -47,7 +47,7 @@ function InfoIcon(dense = false, className = '') {
 }
 
 function LoadingIcon(dense = false, className = '') {
-  return `<div ${baseCn(dense, 'load-icon', className)}>${svgLoading}</div>`
+  return `<div ${baseCn(dense, 'load-icon', className)}>${svgLoad}</div>`
 }
 
 export function AnimatedIcon(type: MsgColor, dense = false, className = '') {

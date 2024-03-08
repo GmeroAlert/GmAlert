@@ -1,8 +1,8 @@
 import { cn, newEl } from '../../utils/html'
+import { SvgClose } from '../svgicons'
 
 export function CloseIcon() {
-  const innerHTML = `×`
   const $i = newEl('i', cn('close'))
-  $i.innerHTML = innerHTML
+  $i.innerHTML = SvgClose
   return $i
 }
