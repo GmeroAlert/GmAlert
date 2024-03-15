@@ -183,7 +183,7 @@ function getArgs(args: MsgPropsUser[]) {
 
 export function MakeMsg(core: MsgCore, type: number) {
   const $msg = new Msg(core, type)
-  const res = (...args: (string | MsgPropsFull | number)[]) => {
+  const res = (...args: (string | Partial<MsgPropsFull> | number)[]) => {
     return $msg.fire(getArgs(args))
   }
 
