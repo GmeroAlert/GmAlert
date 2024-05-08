@@ -1,19 +1,19 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { cn, getContainer, newDiv } from '../utils/html'
+import { changeStyle, cn, getContainer, newDiv } from '../utils/html'
 import { MakeMsg } from '../core/Msg'
 import { CloseIcon } from '../component/icons/close'
-import type { MsgType, PropsMessage } from './message'
-
-interface PropsInfo extends PropsMessage {
-  title?: string
-  headerLeft?: string
-  headerRight?: string
-  hideClose?: boolean
-}
+import type { MsgType } from './message'
+import type { PropsInfo } from './types'
 
 export function GmInformation(props: PropsInfo): MsgType {
   const color = `var(--gmal-${props.type})`
   const $wrapper = newDiv(cn('info'))
+  if (props.className) {
+    $wrapper.classList.add(...props.className)
+  }
+  if (props.style) {
+    changeStyle($wrapper, props.style)
+  }
   $wrapper.innerHTML =
     `<div class="${cn('info-header')}"><div class="${cn('info-title')} ${
       props.type === 'loading' ? cn('load') : ''

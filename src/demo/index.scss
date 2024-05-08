@@ -51,3 +51,30 @@ body {
   margin-bottom: 1em;
 }
 
+.alert-html {
+  width: 100%;
+  max-width: 550px;
+}
+
+.gm-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gm-input {
+  width: calc(100% - 85px);
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text);
+  background-color: #f5f5f5;
+  border: 1px solid #cad1e6;
+  border-radius: 8px;
+  outline: none;
+  transition: all .4s cubic-bezier(0.345, 0.045, 0.345, 1);
+
+  &:focus, &:hover {
+    background-color: #fff;
+    border-color: #007fff;
+  }
+}

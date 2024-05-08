@@ -96,15 +96,19 @@ function Area(text: string) {
 
 const AlertArea = Area('Alert')
 const alertBtnBox = BtnBox('alert')
+const inputLabel = newDiv('gm-label')
+const span = document.createElement('span')
+span.textContent = '网站名称：'
 const input = document.createElement('input')
+inputLabel.append(span, input)
+input.classList.add('gm-input')
 alertBtnBox.append(
   Button('alert html', () => {
     alert({
-      content: '输入点什么吧',
-      type: 'info',
-      html: input,
+      className: ['alert-html'],
+      content: '友链申请',
+      html: inputLabel,
       showConfirm: true,
-      hideClose: true,
       onClosed() {
         message(`${input.value ? `你输入了：${input.value}` : '你没有输入'}`)
         input.value = ''

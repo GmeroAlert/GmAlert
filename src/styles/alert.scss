@@ -13,7 +13,8 @@
 .gmal-alert {
   display: flex;
   flex-direction: column;
-  min-width: 350px;
+  width: 96%;
+  max-width: 550px;
   padding: 1em;
   pointer-events: all;
   background: vars('bg');

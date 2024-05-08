@@ -2,7 +2,8 @@ import { animationendHandle, changeAnimation } from '../utils/animateHandle'
 import { changeStyle, cn, getNoticeContainer, newDiv } from '../utils/html'
 import { AnimatedIcon } from '../component/animatedIcons/animatedIcons'
 import { MakeMsg } from '../core/Msg'
-import type { MsgType, PropsMessage } from './message'
+import type { MsgType } from './message'
+import type { PropsMessage } from './types'
 
 export function GmNotice(props: PropsMessage): MsgType {
   const icon = AnimatedIcon(props.type, true, cn('notice-icon'))

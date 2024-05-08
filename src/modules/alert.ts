@@ -1,18 +1,16 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { bodyScroll, cn, getContainer, newDiv } from '../utils/html'
+import {
+  bodyScroll,
+  changeStyle,
+  cn,
+  getContainer,
+  newDiv,
+} from '../utils/html'
 import { AnimatedIcon } from '../component/animatedIcons/animatedIcons'
 import { MakeMsg } from '../core/Msg'
 import { CloseIcon } from '../component/icons/close'
-import type { MsgType, PropsMessage } from './message'
-
-interface PropsAlert extends PropsMessage {
-  text?: string
-  html?: string | HTMLElement
-  hideClose?: boolean
-  showConfirm?: boolean
-  showCancel?: boolean
-  hideMask?: boolean
-}
+import type { MsgType } from './message'
+import type { PropsAlert } from './types'
 
 function Button(text: string, onClick: () => void) {
   const $btn = document.createElement('button')
@@ -26,13 +24,23 @@ function Button(text: string, onClick: () => void) {
 export function GmAlert(props: PropsAlert): MsgType {
   const $box = newDiv(cn('alert-box'))
   const $wrapper = newDiv(cn('alert'))
+  if (props.className) {
+    $wrapper.classList.add(...props.className)
+  }
+  if (props.style) {
+    changeStyle($wrapper, props.style)
+  }
   const icon = AnimatedIcon(props.type, false, cn('alert-icon'))
 
   $box.append($wrapper)
 
-  $wrapper.innerHTML = `${icon}<div class="${cn('alert-title')}">${
-    props.content
-  }</div>`
+  if (props.content) {
+    $wrapper.innerHTML = `${icon}<div class="${cn('alert-title')}">${
+      props.content
+    }</div>`
+  } else {
+    $wrapper.innerHTML = icon
+  }
 
   if (props.text || props.html) {
     const $text = newDiv(cn('alert-content'))

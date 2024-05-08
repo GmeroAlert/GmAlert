@@ -1,9 +1,9 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { cn, getMessageContainer, newDiv } from '../utils/html'
+import { changeStyle, cn, getMessageContainer, newDiv } from '../utils/html'
 import { SvgIcon } from '../component/svgicons'
 import { MakeMsg } from '../core/Msg'
 
-import type { MsgColor } from './types'
+import type { PropsMessage } from './types'
 
 export interface MsgType {
   open: () => void
@@ -11,21 +11,15 @@ export interface MsgType {
   $el: HTMLElement
 }
 
-export interface PropsMessage {
-  type: MsgColor
-  content: string
-  /**
-   *
-   * @param status 0: close by user cancel, 1: close by user confirm, -1: close by timeout, -2 or undefined : close unexpectedly
-   * @returns
-   */
-  onClosed: (status: number) => void
-  onClose: () => void
-}
-
 export function GmMessage(props: PropsMessage): MsgType {
   const icon = SvgIcon(props.type, cn('icon'))
   const $wrapper = newDiv(cn('msg'))
+  if (props.className) {
+    $wrapper.classList.add(...props.className)
+  }
+  if (props.style) {
+    changeStyle($wrapper, props.style)
+  }
   const $main = newDiv(cn('msg-main'))
   $wrapper.append($main)
   $main.innerHTML = `${icon}<div class=${cn('msg-content')}>${

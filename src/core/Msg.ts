@@ -1,7 +1,7 @@
-import type { MsgType, PropsMessage } from '../modules/message'
+import type { MsgType } from '../modules/message'
 import { changeStyle, cn, newDiv, setMsgCount } from '../utils/html'
 
-import type { MsgPropsFull, MsgPropsUser } from '../modules/types'
+import type { MsgPropsFull, MsgPropsUser, PropsMessage } from '../modules/types'
 
 export interface OneMsg extends Omit<MsgType, 'open'> {
   // 用于标识消息是否重复, 这是内容+类型字符串的组合

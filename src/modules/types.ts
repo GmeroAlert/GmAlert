@@ -1,6 +1,8 @@
 export type MsgColor = 'success' | 'error' | 'warn' | 'info' | 'loading'
 
 export interface PropsMessage {
+  style?: string[]
+  className?: string[]
   type: MsgColor
   content: string
   /**
@@ -29,6 +31,8 @@ export interface PropsInfo extends PropsMessage {
 }
 
 export interface MsgPropsFull {
+  style?: string[]
+  className?: string[]
   content: string
   type: MsgColor
   title?: string // only for info
