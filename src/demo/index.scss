@@ -51,11 +51,6 @@ body {
   margin-bottom: 1em;
 }
 
-.alert-html {
-  width: 100%;
-  max-width: 550px;
-}
-
 .gm-label {
   display: flex;
   align-items: center;
@@ -63,7 +58,7 @@ body {
 }
 
 .gm-input {
-  width: calc(100% - 85px);
+  width: calc(100% - 6em);
   padding: 10px 12px;
   font-size: 14px;
   color: var(--text);

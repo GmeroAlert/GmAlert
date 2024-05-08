@@ -20,9 +20,9 @@ export function newDiv(...className: string[]) {
 
 export function setMsgCount($el: HTMLElement, count: number) {
   const countClassName = cn('count')
-  let $count = $el.querySelector(`.${countClassName}`) as HTMLElement
+  let $count = querySelector(`.${countClassName}`, $el) as HTMLElement
   if (!$count) {
-    $count = document.createElement('span')
+    $count = newEl('span')
     $count.classList.add(countClassName)
 
     $el.append($count)
@@ -35,7 +35,7 @@ export function setMsgCount($el: HTMLElement, count: number) {
 }
 
 export const getContainer = () => {
-  let $root = document.querySelector<HTMLElement>(`.gmal`)
+  let $root = querySelector<HTMLElement>(`.gmal`)
 
   if (!$root) {
     $root = newDiv('gmal')
@@ -46,7 +46,7 @@ export const getContainer = () => {
 }
 
 export const getMessageContainer = () => {
-  let $root = document.querySelector<HTMLElement>(`.${cn('msg-box')}`)
+  let $root = querySelector<HTMLElement>(`.${cn('msg-box')}`)
   if ($root) return $root
   $root = newDiv(cn('msg-box'))
   getContainer().append($root)
@@ -54,7 +54,7 @@ export const getMessageContainer = () => {
 }
 
 export const getNoticeContainer = () => {
-  let $wrapper = document.querySelector<HTMLElement>(`.${cn('notice-box')}`)
+  let $wrapper = querySelector<HTMLElement>(`.${cn('notice-box')}`)
   if ($wrapper) return $wrapper
   $wrapper = newDiv(cn('notice-box'))
   getContainer().append($wrapper)
@@ -70,17 +70,30 @@ export function changeStyle(el: HTMLElement, arr: string[]): void {
   el.style.cssText = `${original.concat(arr).join(';')};`
 }
 
+// 用于重置样式
+export function resetStyle(el: HTMLElement, arr: string[]): void {
+  arr.forEach((item) => {
+    el.style.removeProperty(item)
+  })
+}
+
 // 用于设置滚动条
 export function bodyScroll(lock = true) {
   const $body = document.body
   if (lock) {
     // set padding
-    $body.style.paddingRight = `${
+    changeStyle($body, ['overflow: hidden', `padding-right: ${
       window.innerWidth - document.documentElement.clientWidth
-    }px`
-    $body.style.overflow = 'hidden'
+    }px`])
   } else {
-    $body.style.overflow = ''
-    $body.style.paddingRight = ''
+    resetStyle($body, ['overflow', 'padding-right'])
   }
+}
+
+// 用于获取元素
+export function querySelector<T extends HTMLElement = HTMLElement>(
+  selector: string,
+  $el: HTMLElement = document.body,
+): T {
+  return $el.querySelector(selector) as T
 }

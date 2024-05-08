@@ -5,6 +5,8 @@ import {
   cn,
   getContainer,
   newDiv,
+  newEl,
+  querySelector,
 } from '../utils/html'
 import { AnimatedIcon } from '../component/animatedIcons/animatedIcons'
 import { MakeMsg } from '../core/Msg'
@@ -13,7 +15,7 @@ import type { MsgType } from './message'
 import type { PropsAlert } from './types'
 
 function Button(text: string, onClick: () => void) {
-  const $btn = document.createElement('button')
+  const $btn = newEl('button')
   $btn.textContent = text
   $btn.onclick = onClick
   $btn.classList.add(cn('alert-btn'))
@@ -70,7 +72,7 @@ export function GmAlert(props: PropsAlert): MsgType {
       animationendHandle($wrapper, (e: string) => {
         if (e === cn('alert-out')) {
           $box.remove()
-          if (!document.querySelector(`.${cn('alert')}`)) {
+          if (!querySelector(`.${cn('alert')}`)) {
             bodyScroll(false)
           }
           props.onClosed(status)

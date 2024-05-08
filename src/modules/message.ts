@@ -33,7 +33,7 @@ export function GmMessage(props: PropsMessage): MsgType {
 
   const close = (status: number) => {
     props.onClose()
-    $main.style.maxHeight = `${$main.offsetHeight}px`
+    changeStyle($main, [`max-height: ${$main.offsetHeight}px`])
     changeAnimation($wrapper, cn('msg-out'))
     changeAnimation($main, cn('msg-close'))
 

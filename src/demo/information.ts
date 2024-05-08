@@ -1,8 +1,8 @@
 import { information } from '../main'
-import { newDiv } from '../utils/html'
+import { newDiv, newEl } from '../utils/html'
 
 function Button(text: string, callback: () => void) {
-  const button = document.createElement('button')
+  const button = newEl('button')
   button.classList.add('btn')
   button.textContent = text
   button.onclick = callback

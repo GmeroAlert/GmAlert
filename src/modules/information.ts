@@ -1,5 +1,5 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { changeStyle, cn, getContainer, newDiv } from '../utils/html'
+import { changeStyle, cn, getContainer, newDiv, querySelector } from '../utils/html'
 import { MakeMsg } from '../core/Msg'
 import { CloseIcon } from '../component/icons/close'
 import type { MsgType } from './message'
@@ -44,7 +44,7 @@ export function GmInformation(props: PropsInfo): MsgType {
   }
 
   if (!props.hideClose) {
-    const $head = $wrapper.querySelector<HTMLElement>(`.${cn('info-header')}`)!
+    const $head = querySelector<HTMLElement>(`.${cn('info-header')}`, $wrapper)!
     const $close = CloseIcon()
     $close.onclick = () => {
       close(0)

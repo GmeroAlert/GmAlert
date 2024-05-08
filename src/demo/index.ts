@@ -1,5 +1,5 @@
 import { alert, message, notice } from '../main'
-import { newDiv } from '../utils/html'
+import { newDiv, querySelector } from '../utils/html'
 import InformationBtnBox from './information'
 
 import './index.scss'
@@ -14,7 +14,7 @@ import '../styles/message.scss'
 
 notice.config({ timeout: 5000 })
 
-const $root = document.querySelector('#root')
+const $root = querySelector('#root')
 
 if (!$root) {
   throw new Error('Root element not found')

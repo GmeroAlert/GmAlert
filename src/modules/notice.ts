@@ -1,5 +1,5 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { changeStyle, cn, getNoticeContainer, newDiv } from '../utils/html'
+import { changeStyle, cn, getNoticeContainer, newDiv, querySelector } from '../utils/html'
 import { AnimatedIcon } from '../component/animatedIcons/animatedIcons'
 import { MakeMsg } from '../core/Msg'
 import type { MsgType } from './message'
@@ -18,9 +18,9 @@ export function GmNotice(props: PropsMessage): MsgType {
     changeStyle($wrapper, [`--mh:${$wrapper.offsetHeight + 10}px`])
     changeAnimation($wrapper, cn('open'))
     setTimeout(() => {
-      const $icon = $wrapper.querySelector<HTMLElement>(`.${cn('notice-icon')}`)
+      const $icon = querySelector<HTMLElement>(`.${cn('notice-icon')}`,$wrapper)
       if ($icon) {
-        $icon.style.opacity = '1'
+        changeStyle($icon, ['opacity:1'])
       }
     }, 300)
   }
