@@ -2,15 +2,11 @@
 
 $theme-vars: (
   'bg': #fff,
+  'bar-bg': rgb(0 0 0 / 8%),
+  'msg-bg': rgb(0 0 0 / 70%),
+  'msg-text': #fff,
   'text': #5a5a5a,
   'light': #ddd,
-  'border': 1px solid #d3d3d3,
-  'shadow': rgb(0 0 0 / 8%),
-  'shadow-v': (
-    0 0 1px #{vars('shadow')},
-    1px 2px 4px #{vars('shadow')},
-    1px 3px 8px #{vars('shadow')},
-  ),
   'success': #72b948,
   'info': #30abd4,
   'warn':#e67930,
@@ -20,14 +16,11 @@ $theme-vars: (
 
 .gmal {
   position: fixed;
-  inset: 0;
-  z-index: 9999;
-  overflow: visible;
+  height: 0;
   font: 16px/1.3 "Helvetica Neue", Helvetica, Arial, "PingFang SC",
   "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei",
   sans-serif;
   color: vars('text');
-  pointer-events: none;
 
   * {
     box-sizing: border-box;
@@ -38,21 +31,6 @@ $theme-vars: (
   }
 }
 
-.gmal-count {
-  position: absolute;
-  top: -0.4em;
-  left: -0.5em;
-  display: inline-block;
-  min-width: 1.2em;
-  height: 1.2em;
-  padding: 0 1px;
-  font-size: 0.875em;
-  color: #fff;
-  text-align: center;
-  background-color: rgb(236 49 49);
-  border-radius: 3px;
-  animation-duration: 0.3s;
-}
 
 .gmal-close {
   display: flex;
@@ -70,52 +48,15 @@ $theme-vars: (
 
 .gmal-progress {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   overflow: hidden;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
 
   .gmal-progress-bar {
     display: flex;
-    width: 100%;
-    height: 0.25em;
-    background: vars('light');
-  }
-}
-
-/* svg抖动 */
-@keyframes gmal-shake {
-  0%,
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  25%,
-  75% {
-    opacity: 0.75;
-    transform: translateX(-4px);
-  }
-
-  50% {
-    opacity: 0.25;
-    transform: translateX(4px);
-  }
-}
-
-.gmal-spin {
-  animation: gmal-turn 1s linear infinite;
-}
-
-/* loading的转动 */
-@keyframes gmal-turn {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
+    width: 0;
+    height: 100%;
+    background: vars('bar-bg');
   }
 }

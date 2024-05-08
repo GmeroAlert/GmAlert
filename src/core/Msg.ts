@@ -1,18 +1,15 @@
 import type { MsgType } from '../modules/message'
-import { changeStyle, cn, newDiv, setMsgCount } from '../utils/html'
+import { changeStyle, cn, newDiv } from '../utils/html'
 
 import type { MsgPropsFull, MsgPropsUser, PropsMessage } from '../modules/types'
 
 export interface OneMsg extends Omit<MsgType, 'open'> {
-  // 用于标识消息是否重复, 这是内容+类型字符串的组合
-  // 一般只用于messsage和notice
-  readonly id: string
   progress?: {
     pause: () => void
     resume: () => void
     remove: () => void
   }
-  count: number
+  open: () => void
 }
 
 export interface Config {
@@ -26,29 +23,19 @@ export type MsgCore = (props: PropsMessage) => MsgType
  * 消息容器
  */
 export class Msg {
-  timeout = 2500
-
-  maxCount = 8
+  timeout: number
 
   private activeInsts: Map<string, OneMsg> = new Map()
 
-  // 0: 'due to maxCount' | 1:'msg only one'
-  type: number
-
   private core: (props: PropsMessage) => MsgType
 
-  constructor(core: MsgCore, type: number) {
-    this.type = type
+  constructor(core: MsgCore, timeout = 2500) {
+    this.timeout = timeout
     this.core = core
-
-    if (type === 1) {
-      this.timeout = 0
-    }
   }
 
   config(config: Partial<Config>) {
     this.timeout = config.timeout || this.timeout
-    this.maxCount = config.maxCount || this.maxCount
   }
 
   fire(conf: MsgPropsFull) {
@@ -95,8 +82,8 @@ export class Msg {
 
     const resume = () => {
       changeStyle($progressBar, [
-        'width:0',
-        `transition:width ${timeout * get()}ms linear`,
+        'width:100%',
+        `transition:width ${timeout * (1 - get())}ms linear`,
       ])
     }
 
@@ -110,12 +97,6 @@ export class Msg {
   // 判断消息是否存在, 设置msgCount以及关闭多余消息
   private mkMsg(conf: MsgPropsFull) {
     const id = `${conf.content}${conf.type}`
-    if (!this.type && this.activeInsts.has(id)) {
-      const inst = this.activeInsts.get(id)!
-      inst.count += 1
-      setMsgCount(inst.$el, inst.count)
-      return inst
-    }
 
     const props = {
       ...conf,
@@ -129,19 +110,40 @@ export class Msg {
 
     const inst = this.core(props)
 
-    if (this.type === 1 || this.activeInsts.size >= this.maxCount) {
-      const nextInst = this.activeInsts.values().next().value
-      if (nextInst) {
-        nextInst.progress?.pause()
-        nextInst.close(-2)
-      }
+    let opened = false
+
+    const open = () => {
+      if (opened) return
+      opened = true
+      inst.open()
     }
 
-    const oMsg: OneMsg = { ...inst, id, count: 1 }
+    const close = (status: number) => {
+      if (!opened) return Promise.resolve()
+      opened = false
+      return inst.close(status)
+    }
+
+    if (props.className) {
+      inst.$el.classList.add(...props.className)
+    }
+
+    if (props.style) {
+      changeStyle(inst.$el, props.style)
+    }
+
+    // 如果消息数量超过最大值, 则关闭最早的消息
+    const nextInst = this.activeInsts.values().next().value
+    if (nextInst) {
+      nextInst.progress?.pause()
+      nextInst.close(-2)
+    }
+
+    const oMsg: OneMsg = { ...inst, close, open }
 
     this.activeInsts.set(id, oMsg)
 
-    inst.open()
+    open()
 
     return oMsg
   }
@@ -181,8 +183,8 @@ function getArgs(args: MsgPropsUser[]) {
   return result
 }
 
-export function MakeMsg(core: MsgCore, type: number) {
-  const $msg = new Msg(core, type)
+export function MakeMsg(core: MsgCore, timeout?: number) {
+  const $msg = new Msg(core, timeout)
   const res = (...args: (string | Partial<MsgPropsFull> | number)[]) => {
     return $msg.fire(getArgs(args))
   }

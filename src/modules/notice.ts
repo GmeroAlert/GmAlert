@@ -1,28 +1,21 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { changeStyle, cn, getNoticeContainer, newDiv, querySelector } from '../utils/html'
-import { AnimatedIcon } from '../component/animatedIcons/animatedIcons'
+import { changeStyle, cn, getContainer, newDiv, varName } from '../utils/html'
 import { MakeMsg } from '../core/Msg'
 import type { MsgType } from './message'
 import type { PropsMessage } from './types'
 
 export function GmNotice(props: PropsMessage): MsgType {
-  const icon = AnimatedIcon(props.type, true, cn('notice-icon'))
   const $wrapper = newDiv(cn('notice'))
 
-  $wrapper.innerHTML = `<div class="${cn(
-    'notice-main',
-  )}">${icon}<div class="${cn('notice-content')}">${props.content}</div></div>`
+  changeStyle($wrapper, [`background:${varName(props.type)}`])
+
+  $wrapper.innerHTML = `<div class="${cn('notice-main')}"><div class="${cn(
+    'notice-content',
+  )}">${props.content}</div></div>`
 
   const open = () => {
-    getNoticeContainer().prepend($wrapper)
-    changeStyle($wrapper, [`--mh:${$wrapper.offsetHeight + 10}px`])
+    getContainer().append($wrapper)
     changeAnimation($wrapper, cn('open'))
-    setTimeout(() => {
-      const $icon = querySelector<HTMLElement>(`.${cn('notice-icon')}`,$wrapper)
-      if ($icon) {
-        changeStyle($icon, ['opacity:1'])
-      }
-    }, 300)
   }
 
   const close = (status: number) => {
@@ -46,4 +39,4 @@ export function GmNotice(props: PropsMessage): MsgType {
   }
 }
 
-export const notice = MakeMsg(GmNotice, 0)
+export const notice = MakeMsg(GmNotice)

@@ -1,14 +1,11 @@
 import { alert, message, notice } from '../main'
 import { newDiv, querySelector } from '../utils/html'
-import InformationBtnBox from './information'
 
 import './index.scss'
 
 import '../styles/main.scss'
-import '../styles/animatedIcons.scss'
 
 import '../styles/alert.scss'
-import '../styles/information.scss'
 import '../styles/notice.scss'
 import '../styles/message.scss'
 
@@ -122,7 +119,6 @@ MessageArea.append(BtnBox('message'))
 const NoticeArea = Area('Notice')
 NoticeArea.append(BtnBox('notice'))
 const InformationArea = Area('Information')
-InformationArea.append(InformationBtnBox())
 
 $root.append(
   Button('changeTheme', () => {

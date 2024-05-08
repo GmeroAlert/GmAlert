@@ -1,3 +1,5 @@
+import EventHandler from './EventHandler'
+
 export function animationendHandle(
   $el: HTMLElement,
   handle: (animationName: string) => void,
@@ -5,7 +7,7 @@ export function animationendHandle(
   const animationend = (e: AnimationEvent) => {
     handle(e.animationName)
   }
-  $el.addEventListener('animationend', animationend)
+  EventHandler.on($el, 'animationend', animationend)
 }
 
 export function changeAnimation($el: HTMLElement, animationName: string) {

@@ -1,20 +1,15 @@
 @import 'functions';
 
-.gmal-msg-box {
-  position: absolute;
-  top: calc(50% - 4rem);
-  right: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
 .gmal-msg {
-  position: relative;
-  overflow: visible;
-  pointer-events: all;
-  transform-origin: center;
+  position: fixed;
+  top: 45%;
+  right: 0;
+  left: 0;
+  z-index: $z-index;
+  width: max-content;
+  margin: 0 auto;
+  transform: translateY(-50%);
   animation-duration: 0.3s;
 
   .gmal-progress {
@@ -22,72 +17,55 @@
   }
 }
 
-.gmal-icon {
-  position: absolute;
-  left: 0.5em;
-  font-size: 1.25em;
-  color: white;
-}
-
 .gmal-msg-main {
   position: relative;
   box-sizing: border-box;
-  min-width: 4em;
-  max-width: 20em;
-  padding: 0.5em;
-  padding-right: 0.6em;
-  padding-left: 2.2em;
-  margin-bottom: 0.4rem;
-  overflow: hidden;
-  text-align: center;
-  background: vars('bg');
+  display: flex;
+  justify-content: center;
+  min-width: 85px;
+  max-width: 200px;
+  padding: 10px 15px;
+  color: vars('msg-text');
+  background: vars('msg-bg');
   border-radius: 4px;
-  box-shadow: vars('shadow-v');
   animation-duration: 0.3s;
 }
 
 .gmal-msg-content {
   text-align: left;
-  pointer-events: all;
-}
-
-@keyframes gmal-msg-out {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(0.7);
-  }
-}
-
-// for main
-@keyframes gmal-msg-close {
-  100% {
-    max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin: 0;
-  }
 }
 
 // 复用alert的动画
 @keyframes gmal-alert-in {
   0% {
-    transform: scale(0.7);
+    transform: translateY(-50%) scale(0.7);
   }
 
   45% {
-    transform: scale(1.05);
+    transform: translateY(-50%) scale(1.05);
   }
 
   80% {
-    transform: scale(0.95);
+    transform: translateY(-50%) scale(0.95);
   }
 
   100% {
-    transform: scale(1);
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+@keyframes gmal-fade-out {
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes gmal-fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
