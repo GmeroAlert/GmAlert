@@ -42,14 +42,15 @@ export class Msg {
   fire(conf: MsgPropsFull) {
     const oMsg = this.mkMsg(conf)
 
-    this.sT(oMsg, conf?.timeout || this.conf.timeout)
+    this.sT(oMsg, conf?.timeout)
 
     return oMsg
   }
 
   // 设置定时
   private sT(oMsg: OneMsg, timeout?: number) {
-    if (!timeout) return
+    if (timeout === 0) return
+    timeout = timeout || this.conf.timeout
     const { $el } = oMsg
     const p = this.mkP(oMsg, timeout)
     p.resume()
@@ -152,7 +153,7 @@ function getArgs(args: MsgPropsUser[]) {
   }
 
   let firstStr = false
-  const assignArg = (arg: string | object | number) => {
+  const assignArg = (arg?: string | object | number) => {
     switch (typeof arg) {
       case 'string':
         if (firstStr) {
@@ -173,7 +174,7 @@ function getArgs(args: MsgPropsUser[]) {
 
   for (let index = 0; index < 4; index++) {
     const element = args[index]
-    element && assignArg(element)
+    assignArg(element)
   }
 
   return result
