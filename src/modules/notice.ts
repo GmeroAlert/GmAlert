@@ -1,32 +1,31 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { changeStyle, cn, getNoticeContainer, newDiv, querySelector } from '../utils/html'
-import { AnimatedIcon } from '../component/animatedIcons/animatedIcons'
+import { changeStyle, cn, getContainer, newDiv } from '../utils/html'
 import { MakeMsg } from '../core/Msg'
 import type { MsgType } from './message'
-import type { PropsMessage } from './types'
+import type { PropsNotice } from './types'
 
-export function GmNotice(props: PropsMessage): MsgType {
-  const icon = AnimatedIcon(props.type, true, cn('notice-icon'))
+export function GmNotice(props: PropsNotice): MsgType {
   const $wrapper = newDiv(cn('notice'))
 
-  $wrapper.innerHTML = `<div class="${cn(
-    'notice-main',
-  )}">${icon}<div class="${cn('notice-content')}">${props.content}</div></div>`
+  changeStyle($wrapper, [
+    props.bottom ? 'bottom:0' : 'top:0',
+    props.bottom ? '--y:100%' : '--y:-100%',
+    props.background ? `background:${props.background}` : '',
+    props.color ? `color:${props.color}` : '',
+  ])
+
+  $wrapper.innerHTML = `<div class="${cn('notice-main')}"><div class="${cn(
+    'notice-content',
+  )}">${props.content}</div></div>`
 
   const open = () => {
-    getNoticeContainer().prepend($wrapper)
-    changeStyle($wrapper, [`--mh:${$wrapper.offsetHeight + 10}px`])
+    getContainer().append($wrapper)
     changeAnimation($wrapper, cn('open'))
-    setTimeout(() => {
-      const $icon = querySelector<HTMLElement>(`.${cn('notice-icon')}`,$wrapper)
-      if ($icon) {
-        changeStyle($icon, ['opacity:1'])
-      }
-    }, 300)
   }
 
-  const close = (status: number) => {
-    props.onClose()
+  const close = async (status: number) => {
+    const ifColose = await props.beforeClose(status)
+    if (!ifColose) return
     changeAnimation($wrapper, cn('close'))
     return new Promise<void>((resolve) => {
       animationendHandle($wrapper, (animationName) => {
@@ -46,4 +45,4 @@ export function GmNotice(props: PropsMessage): MsgType {
   }
 }
 
-export const notice = MakeMsg(GmNotice, 0)
+export const notice = MakeMsg(GmNotice)

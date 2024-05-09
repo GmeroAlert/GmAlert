@@ -1,24 +1,20 @@
 import type { MsgType } from '../modules/message'
-import { changeStyle, cn, newDiv, setMsgCount } from '../utils/html'
+import { changeStyle, cn, newDiv } from '../utils/html'
 
 import type { MsgPropsFull, MsgPropsUser, PropsMessage } from '../modules/types'
 
 export interface OneMsg extends Omit<MsgType, 'open'> {
-  // 用于标识消息是否重复, 这是内容+类型字符串的组合
-  // 一般只用于messsage和notice
-  readonly id: string
   progress?: {
     pause: () => void
     resume: () => void
     remove: () => void
   }
-  count: number
+  open: () => void
 }
 
-export interface Config {
+export type Config = {
   timeout: number
-  maxCount: number
-}
+} & MsgPropsFull
 
 export type MsgCore = (props: PropsMessage) => MsgType
 
@@ -26,38 +22,28 @@ export type MsgCore = (props: PropsMessage) => MsgType
  * 消息容器
  */
 export class Msg {
-  timeout = 2500
+  private conf: Config = { timeout: 2500 }
 
-  maxCount = 8
+  private id = 0
 
-  private activeInsts: Map<string, OneMsg> = new Map()
-
-  // 0: 'due to maxCount' | 1:'msg only one'
-  type: number
+  private insts: Map<number, OneMsg> = new Map()
 
   private core: (props: PropsMessage) => MsgType
 
-  constructor(core: MsgCore, type: number) {
-    this.type = type
+  constructor(core: MsgCore, conf?: Partial<Config>) {
+    this.conf = { ...this.conf, ...conf }
     this.core = core
-
-    if (type === 1) {
-      this.timeout = 0
-    }
   }
 
   config(config: Partial<Config>) {
-    this.timeout = config.timeout || this.timeout
-    this.maxCount = config.maxCount || this.maxCount
+    this.conf = { ...this.conf, ...config }
   }
 
   fire(conf: MsgPropsFull) {
     const oMsg = this.mkMsg(conf)
 
-    // 非loading类型才会设置定时
-    if (conf.type !== 'loading') {
-      this.sT(oMsg, conf?.timeout || this.timeout)
-    }
+    this.sT(oMsg, conf?.timeout || this.conf.timeout)
+
     return oMsg
   }
 
@@ -95,8 +81,8 @@ export class Msg {
 
     const resume = () => {
       changeStyle($progressBar, [
-        'width:0',
-        `transition:width ${timeout * get()}ms linear`,
+        'width:100%',
+        `transition:width ${timeout * (1 - get())}ms linear`,
       ])
     }
 
@@ -107,41 +93,54 @@ export class Msg {
     return (oMsg.progress = { pause, resume, remove })
   }
 
-  // 判断消息是否存在, 设置msgCount以及关闭多余消息
+  // 关闭多余消息, 打开新消息
   private mkMsg(conf: MsgPropsFull) {
-    const id = `${conf.content}${conf.type}`
-    if (!this.type && this.activeInsts.has(id)) {
-      const inst = this.activeInsts.get(id)!
-      inst.count += 1
-      setMsgCount(inst.$el, inst.count)
-      return inst
-    }
-
+    const id = this.id++
     const props = {
+      ...this.conf,
       ...conf,
+      content: conf.content || '',
       onClosed: (status: number) => {
         conf?.onClosed && conf.onClosed(status)
       },
-      onClose: () => {
-        this.activeInsts.delete(id)
+      beforeClose: async (status: number) => {
+        if (conf?.beforeClose) {
+          const res = await conf.beforeClose(status)
+          if (!res) return false
+        }
+        this.insts.delete(id)
+        return true
       },
     }
 
     const inst = this.core(props)
 
-    if (this.type === 1 || this.activeInsts.size >= this.maxCount) {
-      const nextInst = this.activeInsts.values().next().value
-      if (nextInst) {
-        nextInst.progress?.pause()
-        nextInst.close(-2)
-      }
+    // 重定义open和close方法
+    let opened = false
+    const open = () => {
+      if (opened) return
+      opened = true
+      inst.open()
     }
 
-    const oMsg: OneMsg = { ...inst, id, count: 1 }
+    // 设置样式
+    if (props.className) {
+      inst.$el.classList.add(...props.className)
+    }
+    if (props.style) {
+      changeStyle(inst.$el, props.style)
+    }
 
-    this.activeInsts.set(id, oMsg)
+    // 关闭其他消息
+    const nextInst = this.insts.values().next().value
+    if (nextInst) {
+      nextInst.progress?.pause()
+      nextInst.close(-2)
+    }
 
-    inst.open()
+    const oMsg: OneMsg = { ...inst, open }
+    this.insts.set(id, oMsg)
+    open()
 
     return oMsg
   }
@@ -150,7 +149,6 @@ export class Msg {
 function getArgs(args: MsgPropsUser[]) {
   const result: MsgPropsFull = {
     content: 'success',
-    type: 'success',
   }
 
   let firstStr = false
@@ -158,7 +156,7 @@ function getArgs(args: MsgPropsUser[]) {
     switch (typeof arg) {
       case 'string':
         if (firstStr) {
-          result.type = arg as MsgPropsFull['type']
+          result.text = arg
         } else {
           result.content = arg
           firstStr = true
@@ -181,8 +179,8 @@ function getArgs(args: MsgPropsUser[]) {
   return result
 }
 
-export function MakeMsg(core: MsgCore, type: number) {
-  const $msg = new Msg(core, type)
+export function MakeMsg(core: MsgCore, conf?: Partial<Config>) {
+  const $msg = new Msg(core, conf)
   const res = (...args: (string | Partial<MsgPropsFull> | number)[]) => {
     return $msg.fire(getArgs(args))
   }

@@ -8,40 +8,79 @@ import {
   newEl,
   querySelector,
 } from '../utils/html'
-import { AnimatedIcon } from '../component/animatedIcons/animatedIcons'
 import { MakeMsg } from '../core/Msg'
-import { CloseIcon } from '../component/icons/close'
+import { SpinIcon } from '../component/icons'
+import EventHandler from '../utils/EventHandler'
 import type { MsgType } from './message'
 import type { PropsAlert } from './types'
 
-function Button(text: string, onClick: () => void) {
-  const $btn = newEl('button')
+function Button(text: string, onClick: () => Promise<void>) {
+  const $btn = newEl('button', cn('hairline'))
   $btn.textContent = text
-  $btn.onclick = onClick
+  let isPending = false
+  $btn.onclick = async () => {
+    if (isPending) return
+    isPending = true
+    // 优化点击后的体验
+    setTimeout(() => {
+      if (isPending) $btn.innerHTML = SpinIcon('1.4em')
+    }, 50)
+    await onClick()
+    $btn.textContent = text
+    isPending = false
+  }
   $btn.classList.add(cn('alert-btn'))
 
   return $btn
 }
 
-export function GmAlert(props: PropsAlert): MsgType {
-  const $box = newDiv(cn('alert-box'))
-  const $wrapper = newDiv(cn('alert'))
-  if (props.className) {
-    $wrapper.classList.add(...props.className)
-  }
-  if (props.style) {
-    changeStyle($wrapper, props.style)
-  }
-  const icon = AnimatedIcon(props.type, false, cn('alert-icon'))
+// 0 已经关闭 1 关闭中 2 打开中 3 已经打开
+let overLayStatus = 0
 
-  $box.append($wrapper)
+function overLaySwitch(open: boolean) {
+  let $overlay = querySelector(`.${cn('overlay')}`)
+  if (!$overlay) {
+    $overlay = newDiv(cn('overlay'))
+    getContainer().append($overlay)
+    animationendHandle($overlay, (e: string) => {
+      if (e === cn('fade-in')) {
+        overLayStatus = 3
+      }
+      if (e === cn('fade-out')) {
+        overLayStatus = 0
+        bodyScroll(false)
+        changeStyle($overlay, ['display: none'])
+      }
+    })
+  }
+  if (open) {
+    if (overLayStatus > 1) {
+      return $overlay
+    }
+    bodyScroll()
+    overLayStatus = 2
+    changeAnimation($overlay, cn('fade-in'))
+    changeStyle($overlay, ['display: block'])
+  } else {
+    if (overLayStatus < 2) {
+      return $overlay
+    }
+    overLayStatus = 1
+    changeAnimation($overlay, cn('fade-out'))
+  }
+
+  return $overlay
+}
+
+export function GmAlert(props: PropsAlert): MsgType {
+  const $wrapper = newDiv(cn('alert'))
+
+  let isPending = false
 
   if (props.content) {
-    $wrapper.innerHTML = `${icon}<div class="${cn('alert-title')}">${
+    $wrapper.innerHTML = `<div class="${cn('alert-title')}">${
       props.content
     }</div>`
-  } else {
-    $wrapper.innerHTML = icon
   }
 
   if (props.text || props.html) {
@@ -53,28 +92,39 @@ export function GmAlert(props: PropsAlert): MsgType {
         $text.append(props.html)
       }
     } else {
-      $text.textContent = props.text || 'hello'
+      $text.textContent = props.text!
     }
     $wrapper.append($text)
   }
 
-  const $root = getContainer()
+  let overlayClick: () => void
 
-  const open = () => {
-    bodyScroll()
-    $root.append($box)
+  const shake = () => {
+    changeAnimation($wrapper, cn('shake'))
   }
 
-  const close = (status: number) => {
-    props.onClose()
+  const close = async (status: number) => {
+    if (isPending) {
+      shake()
+      return
+    }
+    isPending = true
+    const ifColose = await props.beforeClose(status)
+    if (!ifColose) {
+      isPending = false
+      shake()
+      return
+    }
+    const $overlay = querySelector(`.${cn('overlay')}`)
+    if (status !== -2) {
+      overLaySwitch(false)
+    }
+    EventHandler.off($overlay, 'click', overlayClick)
     changeAnimation($wrapper, cn('alert-out'))
     return new Promise<void>((resolve) => {
       animationendHandle($wrapper, (e: string) => {
         if (e === cn('alert-out')) {
-          $box.remove()
-          if (!querySelector(`.${cn('alert')}`)) {
-            bodyScroll(false)
-          }
+          $wrapper.remove()
           props.onClosed(status)
           resolve()
         }
@@ -82,44 +132,34 @@ export function GmAlert(props: PropsAlert): MsgType {
     })
   }
 
-  $box.onclick = (e) => {
-    if (props.hideClose) {
-      return
-    }
-    if (e.target === $box) {
-      props.onClose()
-      close(0)
-    }
+  overlayClick = () => {
+    close(-3)
   }
 
-  if (props.showCancel || props.showConfirm) {
-    const $buttons = newDiv(cn('alert-btn-group'))
-    props.showCancel &&
+  const open = () => {
+    EventHandler.on(overLaySwitch(true), 'click', overlayClick)
+    getContainer().append($wrapper)
+    changeAnimation($wrapper, cn('alert-in'))
+  }
+
+  if (props.cancelLabel || props.confirmLabel) {
+    const $buttons = newDiv(cn('alert-btn-group'), cn('hairline'))
+    props.cancelLabel &&
       $buttons.append(
-        Button('取消', () => {
-          close(0)
+        Button(props.cancelLabel, async () => {
+          await close(2)
         }),
       )
-    props.showConfirm &&
+    props.confirmLabel &&
       $buttons.append(
-        Button('确定', () => {
-          close(1)
+        Button(props.confirmLabel, async () => {
+          await close(1)
         }),
       )
     $wrapper.append($buttons)
   }
 
-  if (!props.hideClose) {
-    const $close = CloseIcon()
-
-    $close.onclick = () => {
-      close(0)
-    }
-
-    $wrapper.append($close)
-  }
-
   return { close, open, $el: $wrapper }
 }
 
-export const alert = MakeMsg(GmAlert, 1)
+export const alert = MakeMsg(GmAlert, { timeout: 0, confirmLabel: '确定' })

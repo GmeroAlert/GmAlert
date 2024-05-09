@@ -24,24 +24,6 @@ const bundles = [
     },
   },
   {
-    input: './src/index_message_notice.ts',
-    output: {
-      file: `./dist/${libName}_message_notice.min.js`,
-      format: 'iife',
-      name: funcName,
-      sourcemap: false,
-    },
-  },
-  {
-    input: './src/index_message_notice_infomation.ts',
-    output: {
-      file: `./dist/${libName}_message_notice_infomation.min.js`,
-      format: 'iife',
-      name: funcName,
-      sourcemap: false,
-    },
-  },
-  {
     input: './src/index.ts',
     output: {
       file: `./dist/${libName}-bundle.min.js`,
