@@ -13,6 +13,7 @@ $theme-vars: (
 
 .gmal {
   position: fixed;
+  z-index: $z-index;
   height: 0;
   font: 16px/1.3 "Helvetica Neue", Helvetica, Arial, "PingFang SC",
   "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei",
