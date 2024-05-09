@@ -1,4 +1,4 @@
-import { alert, message, notice } from '../main'
+import { notice } from '../main'
 import { newDiv, querySelector } from '../utils/html'
 
 import './index.scss'
@@ -8,6 +8,10 @@ import '../styles/main.scss'
 import '../styles/alert.scss'
 import '../styles/notice.scss'
 import '../styles/message.scss'
+import AlertBtnBox from './alert'
+import MsgBtnBox from './message'
+import NoticeBtnBox from './notice'
+import { Button } from './utils'
 
 notice.config({ timeout: 5000 })
 
@@ -19,70 +23,6 @@ if (!$root) {
 
 $root.innerHTML = ''
 
-function Button(text: string, callback: () => void) {
-  const button = document.createElement('button')
-  button.classList.add('btn')
-  button.textContent = text
-  button.onclick = callback
-  return button
-}
-
-function BtnBox(type: 'alert' | 'message' | 'notice') {
-  const btnBox = newDiv('btn-box')
-  let core: any
-  switch (type) {
-    case 'alert':
-      core = alert
-      break
-    case 'message':
-      core = message
-      break
-    case 'notice':
-      core = notice
-      break
-    default:
-      core = alert
-  }
-
-  let loadingFired = false
-  ;['success', 'error', 'warn', 'info'].forEach((t) => {
-    btnBox.append(
-      Button(`${type} ${t}`, () =>
-        core(t, {
-          text: `this is a ${t} message`,
-          type: t,
-        }),
-      ),
-    )
-  })
-
-  btnBox.append(
-    Button(`${type} loading`, () => {
-      if (loadingFired) {
-        return
-      }
-      loadingFired = true
-      const tmp = core({
-        type: 'loading',
-        content: 'loading',
-        text: 'wait for 3 seconds...',
-        onClosed() {
-          loadingFired = false
-        },
-      })
-      setTimeout(
-        () =>
-          tmp.close().then(() => {
-            message('load complete')
-          }),
-        3000,
-      )
-    }),
-  )
-
-  return btnBox
-}
-
 function Area(text: string) {
   const area = newDiv('area')
   const title = document.createElement('h3')
@@ -92,33 +32,13 @@ function Area(text: string) {
 }
 
 const AlertArea = Area('Alert')
-const alertBtnBox = BtnBox('alert')
-const inputLabel = newDiv('gm-label')
-const span = document.createElement('span')
-span.textContent = '网站名称：'
-const input = document.createElement('input')
-inputLabel.append(span, input)
-input.classList.add('gm-input')
-alertBtnBox.append(
-  Button('alert html', () => {
-    alert({
-      className: ['alert-html'],
-      content: '友链申请',
-      html: inputLabel,
-      showConfirm: true,
-      onClosed() {
-        message(`${input.value ? `你输入了：${input.value}` : '你没有输入'}`)
-        input.value = ''
-      },
-    })
-  }),
-)
-AlertArea.append(alertBtnBox)
+AlertArea.append(AlertBtnBox)
+
 const MessageArea = Area('Message')
-MessageArea.append(BtnBox('message'))
+MessageArea.append(MsgBtnBox)
+
 const NoticeArea = Area('Notice')
-NoticeArea.append(BtnBox('notice'))
-const InformationArea = Area('Information')
+NoticeArea.append(NoticeBtnBox)
 
 $root.append(
   Button('changeTheme', () => {
@@ -128,5 +48,4 @@ $root.append(
   AlertArea,
   MessageArea,
   NoticeArea,
-  InformationArea,
 )

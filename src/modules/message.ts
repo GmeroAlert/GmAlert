@@ -2,6 +2,7 @@ import { animationendHandle, changeAnimation } from '../utils/animateHandle'
 import { cn, getContainer, newDiv } from '../utils/html'
 import { MakeMsg } from '../core/Msg'
 
+import { SpinIcon } from '../component/icons'
 import type { PropsMessage } from './types'
 
 export interface MsgType {
@@ -13,16 +14,26 @@ export interface MsgType {
 export function GmMessage(props: PropsMessage): MsgType {
   const $wrapper = newDiv(cn('msg'))
   const $main = newDiv(cn('msg-main'))
-  $wrapper.append($main)
   $main.innerHTML = `<div class=${cn('msg-content')}>${props.content}</div>`
+  $wrapper.append($main)
+  let icon = props.icon || ''
+
+  if (icon === 'loading') {
+    icon = SpinIcon()
+  }
+
+  const $icon = newDiv(cn('icon'))
+  $icon.innerHTML = icon
+  icon && $main.prepend($icon)
 
   const open = () => {
     getContainer().append($wrapper)
     changeAnimation($wrapper, cn('alert-in'))
   }
 
-  const close = (status: number) => {
-    props.onClose()
+  const close = async (status: number) => {
+    const ifColose = await props.beforeClose(status)
+    if (!ifColose) return
     changeAnimation($wrapper, cn('alert-out'))
 
     return new Promise<void>((resolve) => {

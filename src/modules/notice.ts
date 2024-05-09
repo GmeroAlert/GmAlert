@@ -1,13 +1,18 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { changeStyle, cn, getContainer, newDiv, varName } from '../utils/html'
+import { changeStyle, cn, getContainer, newDiv } from '../utils/html'
 import { MakeMsg } from '../core/Msg'
 import type { MsgType } from './message'
-import type { PropsMessage } from './types'
+import type { PropsNotice } from './types'
 
-export function GmNotice(props: PropsMessage): MsgType {
+export function GmNotice(props: PropsNotice): MsgType {
   const $wrapper = newDiv(cn('notice'))
 
-  changeStyle($wrapper, [`background:${varName(props.type)}`])
+  changeStyle($wrapper, [
+    props.bottom ? 'bottom:0' : 'top:0',
+    props.bottom ? '--y:100%' : '--y:-100%',
+    props.background ? `background:${props.background}` : '',
+    props.color ? `color:${props.color}` : '',
+  ])
 
   $wrapper.innerHTML = `<div class="${cn('notice-main')}"><div class="${cn(
     'notice-content',
@@ -18,8 +23,9 @@ export function GmNotice(props: PropsMessage): MsgType {
     changeAnimation($wrapper, cn('open'))
   }
 
-  const close = (status: number) => {
-    props.onClose()
+  const close = async (status: number) => {
+    const ifColose = await props.beforeClose(status)
+    if (!ifColose) return
     changeAnimation($wrapper, cn('close'))
     return new Promise<void>((resolve) => {
       animationendHandle($wrapper, (animationName) => {

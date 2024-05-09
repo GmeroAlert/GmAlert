@@ -2,13 +2,10 @@
 
 .gmal-notice {
   position: fixed;
-  top: 0;
   right: 0;
   left: 0;
   z-index: $z-index;
-  color: vars('msg-text');
-  pointer-events: all;
-  box-shadow: vars('shadow-v');
+  background: vars('notice-bg');
   animation-duration: 0.3s;
 
   .gmal-notice-main {
@@ -30,7 +27,7 @@
 /* 展开 */
 @keyframes gmal-open {
   0% {
-    transform: translateY(-100%);
+    transform: translateY(var(--y));
   }
 
   100% {
@@ -45,6 +42,6 @@
   }
 
   100% {
-    transform: translateY(-100%);
+    transform: translateY(var(--y));
   }
 }

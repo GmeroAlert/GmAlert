@@ -10,9 +10,10 @@
   width: max-content;
   margin: 0 auto;
   transform: translateY(-50%);
-  animation-duration: 0.3s;
+  animation-duration: 0.25s;
 
   .gmal-progress {
+    pointer-events: none;
     opacity: 0;
   }
 }
@@ -21,51 +22,44 @@
   position: relative;
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  min-width: 85px;
-  max-width: 200px;
-  padding: 10px 15px;
-  color: vars('msg-text');
+  min-width: 100px;
+  max-width: 168px;
+  padding: 12px 15px;
+  color: vars('msg-c');
   background: vars('msg-bg');
   border-radius: 4px;
-  animation-duration: 0.3s;
+
+  .gmal-icon {
+    display: block;
+    margin: 10px;
+    font-size: 1.8em;
+    line-height: 1;
+  }
 }
 
 .gmal-msg-content {
-  text-align: left;
+  text-align: center;
 }
 
 // 复用alert的动画
 @keyframes gmal-alert-in {
   0% {
-    transform: translateY(-50%) scale(0.7);
-  }
-
-  45% {
-    transform: translateY(-50%) scale(1.05);
-  }
-
-  80% {
-    transform: translateY(-50%) scale(0.95);
-  }
-
-  100% {
-    transform: translateY(-50%) scale(1);
-  }
-}
-
-@keyframes gmal-fade-out {
-  100% {
     opacity: 0;
-  }
-}
-
-@keyframes gmal-fade-in {
-  0% {
-    opacity: 0;
+    transform: translateY(-50%) scale(0.6);
   }
 
   100% {
     opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+@keyframes gmal-alert-out {
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.6);
   }
 }

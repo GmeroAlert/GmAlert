@@ -1,9 +1,8 @@
-export type MsgColor = 'success' | 'error' | 'warn' | 'info' | 'loading'
-
 export interface PropsMessage {
   style?: string[]
   className?: string[]
-  type: MsgColor
+  timeout?: number
+  icon?: string
   content: string
   /**
    *
@@ -11,41 +10,23 @@ export interface PropsMessage {
    * @returns
    */
   onClosed: (status: number) => void
-  onClose: () => void
+  beforeClose: (status: number) => boolean | Promise<boolean> // 关闭前触发，返回false则不关闭
+}
+
+export interface PropsNotice extends PropsMessage {
+  bottom?: boolean
+  background?: string // 背景色
+  color?: string // 文字颜色
 }
 
 export interface PropsAlert extends PropsMessage {
   text?: string
   html?: string | HTMLElement
-  hideClose?: boolean
-  showConfirm?: boolean
-  showCancel?: boolean
-  hideMask?: boolean
+  confirmLabel?: string // 确认按钮文本
+  cancelLabel?: string // 取消按钮文本
+  beforeClose: (status: number) => boolean | Promise<boolean> // 关闭前触发，返回false则不关闭
 }
 
-export interface PropsInfo extends PropsMessage {
-  title?: string
-  headerLeft?: string
-  headerRight?: string
-  hideClose?: boolean
-}
-
-export interface MsgPropsFull {
-  style?: string[]
-  className?: string[]
-  content: string
-  type: MsgColor
-  title?: string // only for info
-  timeout?: number
-  text?: string
-  headerLeft?: string
-  headerRight?: string
-  hideClose?: boolean
-  onClosed?: (status: number) => void
-  showConfirm?: boolean
-  showCancel?: boolean
-  html?: string | HTMLElement
-  hideMask?: boolean
-}
+export type MsgPropsFull = Partial<PropsMessage & PropsAlert & PropsNotice>
 
 export type MsgPropsUser = Partial<MsgPropsFull> | string | number

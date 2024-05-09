@@ -6,7 +6,10 @@ export function varName(name: string) {
   return `var(--${cn(name)})`
 }
 
-export function newEl(tag: string, ...className: string[]) {
+export function newEl<K extends keyof HTMLElementTagNameMap>(
+  tag: K,
+  ...className: string[]
+) {
   const $el = document.createElement(tag)
   $el.classList.add(...className)
   return $el

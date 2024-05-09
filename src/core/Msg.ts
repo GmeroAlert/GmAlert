@@ -12,10 +12,9 @@ export interface OneMsg extends Omit<MsgType, 'open'> {
   open: () => void
 }
 
-export interface Config {
+export type Config = {
   timeout: number
-  maxCount: number
-}
+} & MsgPropsFull
 
 export type MsgCore = (props: PropsMessage) => MsgType
 
@@ -23,28 +22,28 @@ export type MsgCore = (props: PropsMessage) => MsgType
  * 消息容器
  */
 export class Msg {
-  timeout: number
+  private conf: Config = { timeout: 2500 }
 
-  private activeInsts: Map<string, OneMsg> = new Map()
+  private id = 0
+
+  private insts: Map<number, OneMsg> = new Map()
 
   private core: (props: PropsMessage) => MsgType
 
-  constructor(core: MsgCore, timeout = 2500) {
-    this.timeout = timeout
+  constructor(core: MsgCore, conf?: Partial<Config>) {
+    this.conf = { ...this.conf, ...conf }
     this.core = core
   }
 
   config(config: Partial<Config>) {
-    this.timeout = config.timeout || this.timeout
+    this.conf = { ...this.conf, ...config }
   }
 
   fire(conf: MsgPropsFull) {
     const oMsg = this.mkMsg(conf)
 
-    // 非loading类型才会设置定时
-    if (conf.type !== 'loading') {
-      this.sT(oMsg, conf?.timeout || this.timeout)
-    }
+    this.sT(oMsg, conf?.timeout || this.conf.timeout)
+
     return oMsg
   }
 
@@ -94,55 +93,53 @@ export class Msg {
     return (oMsg.progress = { pause, resume, remove })
   }
 
-  // 判断消息是否存在, 设置msgCount以及关闭多余消息
+  // 关闭多余消息, 打开新消息
   private mkMsg(conf: MsgPropsFull) {
-    const id = `${conf.content}${conf.type}`
-
+    const id = this.id++
     const props = {
+      ...this.conf,
       ...conf,
+      content: conf.content || '',
       onClosed: (status: number) => {
         conf?.onClosed && conf.onClosed(status)
       },
-      onClose: () => {
-        this.activeInsts.delete(id)
+      beforeClose: async (status: number) => {
+        if (conf?.beforeClose) {
+          const res = await conf.beforeClose(status)
+          if (!res) return false
+        }
+        this.insts.delete(id)
+        return true
       },
     }
 
     const inst = this.core(props)
 
+    // 重定义open和close方法
     let opened = false
-
     const open = () => {
       if (opened) return
       opened = true
       inst.open()
     }
 
-    const close = (status: number) => {
-      if (!opened) return Promise.resolve()
-      opened = false
-      return inst.close(status)
-    }
-
+    // 设置样式
     if (props.className) {
       inst.$el.classList.add(...props.className)
     }
-
     if (props.style) {
       changeStyle(inst.$el, props.style)
     }
 
-    // 如果消息数量超过最大值, 则关闭最早的消息
-    const nextInst = this.activeInsts.values().next().value
+    // 关闭其他消息
+    const nextInst = this.insts.values().next().value
     if (nextInst) {
       nextInst.progress?.pause()
       nextInst.close(-2)
     }
 
-    const oMsg: OneMsg = { ...inst, close, open }
-
-    this.activeInsts.set(id, oMsg)
-
+    const oMsg: OneMsg = { ...inst, open }
+    this.insts.set(id, oMsg)
     open()
 
     return oMsg
@@ -152,7 +149,6 @@ export class Msg {
 function getArgs(args: MsgPropsUser[]) {
   const result: MsgPropsFull = {
     content: 'success',
-    type: 'success',
   }
 
   let firstStr = false
@@ -160,7 +156,7 @@ function getArgs(args: MsgPropsUser[]) {
     switch (typeof arg) {
       case 'string':
         if (firstStr) {
-          result.type = arg as MsgPropsFull['type']
+          result.text = arg
         } else {
           result.content = arg
           firstStr = true
@@ -183,8 +179,8 @@ function getArgs(args: MsgPropsUser[]) {
   return result
 }
 
-export function MakeMsg(core: MsgCore, timeout?: number) {
-  const $msg = new Msg(core, timeout)
+export function MakeMsg(core: MsgCore, conf?: Partial<Config>) {
+  const $msg = new Msg(core, conf)
   const res = (...args: (string | Partial<MsgPropsFull> | number)[]) => {
     return $msg.fire(getArgs(args))
   }

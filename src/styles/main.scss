@@ -1,17 +1,14 @@
 @import 'functions';
 
 $theme-vars: (
-  'bg': #fff,
-  'bar-bg': rgb(0 0 0 / 8%),
+  'alert-bg': #fff,
+  'overlay-bg': rgb(0 0 0 / 50%),
+  'bar-bg': rgb(0 0 0 / 4%),
   'msg-bg': rgb(0 0 0 / 70%),
-  'msg-text': #fff,
+  'msg-c': #fff,
+  'notice-bg': #e2e7ec,
+  'border-c': rgb(0 0 0 / 9%),
   'text': #5a5a5a,
-  'light': #ddd,
-  'success': #72b948,
-  'info': #30abd4,
-  'warn':#e67930,
-  'error': #da5252,
-  'loading': #31518d,
 );
 
 .gmal {
@@ -21,6 +18,8 @@ $theme-vars: (
   "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei",
   sans-serif;
   color: vars('text');
+  word-break: normal;
+  word-wrap: break-word;
 
   * {
     box-sizing: border-box;
@@ -41,7 +40,7 @@ $theme-vars: (
   transition: all 0.2s;
 
   &:hover {
-    background: vars('light');
+    background: vars('border-c');
     opacity: .5;
   }
 }
@@ -50,8 +49,6 @@ $theme-vars: (
   position: absolute;
   inset: 0;
   overflow: hidden;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
 
   .gmal-progress-bar {
     display: flex;
