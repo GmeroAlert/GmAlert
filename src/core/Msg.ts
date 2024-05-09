@@ -7,7 +7,6 @@ export interface OneMsg extends Omit<MsgType, 'open'> {
   progress?: {
     pause: () => void
     resume: () => void
-    remove: () => void
   }
   open: () => void
 }
@@ -61,7 +60,6 @@ export class Msg {
 
   // 设置进度
   private mkP(oMsg: OneMsg, timeout: number) {
-    oMsg.progress?.remove()
     const { $el } = oMsg
     const $progress = newDiv(cn('progress'))
     const $progressBar = newDiv(cn('progress-bar'))
@@ -87,11 +85,7 @@ export class Msg {
       ])
     }
 
-    const remove = () => {
-      $progress.remove()
-    }
-
-    return (oMsg.progress = { pause, resume, remove })
+    return (oMsg.progress = { pause, resume })
   }
 
   // 关闭多余消息, 打开新消息
