@@ -5,6 +5,7 @@
   right: 0;
   left: 0;
   z-index: 2;
+  color: vars('notice-c');
   background: vars('notice-bg');
   animation-duration: 0.3s;
 
@@ -16,8 +17,7 @@
     align-items: normal;
 
     .gmal-notice-content {
-      margin: 12px 20px;
-      font-size: 1.2em;
+      padding: 1.15em;
       font-weight: 600;
       text-align: center;
     }
