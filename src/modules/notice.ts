@@ -24,8 +24,7 @@ export function GmNotice(props: PropsNotice): MsgType {
   }
 
   const close = async (status: number) => {
-    const ifColose = await props.beforeClose(status)
-    if (!ifColose) return
+    await props.beforeClose(status)
     changeAnimation($wrapper, cn('close'))
     return new Promise<void>((resolve) => {
       animationendHandle($wrapper, (animationName) => {

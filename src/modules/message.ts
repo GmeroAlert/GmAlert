@@ -32,8 +32,7 @@ export function GmMessage(props: PropsMessage): MsgType {
   }
 
   const close = async (status: number) => {
-    const ifColose = await props.beforeClose(status)
-    if (!ifColose) return
+    await props.beforeClose(status)
     changeAnimation($wrapper, cn('alert-out'))
 
     return new Promise<void>((resolve) => {
