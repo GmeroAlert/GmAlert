@@ -142,9 +142,7 @@ export class Msg {
 }
 
 function getArgs(args: MsgPropsUser[]) {
-  const result: MsgPropsFull = {
-    content: 'success',
-  }
+  const result: MsgPropsFull = {}
 
   let firstStr = false
   const assignArg = (arg?: string | object | number) => {
