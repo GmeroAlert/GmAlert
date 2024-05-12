@@ -11,12 +11,13 @@
   };
   var EventHandler$1 = EventHandler;
 
-  const documentElement = document.documentElement;
+  const doc = document;
+  const docEl = doc.documentElement;
   function cn(className) {
     return `gmal-${className}`;
   }
   function newEl(tag, ...className) {
-    const $el = document.createElement(tag);
+    const $el = doc.createElement(tag);
     $el.classList.add(...className);
     return $el;
   }
@@ -27,7 +28,7 @@
     let $root = querySelector(`.gmal`);
     if (!$root) {
       $root = newDiv('gmal');
-      document.body.append($root);
+      doc.body.append($root);
     }
     return $root;
   };
@@ -48,17 +49,17 @@
 
   // 用于设置滚动条
   function bodyScroll(lock = true) {
-    const $body = document.body;
+    const $body = doc.body;
     if (lock) {
       // set padding
-      changeStyle($body, ['overflow: hidden', `padding-right: ${window.innerWidth - documentElement.clientWidth}px`]);
+      changeStyle($body, ['overflow: hidden', `padding-right: ${window.innerWidth - docEl.clientWidth}px`]);
     } else {
       resetStyle($body, ['overflow', 'padding-right']);
     }
   }
 
   // 用于获取元素
-  function querySelector(selector, $el = documentElement) {
+  function querySelector(selector, $el = docEl) {
     return $el.querySelector(selector);
   }
 
