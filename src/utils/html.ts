@@ -1,4 +1,5 @@
-const documentElement = document.documentElement
+const doc = document
+const docEl = doc.documentElement
 
 export function cn(className: string) {
   return `gmal-${className}`
@@ -12,7 +13,7 @@ export function newEl<K extends keyof HTMLElementTagNameMap>(
   tag: K,
   ...className: string[]
 ) {
-  const $el = document.createElement(tag)
+  const $el = doc.createElement(tag)
   $el.classList.add(...className)
   return $el
 }
@@ -26,7 +27,7 @@ export const getContainer = () => {
 
   if (!$root) {
     $root = newDiv('gmal')
-    document.body.append($root)
+    doc.body.append($root)
   }
 
   return $root
@@ -49,12 +50,12 @@ export function resetStyle(el: HTMLElement, arr: string[]): void {
 
 // 用于设置滚动条
 export function bodyScroll(lock = true) {
-  const $body = document.body
+  const $body = doc.body
   if (lock) {
     // set padding
     changeStyle($body, [
       'overflow: hidden',
-      `padding-right: ${window.innerWidth - documentElement.clientWidth}px`,
+      `padding-right: ${window.innerWidth - docEl.clientWidth}px`,
     ])
   } else {
     resetStyle($body, ['overflow', 'padding-right'])
@@ -64,7 +65,7 @@ export function bodyScroll(lock = true) {
 // 用于获取元素
 export function querySelector<T extends HTMLElement = HTMLElement>(
   selector: string,
-  $el: HTMLElement = documentElement,
+  $el: HTMLElement = docEl,
 ): T {
   return $el.querySelector(selector) as T
 }
