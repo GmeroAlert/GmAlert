@@ -1,3 +1,5 @@
+const documentElement = document.documentElement
+
 export function cn(className: string) {
   return `gmal-${className}`
 }
@@ -52,9 +54,7 @@ export function bodyScroll(lock = true) {
     // set padding
     changeStyle($body, [
       'overflow: hidden',
-      `padding-right: ${
-        window.innerWidth - document.documentElement.clientWidth
-      }px`,
+      `padding-right: ${window.innerWidth - documentElement.clientWidth}px`,
     ])
   } else {
     resetStyle($body, ['overflow', 'padding-right'])
@@ -64,7 +64,19 @@ export function bodyScroll(lock = true) {
 // 用于获取元素
 export function querySelector<T extends HTMLElement = HTMLElement>(
   selector: string,
-  $el: HTMLElement = document.body,
+  $el: HTMLElement = documentElement,
 ): T {
   return $el.querySelector(selector) as T
+}
+
+// inject style
+export function injectStyle(css: string): void {
+  let $style = querySelector<HTMLStyleElement>(`#${cn('style')}`)
+
+  if (!$style) {
+    $style = newEl('style')
+    $style.id = cn('style')
+    document.head.append($style)
+  }
+  $style.innerHTML += css
 }

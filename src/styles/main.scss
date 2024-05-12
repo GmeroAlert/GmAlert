@@ -1,24 +1,12 @@
 @import 'functions';
 
-$theme-vars: (
-  'alert-bg': #fff,
-  'overlay-bg': rgb(0 0 0 / 50%),
-  'bar-bg': rgb(0 0 0 / 6%),
-  'msg-bg': rgb(0 0 0 / 70%),
-  'msg-c': #fff,
-  'notice-bg': #e2e7ec,
-  'notice-c': #333,
-  'border-c': rgb(0 0 0 / 9%),
-  'text': #5a5a5a,
-);
-
 .gmal {
   position: fixed;
   z-index: $z-index;
   height: 0;
   font: 16px/1.3 "Helvetica Neue", Helvetica, Arial, "PingFang SC",
-  "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei",
-  sans-serif;
+    "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei",
+    sans-serif;
   color: vars('text');
   word-break: normal;
   word-wrap: break-word;
@@ -27,9 +15,7 @@ $theme-vars: (
     box-sizing: border-box;
   }
 
-  @each $key, $value in $theme-vars {
-    #{$var-prefix}-#{$key}: #{$value};
-  }
+  @include set-vars('text', #5a5a5a);
 }
 
 

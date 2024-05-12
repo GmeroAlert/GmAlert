@@ -1,7 +1,11 @@
 import type { MsgType } from '../modules/message'
-import { changeStyle, cn, newDiv } from '../utils/html'
+import { changeStyle, cn, injectStyle, newDiv } from '../utils/html'
 
 import type { MsgPropsFull, MsgPropsUser, PropsMessage } from '../modules/types'
+
+import main from '../styles/main.scss'
+
+injectStyle(main)
 
 export interface OneMsg extends Omit<MsgType, 'open'> {
   progress?: {
@@ -172,7 +176,12 @@ function getArgs(args: MsgPropsUser[]) {
   return result
 }
 
-export function MakeMsg(core: MsgCore, conf?: Partial<Config>) {
+export function MakeMsg(
+  core: MsgCore,
+  callback: () => void,
+  conf?: Partial<Config>,
+) {
+  callback()
   const $msg = new Msg(core, conf)
   const res = (...args: (string | Partial<MsgPropsFull> | number)[]) => {
     return $msg.fire(getArgs(args))

@@ -2,8 +2,8 @@ import babel from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
-import postcssPresetEnv from 'postcss-preset-env'
-import postcss from 'rollup-plugin-postcss'
+import style from 'rollup-plugin-style-import'
+import replace from '@rollup/plugin-replace'
 
 // 引入package.json
 import pkg from './package.json' assert { type: 'json' }
@@ -18,15 +18,6 @@ const bundles = [
     input: './src/index.ts',
     output: {
       file: `./dist/${libName}.min.js`,
-      format: 'iife',
-      name: funcName,
-      sourcemap: false,
-    },
-  },
-  {
-    input: './src/index.ts',
-    output: {
-      file: `./dist/${libName}-bundle.min.js`,
       format: 'iife',
       name: funcName,
       sourcemap: false,
@@ -52,26 +43,16 @@ export default bundles.map(({ input, output }) => ({
     resolve({
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     }),
-    postcss({
-      minimize: true,
-      extract: output.file.includes('-bundle')
-        ? false
-        : `${flieName(output.file)}.css`, // 如果你想导出css而不是css in js
-      inject: output.file.includes('-bundle'),
-      plugins: [
-        postcssPresetEnv({
-          features: {
-            'custom-properties': false,
-          },
-        }),
-      ],
+    replace({
+      preventAssignment: true,
+      __VERSION__: JSON.stringify(pkg.version),
     }),
+    style(),
     commonjs(),
     babel({
       babelHelpers: 'bundled',
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
       exclude: 'mode_modules/**',
-      plugins: ['annotate-pure-calls'],
     }),
     output.file.includes('.min.') && terser(),
   ],

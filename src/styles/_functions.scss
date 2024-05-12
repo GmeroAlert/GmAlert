@@ -6,6 +6,11 @@ $z-index: 2019;
   @return var(#{$var-prefix}-#{$color});
 }
 
+/* 设置颜色 */
+@mixin set-vars($color, $value) {
+  #{$var-prefix}-#{$color}: #{$value};
+}
+
 // Tint a color: mix a color with white
 @function tint-color($color, $weight) {
   @return mix(white, $color, $weight);
