@@ -1,12 +1,17 @@
 @import 'functions';
 
+.gmal {
+  @include set-vars('msg-bg', rgb(0 0 0 / 70%));
+  @include set-vars('msg-c', #fff);
+}
+
 
 .gmal-msg {
   position: fixed;
   top: 45%;
   right: 0;
   left: 0;
-  z-index: $z-index;
+  z-index: 2;
   width: max-content;
   margin: 0 auto;
   transform: translateY(-50%);

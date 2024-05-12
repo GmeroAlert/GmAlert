@@ -1,8 +1,9 @@
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
-import { cn, getContainer, newDiv } from '../utils/html'
+import { cn, getContainer, injectStyle, newDiv } from '../utils/html'
 import { MakeMsg } from '../core/Msg'
 
 import { SpinIcon } from '../component/icons'
+import msgCss from '../styles/message.scss'
 import type { PropsMessage } from './types'
 
 export interface MsgType {
@@ -32,8 +33,7 @@ export function GmMessage(props: PropsMessage): MsgType {
   }
 
   const close = async (status: number) => {
-    const ifColose = await props.beforeClose(status)
-    if (!ifColose) return
+    await props.beforeClose(status)
     changeAnimation($wrapper, cn('alert-out'))
 
     return new Promise<void>((resolve) => {
@@ -54,4 +54,6 @@ export function GmMessage(props: PropsMessage): MsgType {
   }
 }
 
-export const message = MakeMsg(GmMessage)
+export const message = MakeMsg(GmMessage, () => {
+  injectStyle(msgCss)
+})

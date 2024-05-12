@@ -5,6 +5,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
 import postcssPresetEnv from 'postcss-preset-env'
 import postcss from 'rollup-plugin-postcss'
+import style from 'rollup-plugin-style-import'
 
 // 引入package.json
 import pkg from './package.json' assert { type: 'json' }
@@ -31,24 +32,13 @@ export default bundles.map(({ input, output }) => ({
     resolve({
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     }),
-    postcss({
-      plugins: [
-        postcssPresetEnv({
-          features: {
-            'custom-properties': false,
-          },
-        }),
-      ],
-      extract: `index.css`, // 如果你想导出css而不是css in js
-    }),
     commonjs(),
     babel({
       babelHelpers: 'bundled',
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
       exclude: 'mode_modules/**',
-      plugins: ['annotate-pure-calls'],
     }),
-    terser(),
+    style(),
     !process.env.needbuild &&
       serve({
         open: false,

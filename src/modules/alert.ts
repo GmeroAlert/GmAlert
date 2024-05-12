@@ -4,6 +4,7 @@ import {
   changeStyle,
   cn,
   getContainer,
+  injectStyle,
   newDiv,
   newEl,
   querySelector,
@@ -11,6 +12,7 @@ import {
 import { MakeMsg } from '../core/Msg'
 import { SpinIcon } from '../component/icons'
 import EventHandler from '../utils/EventHandler'
+import alertCss from '../styles/alert.scss'
 import type { MsgType } from './message'
 import type { PropsAlert } from './types'
 
@@ -162,4 +164,10 @@ export function GmAlert(props: PropsAlert): MsgType {
   return { close, open, $el: $wrapper }
 }
 
-export const alert = MakeMsg(GmAlert, { timeout: 0, confirmLabel: '确定' })
+export const alert = MakeMsg(
+  GmAlert,
+  () => {
+    injectStyle(alertCss)
+  },
+  { timeout: 0, confirmLabel: '确定' },
+)

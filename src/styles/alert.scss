@@ -1,9 +1,15 @@
 @import 'functions';
 
+.gmal {
+  @include set-vars("alert-bg",#fff);
+  @include set-vars("overlay-bg",rgb(0 0 0 / 50%));
+  @include set-vars("border-c",rgb(0 0 0 / 9%));
+}
+
 .gmal-overlay {
   position: fixed;
   inset: 0;
-  z-index: $z-index - 1;
+  z-index: 0;
   background: vars('overlay-bg');
   animation-duration: .3s;
 }
@@ -13,7 +19,7 @@
   top: 45%;
   right: 0;
   left: 0;
-  z-index: $z-index;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
