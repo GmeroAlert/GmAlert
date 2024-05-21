@@ -1,6 +1,6 @@
 {
   "name": "gmalert",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A simple js message component, focus on both small device and pc",
   "types": "dist/types/main.d.ts",
   "module": "dist/gmalert.esm.js",
