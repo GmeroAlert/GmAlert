@@ -32,7 +32,7 @@
   border-radius: 16px;
   transform: translateY(-50%);
   animation-duration: .25s;
-
+  
   .gmal-progress {
     pointer-events: none;
     opacity: 0;
@@ -84,11 +84,12 @@
 
 .gmal-alert-content {
   z-index: 1;
+  display: flex;
+  justify-content: center;
   padding: 1.5em 1em;
   overflow: auto;
   font-size: 1.125em;
   color: inherit;
-  text-align: center;
 }
 
 .gmal-alert-title {
