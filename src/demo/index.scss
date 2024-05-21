@@ -74,3 +74,18 @@ body {
     border-color: #007fff;
   }
 }
+
+.alert-img {
+  width: fit-content;
+  height: fit-content;
+  padding: 0;
+  background: transparent;
+
+  img {
+    max-width: 500px;
+  }
+
+  .gmal-alert-content {
+    padding: 0;
+  }
+}

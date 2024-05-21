@@ -60,11 +60,22 @@ function AlertwithHtml() {
   })
 }
 
+function AlertWithImg() {
+  const $img = newEl('img')
+  $img.src = 'https://p.gmero.com/afdian-gmero-1.jpg'
+  alert({
+    confirmLabel: '',
+    html: $img,
+    className: ['alert-img'],
+  })
+}
+
 const AlertBtnBox = BtnBox(
   Button('Normal Alert', NormalAlert),
   Button('Alert With Content', AlertWithContent),
   Button('Alert With Button', AlertWithButton),
   Button('Alert With Html', AlertwithHtml),
+  Button('Alert With Img', AlertWithImg),
 )
 
 export default AlertBtnBox

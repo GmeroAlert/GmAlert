@@ -1,17 +1,13 @@
 import { notice } from '../main'
-import { newDiv, querySelector } from '../utils/html'
+import { injectStyle, newDiv, querySelector } from '../utils/html'
 
-import './index.scss'
+import styles from './index.scss'
 
-import '../styles/main.scss'
-
-import '../styles/alert.scss'
-import '../styles/notice.scss'
-import '../styles/message.scss'
 import AlertBtnBox from './alert'
 import MsgBtnBox from './message'
 import NoticeBtnBox from './notice'
 import { Button } from './utils'
+injectStyle(styles)
 
 notice.config({ timeout: 5000 })
 
