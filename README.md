@@ -8,6 +8,8 @@ Gmalert 的 v1 版本经过一段时间的开发，基本功能已经完成，�
 
 [DEMO 演示](https://gmeroalert.github.io/GmAlert)
 
+对于 DEMO 中的代码，你可以在 [这里](https://github.com/GmeroAlert/GmAlert/tree/main/src/demo) 找到
+
 ## 特性介绍
 
 **轻量的体积**，“轻”一直是本项目的核心设计目标，v2 版本在前版本的基础上再将体积缩小了一倍，不过 10kb 的体积，gzip 压缩后甚至只有 3.9kb 的大小
