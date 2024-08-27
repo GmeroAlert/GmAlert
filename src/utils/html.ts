@@ -22,7 +22,7 @@ export function newDiv(...className: string[]) {
   return newEl('div', ...className)
 }
 
-export const getContainer = () => {
+export function getContainer() {
   let $root = querySelector<HTMLElement>(`.gmal`)
 
   if (!$root) {
@@ -57,7 +57,8 @@ export function bodyScroll(lock = true) {
       'overflow: hidden',
       `padding-right: ${window.innerWidth - docEl.clientWidth}px`,
     ])
-  } else {
+  }
+  else {
     resetStyle($body, ['overflow', 'padding-right'])
   }
 }
@@ -72,6 +73,8 @@ export function querySelector<T extends HTMLElement = HTMLElement>(
 
 // inject style
 export function injectStyle(css: string): void {
+  if (!doc)
+    return
   let $style = querySelector<HTMLStyleElement>(`#${cn('style')}`)
 
   if (!$style) {

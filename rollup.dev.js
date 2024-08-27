@@ -2,9 +2,6 @@ import serve from 'rollup-plugin-serve'
 import babel from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import terser from '@rollup/plugin-terser'
-import postcssPresetEnv from 'postcss-preset-env'
-import postcss from 'rollup-plugin-postcss'
 import style from 'rollup-plugin-style-import'
 
 // 引入package.json

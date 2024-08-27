@@ -24,14 +24,14 @@
   function newDiv(...className) {
     return newEl('div', ...className);
   }
-  const getContainer = () => {
+  function getContainer() {
     let $root = querySelector(`.gmal`);
     if (!$root) {
       $root = newDiv('gmal');
       doc.body.append($root);
     }
     return $root;
-  };
+  }
 
   // 用于修改样式的工具类，并且可以减少回流重绘，后面代码中会频繁用到
   function changeStyle(el, arr) {
@@ -65,6 +65,7 @@
 
   // inject style
   function injectStyle(css) {
+    if (!doc) return;
     let $style = querySelector(`#${cn('style')}`);
     if (!$style) {
       $style = newEl('style');
@@ -88,19 +89,19 @@
     changeStyle($el, [`animation-name:${animationName}`]);
   }
 
-  var data$4 = ".gmal{z-index:2019;color:var(--gmal-text);word-break:normal;word-wrap:break-word;--gmal-text:#5a5a5a;height:0;font:16px/1.3 Helvetica Neue,Helvetica,Arial,PingFang SC,Hiragino Sans GB,Heiti SC,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;position:fixed}.gmal *{box-sizing:border-box}.gmal-close{cursor:pointer;opacity:.3;border-radius:5px;font-size:1.5em;transition:all .2s;display:flex}.gmal-close:hover{background:var(--gmal-border-c);opacity:.5}.gmal-progress{position:absolute;top:0;bottom:0;left:0;right:0;overflow:hidden}.gmal-progress .gmal-progress-bar{background:var(--gmal-bar-bg);width:0;height:100%;display:flex}";
+  var data$4 = ".gmal{z-index:2019;color:var(--gmal-text);word-break:normal;word-wrap:break-word;--gmal-text:#5a5a5a;height:0;font:16px/1.3 Helvetica Neue,Helvetica,Arial,PingFang SC,Hiragino Sans GB,Heiti SC,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;position:fixed}.gmal *{box-sizing:border-box}.gmal-close{cursor:pointer;opacity:.3;border-radius:5px;font-size:1.5em;transition:all .2s;display:flex}.gmal-close:hover{background:var(--gmal-border-c);opacity:.5}.gmal-progress{position:absolute;inset:0;overflow:hidden}.gmal-progress .gmal-progress-bar{background:var(--gmal-bar-bg);width:0;height:100%;display:flex}";
 
   injectStyle(data$4);
   /**
    * 消息容器
    */
   class Msg {
+    conf = {
+      timeout: 2500
+    };
+    id = 0;
+    insts = (() => new Map())();
     constructor(core, conf) {
-      this.conf = {
-        timeout: 2500
-      };
-      this.id = 0;
-      this.insts = new Map();
       this.conf = {
         ...this.conf,
         ...conf
@@ -115,7 +116,7 @@
     }
     fire(conf) {
       const oMsg = this.mkMsg(conf);
-      this.sT(oMsg, conf == null ? void 0 : conf.timeout);
+      this.sT(oMsg, conf?.timeout);
       return oMsg;
     }
 
@@ -167,10 +168,10 @@
         ...conf,
         content: conf.content || '',
         onClosed: status => {
-          (conf == null ? void 0 : conf.onClosed) && conf.onClosed(status);
+          conf?.onClosed && conf.onClosed(status);
         },
         beforeClose: async status => {
-          if (conf != null && conf.beforeClose) {
+          if (conf?.beforeClose) {
             const res = await conf.beforeClose(status);
             if (!res) return false;
           }
@@ -199,8 +200,7 @@
       // 关闭其他消息
       const nextInst = this.insts.values().next().value;
       if (nextInst) {
-        var _nextInst$progress;
-        (_nextInst$progress = nextInst.progress) == null || _nextInst$progress.pause();
+        nextInst.progress?.pause();
         nextInst.close(-2);
       }
       const oMsg = {
@@ -253,7 +253,7 @@
     return `<svg width="${size}" height="${size}" viewBox="0 0 24 24"><g stroke="currentColor"><circle cx="12" cy="12" r="9.5" fill="none" stroke-linecap="round" stroke-width="2"><animate attributeName="stroke-dasharray" calcMode="spline" dur="1.5s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0 150;42 150;42 150;42 150"/><animate attributeName="stroke-dashoffset" calcMode="spline" dur="1.5s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0;-16;-59;-59"/></circle><animateTransform attributeName="transform" dur="2s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></g></svg>`;
   }
 
-  var data$3 = ".gmal{--gmal-alert-bg:#fff;--gmal-overlay-bg:#00000080;--gmal-border-c:#00000017}.gmal-overlay{z-index:0;background:var(--gmal-overlay-bg);animation-duration:.3s;position:fixed;top:0;bottom:0;left:0;right:0}.gmal-alert{z-index:1;background:var(--gmal-alert-bg);border-radius:16px;flex-direction:column;justify-content:space-between;width:94%;max-width:550px;min-height:172px;margin:0 auto;animation-duration:.25s;display:flex;position:fixed;top:45%;left:0;right:0;overflow:hidden;transform:translateY(-50%)}.gmal-alert .gmal-progress{pointer-events:none;opacity:0}.gmal-alert-btn-group{justify-content:center;margin-top:1rem;display:flex;position:relative}.gmal-alert-btn-group:after{border-top-width:1px!important}.gmal-alert-btn-group .gmal-alert-btn{cursor:pointer;background:0 0;border:0;width:100%;height:48px;padding:.8em 1em;font-size:1em;font-weight:500;position:relative}.gmal-alert-btn-group .gmal-alert-btn:nth-child(2):after{border-left-width:1px}.gmal-alert-btn-group .gmal-alert-btn:hover{background-image:linear-gradient(#0000000a,#0000000a)}.gmal-hairline:after{box-sizing:border-box;pointer-events:none;content:\" \";border:0 solid var(--gmal-border-c);position:absolute;top:-50%;bottom:-50%;left:-50%;right:-50%;transform:scale(.5)}.gmal-alert-content{z-index:1;color:inherit;justify-content:center;padding:1.5em 1em;font-size:1.125em;display:flex;overflow:auto}.gmal-alert-title{color:inherit;text-align:center;max-width:100%;margin:0;padding:1em 1em 0;font-size:1.75em;font-weight:600;position:relative}@keyframes gmal-alert-in{0%{opacity:0;transform:translateY(-50%)scale(.6)}to{opacity:1;transform:translateY(-50%)scale(1)}}@keyframes gmal-alert-out{to{opacity:0;transform:translateY(-50%)scale(.6)}}@keyframes gmal-shake{0%{transform:translateY(-50%)}25%{transform:translate(-8px)translateY(-50%)}50%{transform:translate(8px)translateY(-50%)}75%{transform:translate(-8px)translateY(-50%)}to{transform:translateY(-50%)}}@keyframes gmal-fade-out{to{opacity:0}}@keyframes gmal-fade-in{0%{opacity:0}to{opacity:1}}";
+  var data$3 = ".gmal{--gmal-alert-bg:#fff;--gmal-overlay-bg:#00000080;--gmal-border-c:#00000017}.gmal-overlay{z-index:0;background:var(--gmal-overlay-bg);animation-duration:.3s;position:fixed;inset:0}.gmal-alert{z-index:1;background:var(--gmal-alert-bg);border-radius:16px;flex-direction:column;justify-content:space-between;width:94%;max-width:550px;min-height:172px;margin:0 auto;animation-duration:.25s;display:flex;position:fixed;top:45%;left:0;right:0;overflow:hidden;transform:translateY(-50%)}.gmal-alert .gmal-progress{pointer-events:none;opacity:0}.gmal-alert-btn-group{justify-content:center;margin-top:1rem;display:flex;position:relative}.gmal-alert-btn-group:after{border-top-width:1px!important}.gmal-alert-btn-group .gmal-alert-btn{cursor:pointer;background:0 0;border:0;width:100%;height:48px;padding:.8em 1em;font-size:1em;font-weight:500;position:relative}.gmal-alert-btn-group .gmal-alert-btn:nth-child(2):after{border-left-width:1px}.gmal-alert-btn-group .gmal-alert-btn:hover{background-image:linear-gradient(#0000000a,#0000000a)}.gmal-hairline:after{box-sizing:border-box;pointer-events:none;content:\" \";border:0 solid var(--gmal-border-c);position:absolute;inset:-50%;transform:scale(.5)}.gmal-alert-content{z-index:1;color:inherit;justify-content:center;padding:1.5em 1em;font-size:1.125em;display:flex;overflow:auto}.gmal-alert-title{color:inherit;text-align:center;max-width:100%;margin:0;padding:1em 1em 0;font-size:1.75em;font-weight:600;position:relative}@keyframes gmal-alert-in{0%{opacity:0;transform:translateY(-50%)scale(.6)}to{opacity:1;transform:translateY(-50%)scale(1)}}@keyframes gmal-alert-out{to{opacity:0;transform:translateY(-50%)scale(.6)}}@keyframes gmal-shake{0%{transform:translateY(-50%)}25%{transform:translate(-8px)translateY(-50%)}50%{transform:translate(8px)translateY(-50%)}75%{transform:translate(-8px)translateY(-50%)}to{transform:translateY(-50%)}}@keyframes gmal-fade-out{to{opacity:0}}@keyframes gmal-fade-in{0%{opacity:0}to{opacity:1}}";
 
   function Button$1(text, onClick) {
     const $btn = newEl('button', cn('hairline'));
@@ -391,7 +391,7 @@
     confirmLabel: '确定'
   });
 
-  var data$2 = ".gmal{--gmal-msg-bg:#000000b3;--gmal-msg-c:#fff}.gmal-msg{z-index:2;width:-webkit-max-content;width:max-content;margin:0 auto;animation-duration:.25s;position:fixed;top:45%;left:0;right:0;transform:translateY(-50%)}.gmal-msg .gmal-progress{pointer-events:none;opacity:0}.gmal-msg-main{box-sizing:border-box;color:var(--gmal-msg-c);background:var(--gmal-msg-bg);border-radius:4px;flex-direction:column;justify-content:center;align-items:center;min-width:100px;max-width:168px;padding:12px 15px;display:flex;position:relative}.gmal-msg-main .gmal-icon{margin:10px;font-size:1.8em;line-height:1;display:block}.gmal-msg-content{text-align:center}@keyframes gmal-alert-in{0%{opacity:0;transform:translateY(-50%)scale(.6)}to{opacity:1;transform:translateY(-50%)scale(1)}}@keyframes gmal-alert-out{to{opacity:0;transform:translateY(-50%)scale(.6)}}";
+  var data$2 = ".gmal{--gmal-msg-bg:#000000b3;--gmal-msg-c:#fff}.gmal-msg{z-index:2;width:max-content;margin:0 auto;animation-duration:.25s;position:fixed;top:45%;left:0;right:0;transform:translateY(-50%)}.gmal-msg .gmal-progress{pointer-events:none;opacity:0}.gmal-msg-main{box-sizing:border-box;color:var(--gmal-msg-c);background:var(--gmal-msg-bg);border-radius:4px;flex-direction:column;justify-content:center;align-items:center;min-width:100px;max-width:168px;padding:12px 15px;display:flex;position:relative}.gmal-msg-main .gmal-icon{margin:10px;font-size:1.8em;line-height:1;display:block}.gmal-msg-content{text-align:center}@keyframes gmal-alert-in{0%{opacity:0;transform:translateY(-50%)scale(.6)}to{opacity:1;transform:translateY(-50%)scale(1)}}@keyframes gmal-alert-out{to{opacity:0;transform:translateY(-50%)scale(.6)}}";
 
   function GmMessage(props) {
     const $wrapper = newDiv(cn('msg'));
@@ -465,7 +465,7 @@
     injectStyle(data$1);
   });
 
-  var data = ":root{--c-bg:#fff;--c-text:#000}body{color:var(--c-text);background-color:var(--c-bg)}[data-theme=dark] body{--c-bg:#141414;--c-text:#a8a8a8}[data-theme=dark] .gmal{--gmal-bg:#303030;--gmal-text:#a8a8a8;--gmal-border:1px solid #535353;--gmal-light:#535353;--gmal-shadow:#ffffff1a}.btn{color:#fff;-webkit-appearance:none;appearance:none;cursor:pointer;background-color:#007fff;border:none;border-radius:2px;outline:none;padding:.5rem 1.3rem;transition:background-color .3s,color .3s}.btn-box{flex-wrap:wrap;display:flex}.btn-box .btn{margin-bottom:1em;margin-right:1em}.area{flex-direction:column;margin-bottom:1em;display:flex}.gm-label{justify-content:center;align-items:center;font-size:14px;display:flex}.gm-input{color:var(--text);background-color:#f5f5f5;border:1px solid #cad1e6;border-radius:8px;outline:none;width:calc(100% - 6em);padding:10px 12px;font-size:14px;transition:all .4s cubic-bezier(.345,.045,.345,1)}.gm-input:focus,.gm-input:hover{background-color:#fff;border-color:#007fff}.alert-img{background:0 0;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;padding:0}.alert-img img{max-width:500px}.alert-img .gmal-alert-content{padding:0}";
+  var data = ":root{--c-bg:#fff;--c-text:#000}body{color:var(--c-text);background-color:var(--c-bg)}[data-theme=dark] body{--c-bg:#141414;--c-text:#a8a8a8}[data-theme=dark] .gmal{--gmal-bg:#303030;--gmal-text:#a8a8a8;--gmal-border:1px solid #535353;--gmal-light:#535353;--gmal-shadow:#ffffff1a}.btn{color:#fff;appearance:none;cursor:pointer;background-color:#007fff;border:none;border-radius:2px;outline:none;padding:.5rem 1.3rem;transition:background-color .3s,color .3s}.btn-box{flex-wrap:wrap;display:flex}.btn-box .btn{margin-bottom:1em;margin-right:1em}.area{flex-direction:column;margin-bottom:1em;display:flex}.gm-label{justify-content:center;align-items:center;font-size:14px;display:flex}.gm-input{color:var(--text);background-color:#f5f5f5;border:1px solid #cad1e6;border-radius:8px;outline:none;width:calc(100% - 6em);padding:10px 12px;font-size:14px;transition:all .4s cubic-bezier(.345,.045,.345,1)}.gm-input:focus,.gm-input:hover{background-color:#fff;border-color:#007fff}.alert-img{background:0 0;width:fit-content;height:fit-content;padding:0}.alert-img img{max-width:500px}.alert-img .gmal-alert-content{padding:0}";
 
   function Button(text, callback) {
     const button = document.createElement('button');
