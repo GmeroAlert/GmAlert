@@ -1,3 +1,4 @@
+import alertCss from 'inline:../styles/alert.scss'
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
 import {
   bodyScroll,
@@ -12,7 +13,6 @@ import {
 import { MakeMsg } from '../core/Msg'
 import { SpinIcon } from '../component/icons'
 import EventHandler from '../utils/EventHandler'
-import alertCss from '../styles/alert.scss'
 import type { MsgType } from './message'
 import type { PropsAlert } from './types'
 
@@ -21,11 +21,13 @@ function Button(text: string, onClick: () => Promise<void>) {
   $btn.textContent = text
   let isPending = false
   $btn.onclick = async () => {
-    if (isPending) return
+    if (isPending)
+      return
     isPending = true
     // 优化点击后的体验
     setTimeout(() => {
-      if (isPending) $btn.innerHTML = SpinIcon('1.4em')
+      if (isPending)
+        $btn.innerHTML = SpinIcon('1.4em')
     }, 50)
     await onClick()
     $btn.textContent = text
@@ -63,7 +65,8 @@ function overLaySwitch(open: boolean) {
     overLayStatus = 2
     changeAnimation($overlay, cn('fade-in'))
     changeStyle($overlay, ['display: block'])
-  } else {
+  }
+  else {
     if (overLayStatus < 2) {
       return $overlay
     }
@@ -90,10 +93,12 @@ export function GmAlert(props: PropsAlert): MsgType {
     if (props.html) {
       if (typeof props.html === 'string') {
         $text.innerHTML = props.html
-      } else {
+      }
+      else {
         $text.append(props.html)
       }
-    } else {
+    }
+    else {
       $text.textContent = props.text!
     }
     $wrapper.append($text)
@@ -146,18 +151,18 @@ export function GmAlert(props: PropsAlert): MsgType {
 
   if (props.cancelLabel || props.confirmLabel) {
     const $buttons = newDiv(cn('alert-btn-group'), cn('hairline'))
-    props.cancelLabel &&
-      $buttons.append(
-        Button(props.cancelLabel, async () => {
-          await close(2)
-        }),
-      )
-    props.confirmLabel &&
-      $buttons.append(
-        Button(props.confirmLabel, async () => {
-          await close(1)
-        }),
-      )
+    props.cancelLabel
+    && $buttons.append(
+      Button(props.cancelLabel, async () => {
+        await close(2)
+      }),
+    )
+    props.confirmLabel
+    && $buttons.append(
+      Button(props.confirmLabel, async () => {
+        await close(1)
+      }),
+    )
     $wrapper.append($buttons)
   }
 

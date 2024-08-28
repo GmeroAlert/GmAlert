@@ -1,9 +1,8 @@
+import main from 'inline:../styles/main.scss'
 import type { MsgType } from '../modules/message'
 import { changeStyle, cn, injectStyle, newDiv } from '../utils/html'
 
 import type { MsgPropsFull, MsgPropsUser, PropsMessage } from '../modules/types'
-
-import main from '../styles/main.scss'
 
 injectStyle(main)
 
@@ -52,7 +51,8 @@ export class Msg {
 
   // 设置定时
   private sT(oMsg: OneMsg, timeout?: number) {
-    if (timeout === 0) return
+    if (timeout === 0)
+      return
     timeout = timeout || this.conf.timeout
     const { $el } = oMsg
     const p = this.mkP(oMsg, timeout)
@@ -105,7 +105,8 @@ export class Msg {
       beforeClose: async (status: number) => {
         if (conf?.beforeClose) {
           const res = await conf.beforeClose(status)
-          if (!res) return false
+          if (!res)
+            return false
         }
         this.insts.delete(id)
         return true
@@ -117,7 +118,8 @@ export class Msg {
     // 重定义open和close方法
     let opened = false
     const open = () => {
-      if (opened) return
+      if (opened)
+        return
       opened = true
       inst.open()
     }
@@ -154,7 +156,8 @@ function getArgs(args: MsgPropsUser[]) {
       case 'string':
         if (firstStr) {
           result.text = arg
-        } else {
+        }
+        else {
           result.content = arg
           firstStr = true
         }

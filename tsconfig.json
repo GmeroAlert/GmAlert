@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
     "target": "ES6",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "useDefineForClassFields": true,
     "module": "ES6",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "declaration": true,
     /* Linting */
     "strict": true,
+    "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
+    "declaration": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
   // 入口文件
   "include": ["src/**/*.ts", "lib/**/*", "main.d.ts"],

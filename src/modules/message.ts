@@ -1,9 +1,9 @@
+import msgCss from 'inline:../styles/message.scss'
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
 import { cn, getContainer, injectStyle, newDiv } from '../utils/html'
 import { MakeMsg } from '../core/Msg'
 
 import { SpinIcon } from '../component/icons'
-import msgCss from '../styles/message.scss'
 import type { PropsMessage } from './types'
 
 export interface MsgType {

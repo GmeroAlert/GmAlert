@@ -73,8 +73,6 @@ export function querySelector<T extends HTMLElement = HTMLElement>(
 
 // inject style
 export function injectStyle(css: string): void {
-  if (!doc)
-    return
   let $style = querySelector<HTMLStyleElement>(`#${cn('style')}`)
 
   if (!$style) {

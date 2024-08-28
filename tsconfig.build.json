@@ -1,18 +1,18 @@
 {
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-      "target": "es2020",
-      "lib": ["dom", "es2020"],
-      "moduleResolution": "node",
-      "module": "es2015",
-      "noEmit": false,
-      "removeComments": false,
-      "skipLibCheck": true,
-      "declaration": true,
-      "emitDeclarationOnly": true,
-      "declarationDir": "dist/types",
-      "jsx": "react-jsx",
-      "allowSyntheticDefaultImports": true,
-      "strict": true
-    }
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "es2020",
+    "jsx": "react-jsx",
+    "lib": ["dom", "es2020"],
+    "module": "es2015",
+    "moduleResolution": "node",
+    "strict": true,
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "removeComments": false,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
   }
+}

@@ -2,7 +2,7 @@ import babel from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
-import style from 'rollup-plugin-style-import'
+import inline from 'rollup-plugin-inline-import'
 import replace from '@rollup/plugin-replace'
 
 // 引入package.json
@@ -47,7 +47,7 @@ export default bundles.map(({ input, output }) => ({
       preventAssignment: true,
       __VERSION__: JSON.stringify(pkg.version),
     }),
-    style(),
+    inline(),
     commonjs(),
     babel({
       babelHelpers: 'bundled',

@@ -1,3 +1,4 @@
+import ntcCss from 'inline:../styles/notice.scss'
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
 import {
   changeStyle,
@@ -7,7 +8,6 @@ import {
   newDiv,
 } from '../utils/html'
 import { MakeMsg } from '../core/Msg'
-import ntcCss from '../styles/notice.scss'
 import type { MsgType } from './message'
 import type { PropsNotice } from './types'
 

@@ -2,7 +2,7 @@ import serve from 'rollup-plugin-serve'
 import babel from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import style from 'rollup-plugin-style-import'
+import inline from 'rollup-plugin-inline-import'
 
 // 引入package.json
 import pkg from './package.json' assert { type: 'json' }
@@ -35,7 +35,7 @@ export default bundles.map(({ input, output }) => ({
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
       exclude: 'mode_modules/**',
     }),
-    style(),
+    inline(),
     !process.env.needbuild &&
       serve({
         open: false,
