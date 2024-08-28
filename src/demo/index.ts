@@ -5,7 +5,6 @@ import { injectStyle, newDiv, querySelector } from '../utils/html'
 import AlertBtnBox from './alert'
 import MsgBtnBox from './message'
 import NoticeBtnBox from './notice'
-import { Button } from './utils'
 
 injectStyle(styles)
 
@@ -37,10 +36,6 @@ const NoticeArea = Area('Notice')
 NoticeArea.append(NoticeBtnBox)
 
 $root.append(
-  Button('changeTheme', () => {
-    document.documentElement.dataset.theme
-      = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
-  }),
   AlertArea,
   MessageArea,
   NoticeArea,

@@ -76,13 +76,16 @@ body {
 }
 
 .alert-img {
+  top: 50%;
   width: fit-content;
   height: fit-content;
   padding: 0;
   background: transparent;
 
+
   img {
     max-width: 500px;
+    max-height: 90vh;
   }
 
   .gmal-alert-content {

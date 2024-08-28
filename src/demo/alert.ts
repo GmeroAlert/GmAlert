@@ -43,13 +43,13 @@ function AlertwithHtml() {
     confirmLabel: '提交',
     beforeClose(status) {
       if (status === 1) {
-        console.log('submit')
         return new Promise((resolve) => {
           setTimeout(() => {
             resolve(true)
             if (input.value) {
               message(`我们收到了您的申请：${input.value}`)
-            } else {
+            }
+            else {
               message('您没有输入任何东西')
             }
           }, 1500)
@@ -62,7 +62,7 @@ function AlertwithHtml() {
 
 function AlertWithImg() {
   const $img = newEl('img')
-  $img.src = 'https://p.gmero.com/afdian-gmero-1.jpg'
+  $img.src = '/afdian.jpg'
   alert({
     confirmLabel: '',
     html: $img,

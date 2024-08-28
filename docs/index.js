@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var styles = ":root{--c-bg:#fff;--c-text:#000}body{color:var(--c-text);background-color:var(--c-bg)}[data-theme=dark] body{--c-bg:#141414;--c-text:#a8a8a8}[data-theme=dark] .gmal{--gmal-bg:#303030;--gmal-text:#a8a8a8;--gmal-border:1px solid #535353;--gmal-light:#535353;--gmal-shadow:#ffffff1a}.btn{color:#fff;appearance:none;cursor:pointer;background-color:#007fff;border:none;border-radius:2px;outline:none;padding:.5rem 1.3rem;transition:background-color .3s,color .3s}.btn-box{flex-wrap:wrap;display:flex}.btn-box .btn{margin-bottom:1em;margin-right:1em}.area{flex-direction:column;margin-bottom:1em;display:flex}.gm-label{justify-content:center;align-items:center;font-size:14px;display:flex}.gm-input{color:var(--text);background-color:#f5f5f5;border:1px solid #cad1e6;border-radius:8px;outline:none;width:calc(100% - 6em);padding:10px 12px;font-size:14px;transition:all .4s cubic-bezier(.345,.045,.345,1)}.gm-input:focus,.gm-input:hover{background-color:#fff;border-color:#007fff}.alert-img{background:0 0;width:fit-content;height:fit-content;padding:0}.alert-img img{max-width:500px}.alert-img .gmal-alert-content{padding:0}";
+  var styles = ":root{--c-bg:#fff;--c-text:#000}body{color:var(--c-text);background-color:var(--c-bg)}[data-theme=dark] body{--c-bg:#141414;--c-text:#a8a8a8}[data-theme=dark] .gmal{--gmal-bg:#303030;--gmal-text:#a8a8a8;--gmal-border:1px solid #535353;--gmal-light:#535353;--gmal-shadow:#ffffff1a}.btn{color:#fff;appearance:none;cursor:pointer;background-color:#007fff;border:none;border-radius:2px;outline:none;padding:.5rem 1.3rem;transition:background-color .3s,color .3s}.btn-box{flex-wrap:wrap;display:flex}.btn-box .btn{margin-bottom:1em;margin-right:1em}.area{flex-direction:column;margin-bottom:1em;display:flex}.gm-label{justify-content:center;align-items:center;font-size:14px;display:flex}.gm-input{color:var(--text);background-color:#f5f5f5;border:1px solid #cad1e6;border-radius:8px;outline:none;width:calc(100% - 6em);padding:10px 12px;font-size:14px;transition:all .4s cubic-bezier(.345,.045,.345,1)}.gm-input:focus,.gm-input:hover{background-color:#fff;border-color:#007fff}.alert-img{background:0 0;width:fit-content;height:fit-content;padding:0;top:50%}.alert-img img{max-width:500px;max-height:90vh}.alert-img .gmal-alert-content{padding:0}";
 
   var alertCss = ".gmal{--gmal-alert-bg:#fff;--gmal-overlay-bg:#00000080;--gmal-border-c:#00000017}.gmal-overlay{z-index:0;background:var(--gmal-overlay-bg);animation-duration:.3s;position:fixed;inset:0}.gmal-alert{z-index:1;background:var(--gmal-alert-bg);border-radius:16px;flex-direction:column;justify-content:space-between;width:94%;max-width:550px;min-height:172px;margin:0 auto;animation-duration:.25s;display:flex;position:fixed;top:45%;left:0;right:0;overflow:hidden;transform:translateY(-50%)}.gmal-alert .gmal-progress{pointer-events:none;opacity:0}.gmal-alert-btn-group{justify-content:center;margin-top:1rem;display:flex;position:relative}.gmal-alert-btn-group:after{border-top-width:1px!important}.gmal-alert-btn-group .gmal-alert-btn{cursor:pointer;background:0 0;border:0;width:100%;height:48px;padding:.8em 1em;font-size:1em;font-weight:500;position:relative}.gmal-alert-btn-group .gmal-alert-btn:nth-child(2):after{border-left-width:1px}.gmal-alert-btn-group .gmal-alert-btn:hover{background-image:linear-gradient(#0000000a,#0000000a)}.gmal-hairline:after{box-sizing:border-box;pointer-events:none;content:\" \";border:0 solid var(--gmal-border-c);position:absolute;inset:-50%;transform:scale(.5)}.gmal-alert-content{z-index:1;color:inherit;justify-content:center;padding:1.5em 1em;font-size:1.125em;display:flex;overflow:auto}.gmal-alert-title{color:inherit;text-align:center;max-width:100%;margin:0;padding:1em 1em 0;font-size:1.75em;font-weight:600;position:relative}@keyframes gmal-alert-in{0%{opacity:0;transform:translateY(-50%)scale(.6)}to{opacity:1;transform:translateY(-50%)scale(1)}}@keyframes gmal-alert-out{to{opacity:0;transform:translateY(-50%)scale(.6)}}@keyframes gmal-shake{0%{transform:translateY(-50%)}25%{transform:translate(-8px)translateY(-50%)}50%{transform:translate(8px)translateY(-50%)}75%{transform:translate(-8px)translateY(-50%)}to{transform:translateY(-50%)}}@keyframes gmal-fade-out{to{opacity:0}}@keyframes gmal-fade-in{0%{opacity:0}to{opacity:1}}";
 
@@ -515,7 +515,6 @@
       confirmLabel: '提交',
       beforeClose(status) {
         if (status === 1) {
-          console.log('submit');
           return new Promise(resolve => {
             setTimeout(() => {
               resolve(true);
@@ -533,7 +532,7 @@
   }
   function AlertWithImg() {
     const $img = newEl('img');
-    $img.src = 'https://p.gmero.com/afdian-gmero-1.jpg';
+    $img.src = '/afdian.jpg';
     alert({
       confirmLabel: '',
       html: $img,
@@ -590,8 +589,6 @@
   MessageArea.append(MsgBtnBox);
   const NoticeArea = Area('Notice');
   NoticeArea.append(NoticeBtnBox);
-  $root.append(Button('changeTheme', () => {
-    document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-  }), AlertArea, MessageArea, NoticeArea);
+  $root.append(AlertArea, MessageArea, NoticeArea);
 
 })();
