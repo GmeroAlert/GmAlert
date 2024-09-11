@@ -14,8 +14,15 @@
     }
   };
 
-  const doc = document;
-  const docEl = doc.documentElement;
+  const noop = () => {};
+  const isServer = __IS_CLIENT__ ? false : typeof window === 'undefined';
+  /**
+   * we already make sure that doc will nerver be called in server side
+   * so we declare it as Document
+   * check isServer() for prevent document is undefined error
+   */
+  const doc = isServer ? undefined : window.document;
+
   function cn(className) {
     return `gmal-${className}`;
   }
@@ -31,7 +38,7 @@
     let $root = querySelector(`.gmal`);
     if (!$root) {
       $root = newDiv('gmal');
-      doc.body.append($root);
+      doc?.body.append($root);
     }
     return $root;
   }
@@ -55,19 +62,23 @@
     const $body = doc.body;
     if (lock) {
       // set padding
-      changeStyle($body, ['overflow: hidden', `padding-right: ${window.innerWidth - docEl.clientWidth}px`]);
+      changeStyle($body, ['overflow: hidden', `padding-right: ${window.innerWidth - doc.documentElement.clientWidth}px`]);
     } else {
       resetStyle($body, ['overflow', 'padding-right']);
     }
   }
 
   // 用于获取元素
-  function querySelector(selector, $el = docEl) {
+  function querySelector(selector, $el = doc) {
     return $el.querySelector(selector);
   }
 
   // inject style
   function injectStyle(css) {
+    // SSR
+    if (isServer) {
+      return;
+    }
     let $style = querySelector(`#${cn('style')}`);
     if (!$style) {
       $style = newEl('style');
@@ -242,6 +253,12 @@
     return result;
   }
   function MakeMsg(core, callback, conf) {
+    // SSR
+    if (isServer) {
+      const empty = () => {};
+      empty.config = noop;
+      return empty;
+    }
     callback();
     const $msg = new Msg(core, conf);
     const res = (...args) => {

@@ -13,10 +13,10 @@ $z-index: 2019;
 
 // Tint a color: mix a color with white
 @function tint-color($color, $weight) {
-  @return mix(white, $color, $weight);
+  @return color.mix(white, $color, $weight);
 }
 
 // Shade a color: mix a color with black
 @function shade-color($color, $weight) {
-  @return mix(black, $color, $weight);
+  @return color.mix(black, $color, $weight);
 }

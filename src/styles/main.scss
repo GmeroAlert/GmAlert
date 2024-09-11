@@ -11,11 +11,11 @@
   word-break: normal;
   word-wrap: break-word;
 
+  @include set-vars('text', #5a5a5a);
+
   * {
     box-sizing: border-box;
   }
-
-  @include set-vars('text', #5a5a5a);
 }
 
 

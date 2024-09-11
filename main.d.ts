@@ -10,3 +10,5 @@ declare module 'inline:*.scss' {
 
 /** 版本，默认编译会自动替换成package里的version */
 declare const __VERSION__: string
+
+declare const __IS_CLIENT__: boolean

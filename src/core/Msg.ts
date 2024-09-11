@@ -3,10 +3,11 @@ import type { MsgType } from '../modules/message'
 import { changeStyle, cn, injectStyle, newDiv } from '../utils/html'
 
 import type { MsgPropsFull, MsgPropsUser, PropsMessage } from '../modules/types'
+import { isServer, noop } from '../utils/helper'
 
 injectStyle(main)
 
-export interface OneMsg extends Omit<MsgType, 'open'> {
+export interface OneMsg extends MsgType {
   progress?: {
     pause: () => void
     resume: () => void
@@ -184,6 +185,13 @@ export function MakeMsg(
   callback: () => void,
   conf?: Partial<Config>,
 ) {
+  // SSR
+  if (isServer) {
+    const empty = () => {}
+    empty.config = noop
+    return empty
+  }
+
   callback()
   const $msg = new Msg(core, conf)
   const res = (...args: (string | Partial<MsgPropsFull> | number)[]) => {

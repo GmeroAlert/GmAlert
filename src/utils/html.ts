@@ -1,5 +1,5 @@
-const doc = document
-const docEl = doc.documentElement
+import { doc, isServer } from "./helper"
+
 
 export function cn(className: string) {
   return `gmal-${className}`
@@ -27,7 +27,7 @@ export function getContainer() {
 
   if (!$root) {
     $root = newDiv('gmal')
-    doc.body.append($root)
+    doc?.body.append($root)
   }
 
   return $root
@@ -55,7 +55,7 @@ export function bodyScroll(lock = true) {
     // set padding
     changeStyle($body, [
       'overflow: hidden',
-      `padding-right: ${window.innerWidth - docEl.clientWidth}px`,
+      `padding-right: ${window.innerWidth - doc.documentElement.clientWidth}px`,
     ])
   }
   else {
@@ -66,13 +66,18 @@ export function bodyScroll(lock = true) {
 // 用于获取元素
 export function querySelector<T extends HTMLElement = HTMLElement>(
   selector: string,
-  $el: HTMLElement = docEl,
+  $el: HTMLElement = doc as any,
 ): T {
   return $el.querySelector(selector) as T
 }
 
 // inject style
 export function injectStyle(css: string): void {
+  // SSR
+  if (isServer) {
+    return
+  }
+
   let $style = querySelector<HTMLStyleElement>(`#${cn('style')}`)
 
   if (!$style) {

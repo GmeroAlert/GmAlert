@@ -24,7 +24,6 @@ export interface PropsAlert extends PropsMessage {
   html?: string | HTMLElement
   confirmLabel?: string // 确认按钮文本
   cancelLabel?: string // 取消按钮文本
-  beforeClose: (status: number) => boolean | Promise<boolean> // 关闭前触发，返回false则不关闭
 }
 
 export type MsgPropsFull = Partial<PropsMessage & PropsAlert & PropsNotice>

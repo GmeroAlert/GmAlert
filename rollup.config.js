@@ -46,6 +46,7 @@ export default bundles.map(({ input, output }) => ({
     replace({
       preventAssignment: true,
       __VERSION__: JSON.stringify(pkg.version),
+      __IS_CLIENT__: output.file.includes('.min.')? 'true': 'false',
     }),
     inline(),
     commonjs(),

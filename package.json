@@ -1,7 +1,7 @@
 {
   "name": "gmalert",
   "type": "module",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "A simple js message component, focus on both small device and pc",
   "author": "歌梦罗",
   "license": "ISC",
@@ -19,15 +19,15 @@
   ],
   "main": "dist/gmalert.esm.js",
   "module": "dist/gmalert.esm.js",
-  "types": "dist/types/main.d.ts",
+  "types": "dist/types/gmalert.esm.d.ts",
   "browser": "dist/gmalert.min.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "npm-run-all clean build:* ",
+    "build:types": "rollup -c rollup.types.js",
     "build:index": "rollup -c rollup.config.js",
-    "build:ts": "tsc --project tsconfig.build.json",
     "build:docs": "set needbuild=1 & rollup -c rollup.dev.js",
     "clean": "node scripts/clean.js",
     "dev": "rollup -c rollup.dev.js -w"
@@ -46,6 +46,7 @@
     "eslint": "^9",
     "npm-run-all": "^4.1.5",
     "rollup": "^4.21.2",
+    "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-inline-import": "^0.1.1",
     "rollup-plugin-serve": "^2.0.3",
     "sass": "^1.78.0",
