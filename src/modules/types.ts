@@ -6,11 +6,12 @@ export interface PropsMessage {
   content: string
   /**
    *
-   * @param status 0: close by user cancel, 1: close by user confirm, -1: close by timeout, -2 or undefined : close unexpectedly
+   * @param status 0: close by user cancel, 1: close by user confirm, -1: close by timeout, -2 or undefined : close unexpectedly,-3: overlay click
    * @returns
    */
   onClosed: (status: number) => void
-  beforeClose: (status: number) => boolean | Promise<boolean> // 关闭前触发，返回false则不关闭
+  // 关闭前触发，返回false则不关闭 (-2除外, 不能关闭只对 alert 有效)
+  beforeClose: (status: number) => boolean | Promise<boolean>
 }
 
 export interface PropsNotice extends PropsMessage {
@@ -28,4 +29,4 @@ export interface PropsAlert extends PropsMessage {
 
 export type MsgPropsFull = Partial<PropsMessage & PropsAlert & PropsNotice>
 
-export type MsgPropsUser = Partial<MsgPropsFull> | string | number
+export type MsgPropsUser = MsgPropsFull | string | number

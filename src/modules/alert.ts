@@ -1,18 +1,17 @@
 import alertCss from 'inline:../styles/alert.scss'
+import { SpinIcon } from '../component/svgicons/spin'
+import { MakeMsg } from '../core/Msg'
 import { animationendHandle, changeAnimation } from '../utils/animateHandle'
 import {
   bodyScroll,
-  changeStyle,
   cn,
   getContainer,
   injectStyle,
   newDiv,
   newEl,
-  querySelector,
 } from '../utils/html'
-import { MakeMsg } from '../core/Msg'
-import { SpinIcon } from '../component/icons'
-import EventHandler from '../utils/EventHandler'
+import useEventListener from '../utils/useEventListener'
+import type { Fn } from '../utils/types'
 import type { MsgType } from './message'
 import type { PropsAlert } from './types'
 
@@ -38,135 +37,117 @@ function Button(text: string, onClick: () => Promise<void>) {
   return $btn
 }
 
-// 0 已经关闭 1 关闭中 2 打开中 3 已经打开
-let overLayStatus = 0
+function buildOverlay(onClick: Fn) {
+  const $overlay = newDiv(cn('overlay'))
+  getContainer().append($overlay)
+  animationendHandle($overlay, (e: string) => {
+    if (e === cn('fade-out')) {
+      bodyScroll(false)
+      $overlay.remove()
+    }
+  })
 
-function overLaySwitch(open: boolean) {
-  let $overlay = querySelector(`.${cn('overlay')}`)
-  if (!$overlay) {
-    $overlay = newDiv(cn('overlay'))
-    getContainer().append($overlay)
-    animationendHandle($overlay, (e: string) => {
-      if (e === cn('fade-in')) {
-        overLayStatus = 3
-      }
-      if (e === cn('fade-out')) {
-        overLayStatus = 0
-        bodyScroll(false)
-        changeStyle($overlay, ['display: none'])
-      }
-    })
-  }
-  if (open) {
-    if (overLayStatus > 1) {
-      return $overlay
-    }
+  const open = () => {
     bodyScroll()
-    overLayStatus = 2
     changeAnimation($overlay, cn('fade-in'))
-    changeStyle($overlay, ['display: block'])
   }
-  else {
-    if (overLayStatus < 2) {
-      return $overlay
-    }
-    overLayStatus = 1
+
+  const close = () => {
     changeAnimation($overlay, cn('fade-out'))
   }
 
-  return $overlay
+  useEventListener($overlay, 'click', onClick)
+  return { open, close }
 }
 
 export function GmAlert(props: PropsAlert): MsgType {
+  const localProps = { ...props }
   const $wrapper = newDiv(cn('alert'))
-
-  let isPending = false
-
-  if (props.content) {
-    $wrapper.innerHTML = `<div class="${cn('alert-title')}">${
-      props.content
-    }</div>`
-  }
-
-  if (props.text || props.html) {
-    const $text = newDiv(cn('alert-content'))
-    if (props.html) {
-      if (typeof props.html === 'string') {
-        $text.innerHTML = props.html
-      }
-      else {
-        $text.append(props.html)
-      }
-    }
-    else {
-      $text.textContent = props.text!
-    }
-    $wrapper.append($text)
-  }
-
-  let overlayClick: () => void
-
   const shake = () => {
     changeAnimation($wrapper, cn('shake'))
   }
 
-  const close = async (status: number) => {
-    if (isPending) {
-      shake()
-      return
-    }
-    isPending = true
-    const ifColose = await props.beforeClose(status)
-    if (!ifColose) {
-      isPending = false
-      shake()
-      return
-    }
-    const $overlay = querySelector(`.${cn('overlay')}`)
-    if (status !== -2) {
-      overLaySwitch(false)
-    }
-    EventHandler.off($overlay, 'click', overlayClick)
-    changeAnimation($wrapper, cn('alert-out'))
-    return new Promise<void>((resolve) => {
-      animationendHandle($wrapper, (e: string) => {
-        if (e === cn('alert-out')) {
-          $wrapper.remove()
-          props.onClosed(status)
-          resolve()
+  let isClosing = false
+  const $text = newDiv(cn('alert-content'))
+  const $buttons = newDiv(cn('alert-btn-group'), cn('hairline'))
+
+  const inst: MsgType = {} as MsgType
+
+  const overlay = buildOverlay(() => {
+    inst.close(-3)
+  })
+
+  const update = (conf: Partial<PropsAlert>) => {
+    const { content, text, html, beforeClose, onClosed, cancelLabel, confirmLabel } = Object.assign(localProps, conf)
+    // content and title
+    $wrapper.innerHTML = content && `<div class="${cn('alert-title')}">${content}</div>`
+    if (text || html) {
+      $text.innerHTML = ''
+      if (html) {
+        if (typeof html === 'string') {
+          $text.innerHTML = html
         }
+        else {
+          $text.append(html)
+        }
+      }
+      else {
+        $text.textContent = text!
+      }
+      $wrapper.append($text)
+    }
+    else { $text.remove() }
+
+    // button
+    $buttons.innerHTML = ''
+    if (cancelLabel || confirmLabel) {
+      cancelLabel && $buttons.append(Button(cancelLabel, () => inst.close(0)))
+      confirmLabel && $buttons.append(Button(confirmLabel, () => inst.close(1)))
+      $wrapper.append($buttons)
+    }
+    else { $buttons.remove() }
+
+    inst.open = () => {
+      getContainer().append($wrapper)
+      changeAnimation($wrapper, cn('alert-in'))
+      overlay.open()
+    }
+    inst.close = async (status: number) => {
+      if (status === -2) {
+        await beforeClose(status)
+        overlay.close()
+        $wrapper.remove()
+        return
+      }
+
+      if (isClosing) {
+        return shake()
+      }
+      isClosing = true
+      const canClose = await beforeClose(status)
+      if (!canClose) {
+        isClosing = false
+        return shake()
+      }
+      changeAnimation($wrapper, cn('alert-out'))
+      overlay.close()
+      return new Promise<void>((resolve) => {
+        animationendHandle($wrapper, (e: string) => {
+          if (e === cn('alert-out')) {
+            $wrapper.remove()
+            onClosed(status)
+            resolve()
+          }
+        })
       })
-    })
+    }
   }
 
-  overlayClick = () => {
-    close(-3)
-  }
+  inst.update = update
+  inst.$el = $wrapper
+  update(props)
 
-  const open = () => {
-    EventHandler.on(overLaySwitch(true), 'click', overlayClick)
-    getContainer().append($wrapper)
-    changeAnimation($wrapper, cn('alert-in'))
-  }
-
-  if (props.cancelLabel || props.confirmLabel) {
-    const $buttons = newDiv(cn('alert-btn-group'), cn('hairline'))
-    props.cancelLabel
-    && $buttons.append(
-      Button(props.cancelLabel, async () => {
-        await close(2)
-      }),
-    )
-    props.confirmLabel
-    && $buttons.append(
-      Button(props.confirmLabel, async () => {
-        await close(1)
-      }),
-    )
-    $wrapper.append($buttons)
-  }
-
-  return { close, open, $el: $wrapper }
+  return inst
 }
 
 export const alert = MakeMsg(

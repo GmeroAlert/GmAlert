@@ -1,4 +1,4 @@
-export const noop = () => {}
+export function noop() {}
 export const isServer = __IS_CLIENT__ ? false : typeof window === 'undefined'
 /**
  * we already make sure that doc will nerver be called in server side

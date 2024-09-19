@@ -3,6 +3,7 @@ import babel from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import inline from 'rollup-plugin-inline-import'
+import replace from '@rollup/plugin-replace'
 
 // 引入package.json
 import pkg from './package.json' assert { type: 'json' }
@@ -34,6 +35,11 @@ export default bundles.map(({ input, output }) => ({
       babelHelpers: 'bundled',
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
       exclude: 'mode_modules/**',
+    }),
+    replace({
+      preventAssignment: true,
+      __VERSION__: JSON.stringify(pkg.version),
+      __IS_CLIENT__: output.file.includes('.min.')? 'true': 'false',
     }),
     inline(),
     !process.env.needbuild &&

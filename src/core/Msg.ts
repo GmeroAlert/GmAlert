@@ -1,23 +1,19 @@
 import main from 'inline:../styles/main.scss'
-import type { MsgType } from '../modules/message'
+import { isServer, noop } from '../utils/helper'
 import { changeStyle, cn, injectStyle, newDiv } from '../utils/html'
 
+import type { MsgType } from '../modules/message'
 import type { MsgPropsFull, MsgPropsUser, PropsMessage } from '../modules/types'
-import { isServer, noop } from '../utils/helper'
 
 injectStyle(main)
 
-export interface OneMsg extends MsgType {
+export interface OneMsg extends Omit<MsgType, 'open'> {
   progress?: {
     pause: () => void
     resume: () => void
+    remove: () => void
   }
-  open: () => void
 }
-
-export type Config = {
-  timeout: number
-} & MsgPropsFull
 
 export type MsgCore = (props: PropsMessage) => MsgType
 
@@ -25,7 +21,7 @@ export type MsgCore = (props: PropsMessage) => MsgType
  * 消息容器
  */
 export class Msg {
-  private conf: Config = { timeout: 2500 }
+  private conf: MsgPropsFull = { timeout: 2500 }
 
   private id = 0
 
@@ -33,12 +29,12 @@ export class Msg {
 
   private core: (props: PropsMessage) => MsgType
 
-  constructor(core: MsgCore, conf?: Partial<Config>) {
+  constructor(core: MsgCore, conf?: MsgPropsFull) {
     this.conf = { ...this.conf, ...conf }
     this.core = core
   }
 
-  config(config: Partial<Config>) {
+  config(config: MsgPropsFull) {
     this.conf = { ...this.conf, ...config }
   }
 
@@ -52,9 +48,10 @@ export class Msg {
 
   // 设置定时
   private sT(oMsg: OneMsg, timeout?: number) {
+    oMsg.progress?.remove()
     if (timeout === 0)
       return
-    timeout = timeout || this.conf.timeout
+    timeout = timeout || this.conf.timeout!
     const { $el } = oMsg
     const p = this.mkP(oMsg, timeout)
     p.resume()
@@ -90,7 +87,11 @@ export class Msg {
       ])
     }
 
-    return (oMsg.progress = { pause, resume })
+    const remove = () => {
+      $progress.remove()
+    }
+
+    return (oMsg.progress = { pause, resume, remove })
   }
 
   // 关闭多余消息, 打开新消息
@@ -116,15 +117,6 @@ export class Msg {
 
     const inst = this.core(props)
 
-    // 重定义open和close方法
-    let opened = false
-    const open = () => {
-      if (opened)
-        return
-      opened = true
-      inst.open()
-    }
-
     // 设置样式
     if (props.className) {
       inst.$el.classList.add(...props.className)
@@ -140,9 +132,17 @@ export class Msg {
       nextInst.close(-2)
     }
 
-    const oMsg: OneMsg = { ...inst, open }
+    // update rebind
+    const update = (conf: MsgPropsFull) => {
+      inst.update(conf)
+      if (conf.timeout !== undefined) {
+        this.sT(inst, conf.timeout)
+      }
+    }
+
+    const oMsg: OneMsg = { ...inst, ...{ open: noop, update } }
     this.insts.set(id, oMsg)
-    open()
+    inst.open()
 
     return oMsg
   }
@@ -183,18 +183,21 @@ function getArgs(args: MsgPropsUser[]) {
 export function MakeMsg(
   core: MsgCore,
   callback: () => void,
-  conf?: Partial<Config>,
-) {
+  conf?: MsgPropsFull,
+): {
+    (...args: MsgPropsUser[]): OneMsg
+    config: (config: MsgPropsFull) => void
+  } {
   // SSR
   if (isServer) {
-    const empty = () => {}
+    const empty = () => ({ close: noop, open: noop, update: noop })
     empty.config = noop
-    return empty
+    return empty as any
   }
 
   callback()
   const $msg = new Msg(core, conf)
-  const res = (...args: (string | Partial<MsgPropsFull> | number)[]) => {
+  const res = (...args: MsgPropsUser[]) => {
     return $msg.fire(getArgs(args))
   }
 

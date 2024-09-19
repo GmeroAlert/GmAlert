@@ -18,10 +18,18 @@ function NoticeWithColor() {
   })
 }
 
+function NoticeDynamic() {
+  const inst = notice('this is a dynamic notice, will update in 1.5s')
+  setTimeout(() => {
+    inst.update({ timeout: 3000, content: 'notice updated!!!' })
+  }, 1500)
+}
+
 const NoticeBtnBox = BtnBox(
   Button('Normal Notice', NormalNotice),
   Button('Bottom Notice', BottomNotice),
   Button('Notice with Background', NoticeWithColor),
+  Button('Dynamic Notice', NoticeDynamic),
 )
 
 export default NoticeBtnBox

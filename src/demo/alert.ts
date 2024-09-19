@@ -70,12 +70,48 @@ function AlertWithImg() {
   })
 }
 
+function AlertDynamic() {
+  let count = 0
+  const inst = alert('this is a alert with dynamic content', {
+    content: 'count: 0',
+    beforeClose(status) {
+      if (status === 1) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            count += 1
+            inst.update({ content: `count: ${count}`, confirmLabel: '继续' })
+            resolve(false)
+          }, 1000)
+        })
+      }
+      return true
+    },
+  })
+}
+
+function AlertOnlyoneCanLive() {
+  alert('只能同时存在一个 alert', {
+    confirmLabel: '打开另一个dialog',
+    beforeClose(status) {
+      if (status === 1) {
+        alert('这是另一个dialog', {
+          confirmLabel: '关闭',
+        })
+        return false
+      }
+      return true
+    },
+  })
+}
+
 const AlertBtnBox = BtnBox(
   Button('Normal Alert', NormalAlert),
   Button('Alert With Content', AlertWithContent),
   Button('Alert With Button', AlertWithButton),
   Button('Alert With Html', AlertwithHtml),
   Button('Alert With Img', AlertWithImg),
+  Button('Alert Dynamic', AlertDynamic),
+  Button('Alert Onlyone Can Live', AlertOnlyoneCanLive),
 )
 
 export default AlertBtnBox
