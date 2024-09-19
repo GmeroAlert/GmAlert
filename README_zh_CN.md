@@ -20,6 +20,10 @@ Gmalert 的 v1 版本经过一段时间的开发，基本功能已经完成，�
 
 **轻松使用**，无需单独引入 CSS 文件，一个 JS 文件就搞定！样式表写入在 JS 代码中，会在程序运行时自动附加到 head。你也可以使用 NPM 上的 esm 版本的 Gmalert，支持 tree-shake ，按需引入你需要的组件
 
+**SSR友好**，特别针对 SSR 进行了优化，避免在服务端环境出现报错
+
+**框架友好**，Gmalert2 支持动态更新，通过update函数来更新配置，更加方便在响应式框架中进行封装
+
 ## 快速使用
 
 在 [Releases · GmeroAlert/GmAlert (github.com)](https://github.com/GmeroAlert/GmAlert/releases) 页面下载最新的资源文件（**gmalert.min.js**），然后在你的网页中引入即可：

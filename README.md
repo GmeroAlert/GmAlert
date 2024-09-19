@@ -4,7 +4,7 @@ English | [简体中文](./README_zh_CN.md)
 
 Gmalert 2 is a lightweight, dependency-free feedback component that includes three built-in modules: **alert** (dialog boxes, modals), **message** (toast notifications), and **notice** (sliding notifications from the top or bottom). It supports custom colors, icons, and content.
 
-Feedback components are essential for any mature web system. While many UI component libraries include their own feedback solutions, finding a native JavaScript feedback component that is framework-agnostic is rare. That’s why I developed Gmalert. "Gm" comes from my online name "Gmero," and "alert" represents its notification function.
+Feedback components are essential for any mature web system. While many UI component libraries include their own feedback solutions, finding a native JavaScript feedback component that is framework-agnostic is rare. That’s why I developed Gmalert. "Gm" comes from my online name "Gmero" and "alert" represents its notification function.
 
 The v1 version of Gmalert was developed with core functionality and a size of around 18KB. However, feedback from users highlighted that the mobile experience was suboptimal. As a result, the focus of v2 development shifted towards optimizing for mobile devices. The less-used Information module was removed, the styles were overhauled, and pre-defined styles like error, success, and warn were eliminated. Customization of colors, icons, etc., was handed over to the user. These changes reduced Gmalert v2 to under 10KB.
 
@@ -19,6 +19,10 @@ You can find the demo code [here](https://github.com/GmeroAlert/GmAlert/tree/mai
 **Comprehensive Functionality**: Gmalert 2 offers three powerful modules: **alert** (a confirmation dialog with modal, customizable dialogs, and form submission dialogs that can close asynchronously), **message** (a compact toast notification for simple messages), and **notice** (sliding notifications from the top or bottom that are eye-catching and easily customizable). These three modules can cover nearly all feedback scenarios, and they are highly customizable. For instance, the search panel on this site was built using the alert module’s custom HTML feature.
 
 **Easy to Use**: No need to import separate CSS files—everything is handled with just one JS file! Stylesheets are embedded directly in the JS code and automatically added to the head during runtime. You can also use the esm version of Gmalert available on NPM, which supports tree-shaking, allowing you to include only the components you need.
+
+**SSR Friendly**: Optimized for server-side rendering to prevent errors in server environments.
+
+**Framework Friendly**: Gmalert 2 supports dynamic updates. Use the update function to update configurations, making it easier to encapsulate in responsive frameworks.
 
 ## Quick Start
 
