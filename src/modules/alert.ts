@@ -79,8 +79,10 @@ export function GmAlert(props: PropsAlert): MsgType {
 
   const update = (conf: Partial<PropsAlert>) => {
     const { content, text, html, beforeClose, onClosed, cancelLabel, confirmLabel } = Object.assign(localProps, conf)
-    // content and title
-    $wrapper.innerHTML = content && `<div class="${cn('alert-title')}">${content}</div>`
+    // title
+    $wrapper.innerHTML = content ? `<div class="${cn('alert-title')}">${content}</div>` : ''
+
+    // body
     if (text || html) {
       $text.innerHTML = ''
       if (html) {
