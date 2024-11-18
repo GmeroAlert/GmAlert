@@ -419,14 +419,15 @@
         $overlay.remove();
       }
     });
+    const dismiss = useEventListener($overlay, 'click', onClick);
     const open = () => {
       bodyScroll();
       changeAnimation($overlay, cn('fade-in'));
     };
     const close = () => {
+      dismiss();
       changeAnimation($overlay, cn('fade-out'));
     };
-    useEventListener($overlay, 'click', onClick);
     return {
       open,
       close
@@ -457,8 +458,10 @@
         cancelLabel,
         confirmLabel
       } = Object.assign(localProps, conf);
-      // content and title
-      $wrapper.innerHTML = content && `<div class="${cn('alert-title')}">${content}</div>`;
+      // title
+      $wrapper.innerHTML = content ? `<div class="${cn('alert-title')}">${content}</div>` : '';
+
+      // body
       if (text || html) {
         $text.innerHTML = '';
         if (html) {

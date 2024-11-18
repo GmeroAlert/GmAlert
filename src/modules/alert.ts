@@ -47,16 +47,18 @@ function buildOverlay(onClick: Fn) {
     }
   })
 
+  const dismiss = useEventListener($overlay, 'click', onClick)
+
   const open = () => {
     bodyScroll()
     changeAnimation($overlay, cn('fade-in'))
   }
 
   const close = () => {
+    dismiss()
     changeAnimation($overlay, cn('fade-out'))
   }
 
-  useEventListener($overlay, 'click', onClick)
   return { open, close }
 }
 
